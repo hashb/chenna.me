@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
-
+ 
 Sitemap: http://hashb.github.io/sitemap.xml 
