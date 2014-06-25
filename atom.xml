@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[A Lazy Coder's Blog]]></title>
+  <title><![CDATA[Experiments with Code]]></title>
   <link href="http://hashb.github.io/atom.xml" rel="self"/>
   <link href="http://hashb.github.io/"/>
-  <updated>2013-10-02T16:11:09+05:30</updated>
+  <updated>2014-06-25T15:04:48+05:30</updated>
   <id>http://hashb.github.io/</id>
   <author>
     <name><![CDATA[hashb]]></name>
@@ -18,7 +18,7 @@
     <link href="http://hashb.github.io/blog/2013/09/07/first-post/"/>
     <updated>2013-09-07T22:11:00+05:30</updated>
     <id>http://hashb.github.io/blog/2013/09/07/first-post</id>
-    <content type="html"><![CDATA[<h2>just testing </h2>
+    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
