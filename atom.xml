@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[My Octopress Blog]]></title>
+  <link href="http://hashb.github.io/atom.xml" rel="self"/>
+  <link href="http://hashb.github.io/"/>
+  <updated>2014-08-29T16:32:58+05:30</updated>
+  <id>http://hashb.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[First Post]]></title>
+    <link href="http://hashb.github.io/blog/2013/09/07/first-post/"/>
+    <updated>2013-09-07T22:11:00+05:30</updated>
+    <id>http://hashb.github.io/blog/2013/09/07/first-post</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>
