@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Experiments]]></title>
-  <link href="http://engineering.chenna.me/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Math | Experiments]]></title>
+  <link href="http://engineering.chenna.me/blog/categories/math/atom.xml" rel="self"/>
   <link href="http://engineering.chenna.me/"/>
   <updated>2014-08-31T00:53:17+05:30</updated>
   <id>http://engineering.chenna.me/</id>
@@ -64,20 +64,6 @@ Based on the solution provided by <a href="http://www.mathsisfun.com/puzzles/wei
 
 <p>A better solution for this problem can be found <a href="http://datagenetics.com/blog/july22012/index.html" title="The Two Egg Problem">here</a> where the worst case number of drops is just 14!</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[First Post]]></title>
-    <link href="http://engineering.chenna.me/blog/2013/09/07/first-post/"/>
-    <updated>2013-09-07T22:11:00+05:30</updated>
-    <id>http://engineering.chenna.me/blog/2013/09/07/first-post</id>
-    <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 ]]></content>
   </entry>
   

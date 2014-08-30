@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>First Post - Experiments</title>
+  <title>Few Puzzles and Their Analysis - Experiments</title>
   <meta name="author" content="Chenna Kautilya">
 
   
-  <meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam &hellip;">
+  <meta name="description" content="These are a few puzzles from IISC Summer School 2013 which I accidentally stumbled up on. The original PDF can be found here. There may be many other &hellip;">
   
 
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +17,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam &hel
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
   
-  <link rel="canonical" href="http://engineering.chenna.me/blog/2013/09/07/first-post">
+  <link rel="canonical" href="http://engineering.chenna.me/blog/2014/08/30/few-puzzles-and-their-analysis">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Experiments" type="application/atom+xml">
@@ -144,20 +143,66 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam &hel
   
     <header>
       <div class="back"><a href="/" onclick="history.go(-1);return false;">← Back</a></div>
-      <h1 class="entry-title">First Post</h1>
+      <h1 class="entry-title">Few Puzzles and Their Analysis</h1>
     </header>
   
-  <div class="entry-content"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <div class="entry-content"><p>These are a few puzzles from IISC Summer School 2013 which I accidentally stumbled up on. The original PDF can be found <a href="http://events.csa.iisc.ernet.in/summerschool2013/slides/problem-sheet.pdf" title="problem sheet">here</a>. There may be many other ways of solving the same problem so if you have a better solution to the same problem do comment below and let me know.</p>
+
+<blockquote>
+  <p>You are given a basket of 80 identical balls, out of which all except one have the same weight. What
+is the minimum number of times you will have to use a given weighing balance before finding the odd
+ball in the basket?</p>
+</blockquote>
+
+<p>Here we have to remember that they have not given if the defective ball is lighter or heavier than the rest of the balls. So we have to find out if the ball is heavier or lighter too!
+<!--more-->
+Lets split the balls into 3 sections say <strong>A</strong> = 30, <strong>B</strong> = 30, and <strong>C</strong> = 20 and weigh <strong>A</strong> and <strong>B</strong> on the weighing balance. This is the first trail and has 3 different outcomes.</p>
+
+<ol>
+  <li>
+    <p>Condition when <strong>A</strong> = <strong>B</strong>
+  when <strong>A</strong> == <strong>B</strong> we can confirm that the defective ball isn’t part of either <strong>A</strong> or <strong>B</strong>. Then we can go on and test the section <strong>C</strong> by splitting it further into three sections and repeat similar process. And finally when you arrive at two balls add them to a section of known balls and weigh them to find the one that isn’t equal.</p>
+  </li>
+  <li>
+    <p>Condition when <strong>A</strong> &gt; <strong>B</strong> or <strong>A</strong> &lt; <strong>B</strong>
+  we need to first find which section has the defective ball, so we split <strong>C</strong> into two and add balls from <strong>A</strong> and <strong>B</strong> separately to form new sections. Since we know that the balls from section <strong>C</strong> do not contain the defective ball we can now shortlist the number of balls to be weighed from this step.</p>
+  </li>
+</ol>
+
+<p>These two conditions can be looped to obtain the final answer. 
+Based on the solution provided by <a href="http://www.mathsisfun.com/puzzles/weighing-pool-balls-solution.html" title="Math is Fun">Charles Naumann</a>,  and the number of balls in our problem, there are almost 160 possible correct combinations. This problem will be solved later in another post.</p>
+
+<hr />
+
+<blockquote>
+  <p>Find all integers $ x \neq y$, such that $x^y = y^x$</p>
+</blockquote>
+
+<p>The solution is quite simple and can be obtained by trial and error method. This condition is satisfied only for $x = 2 &amp; y = 4$ or $x = 4 &amp; y = 2$</p>
+
+<hr />
+
+<blockquote>
+  <p>You are given two identical eggs and have access to a 100-storey building. If an egg does not break on being dropped from a given floor of the building, it will survive a fall from all lower floors; similarly, if an egg breaks on being dropped from a floor, it will break when dropped from all higher floors. You are required to find the highest floor from which an egg on being dropped will not break. Note that an egg once broken cannot be reused; however, an egg which survives a fall can be used again. What will be your strategy to find a solution to this problem? Note that your strategy should require minimum number of egg drops; if there are n floors, what will be the number of egg drops required by your strategy in the worst case.</p>
+</blockquote>
+
+<p>When I first read this problem the first idea that struck me was a binary tree. The idea was to first test it at half the height and if it breaks the answer must be lower else its on the top half of the building. The problem with this strategy was that there aren’t enough eggs to test it.The solution should use minimum number of eggs drops using two eggs! </p>
+
+<p>For this lets assume that we drop the egg on every 10th floor, so that if the egg breaks on the 10th floor, we can start from the first floor and drop the second egg at every floor from then on. This way we will have a worst case number of drops as 19.</p>
+
+<p>A better solution for this problem can be found <a href="http://datagenetics.com/blog/july22012/index.html" title="The Two Egg Problem">here</a> where the worst case number of drops is just 14!</p>
+
 </div>
   <footer>
     <div class="articlemeta">
       <span class="hide">
         
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/logic/'>logic</a>, <a class='category' href='/blog/categories/math/'>math</a>, <a class='category' href='/blog/categories/puzzles/'>puzzles</a>
+  
+</span>
 
  @
         
@@ -172,11 +217,11 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   
 
 
-<time datetime="2013-09-07T22:11:00+05:30" pubdate data-updated="true">Sep 07, 2013</time>
+<time datetime="2014-08-30T17:55:42+05:30" pubdate data-updated="true">Aug 30, 2014</time>
       </span>
       <span class="plus">
         
-          <a href="#disqus_thread" onclick="return false;" data-disqus-identifier="http://engineering.chenna.me/blog/2013/09/07/first-post/">+</a>
+          <a href="#disqus_thread" onclick="return false;" data-disqus-identifier="http://engineering.chenna.me/blog/2014/08/30/few-puzzles-and-their-analysis/">+</a>
         
       </span>
     </div>
@@ -189,6 +234,8 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
     
     <div class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/07/first-post/" title="Previous Post: First Post">&laquo; First Post</a>
       
     </div>
   </footer>
@@ -215,9 +262,9 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <script type="text/javascript">
   disqus_shortname = 'hashb';
   
-    disqus_identifier = 'http://engineering.chenna.me/blog/2013/09/07/first-post/';
+    disqus_identifier = 'http://engineering.chenna.me/blog/2014/08/30/few-puzzles-and-their-analysis/';
     console.log(disqus_identifier);
-    disqus_url = 'http://engineering.chenna.me/blog/2013/09/07/first-post/';
+    disqus_url = 'http://engineering.chenna.me/blog/2014/08/30/few-puzzles-and-their-analysis/';
     console.log(disqus_url);
     function loadDisqus() {
       
