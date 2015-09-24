@@ -1,4 +1,2 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://engineering.chenna.me/sitemap.xml 
+User-Agent: *
+Sitemap: /sitemap.xml
