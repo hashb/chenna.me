@@ -1,0 +1,22 @@
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+name: blag
+url: blog.chenna.me
+permalink: /:year/:month/:day/:title/
+paginate: 10
+title: blag
+email: chenna@outlook.com
+description: 'Blog about AI, Machine Learning and Robots.'
+baseurl: ""  # the subpath of your site, e.g. /blog
+url: "https://blog.chenna.me"  # the base hostname & protocol for your site
+twitter_username: _hashb
+github_username:  hashb
+markdown: kramdown
+gems: [jekyll-paginate]
+
+port: 4040
+
