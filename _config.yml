@@ -16,7 +16,7 @@ url: "https://blog.chenna.me"  # the base hostname & protocol for your site
 twitter_username: _hashb
 github_username:  hashb
 markdown: kramdown
-gems: [jekyll-paginate]
+gems: [jekyll-paginate, jekyll-sitemap]
 
 port: 4040
 
