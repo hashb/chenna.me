@@ -4,11 +4,11 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-name: blag
+name: Chenna Kautilya
 url: blog.chenna.me
 permalink: /:year/:month/:day/:title/
 paginate: 10
-title: blag
+title: /home/hashb
 email: chenna@outlook.com
 description: 'Blog about AI, Machine Learning and Robots.'
 baseurl: ""  # the subpath of your site, e.g. /blog
@@ -19,4 +19,3 @@ markdown: kramdown
 gems: [jekyll-paginate, jekyll-sitemap]
 
 port: 4040
-
