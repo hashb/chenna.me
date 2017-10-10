@@ -181,6 +181,7 @@ article img {
 	display: block;
 	text-align: center;
 	margin: 0 auto 1em auto;
+    max-width: 100%;
 }
 
 article .meta {
@@ -274,7 +275,7 @@ img.center {
   text-transform: none;
   line-height: 1.7;
 }
- 
+
 .icon-sun:before { content: '\e801'; }
 .icon-anchor:before { content: '\e800'; }
 .icon-anchor {
