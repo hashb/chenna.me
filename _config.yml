@@ -5,7 +5,7 @@
 # in the templates via {{ site.myvariable }}.
 
 name: Chenna Kautilya
-url: blog.chenna.me
+url: chenna.me
 permalink: /:year/:month/:day/:title/
 paginate: 10
 paginate_path: "/blog/page:num/"
@@ -13,7 +13,7 @@ title: /home/hashb
 email: chenna@outlook.com
 description: 'Blog about AI, Machine Learning and Robots.'
 baseurl: ""  # the subpath of your site, e.g. /blog
-url: "https://blog.chenna.me"  # the base hostname & protocol for your site
+url: "https://chenna.me"  # the base hostname & protocol for your site
 twitter_username: kautilyach
 github_username:  hashb
 markdown: kramdown
