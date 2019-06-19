@@ -1,12 +1,14 @@
 ---
 layout: default
-title: About | Kautilya Chenna | Robots, Machine Learning and Lots of Hacks.
+title: About | Chenna Kautilya | Robots, Machine Learning and Lots of Hacks.
 ---
 
 Hi!
 
-I am Kautilya Chenna, a Graduate Student in College of Engineering at the University of Utah. I tinker with robots and like to work on ROS and Gazebo. My main research interests are in Machine Learning for perception.
+I am Chenna Kautilya, a Graduate Student in College of Engineering at the University of Utah. I tinker with robots and like to work on ROS and Gazebo. My main research interests are in Machine Learning for perception.
 
-<a href="mailto:hi@chenna.me">hi@chenna.me</a>
+[hi@chenna.me](mailto:hi@chenna.me)
+
+You can find my old website at [http://yubaba.chenna.me](http://yubaba.chenna.me)
 
 ~ More to come soon ~
