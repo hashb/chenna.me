@@ -1,6 +1,6 @@
 html, body {
-  background-color: #fdf6e3;
-  color: #839496;
+  background-color: #fffff8;
+  color: #111111;
 }
 
 a, a:visited, a:active {
@@ -28,7 +28,7 @@ h1 a:hover {
 }
 
 article h1 a.anchor {
-  color: #2aa198;
+  color: #111111;
 }
 
 blockquote {

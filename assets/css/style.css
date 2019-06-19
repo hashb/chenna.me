@@ -1,50 +1,50 @@
 /*** Reset ***/
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-	display: block;
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
 ol, ul {
-	list-style: bullet;
+  list-style: bullet;
 }
 blockquote, q {
-	quotes: none;
+  quotes: none;
 }
 blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
-	content: none;
+  content: '';
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 
 
 /*** Basics ***/
 body {
-	font-family: Verdana, serif;
-	font-size: 13px;
-	line-height: 1.7;
+  font-family: Verdana, serif;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 a, a:active, a:visited {
-	text-decoration: none;
-	border-bottom: 1px solid #839496;
-	padding-bottom: 2px;
+  text-decoration: none;
+  border-bottom: 1px solid #839496;
+  padding-bottom: 2px;
 }
 a:hover {
-	background-color: #839496;
-	color: #000000;
+  background-color: #839496;
+  color: #000000;
 }
 
 p, pre { margin-bottom: 15px; }
@@ -70,23 +70,23 @@ blockquote {
 }
 
 acronym, abbr {
-	cursor: help;
-	letter-spacing: 1px;
-	border-bottom: 1px dashed;
+  cursor: help;
+  letter-spacing: 1px;
+  border-bottom: 1px dashed;
 }
 
 
 h1 {
-	font-size: 17px;
-	margin: 0 0 10px 0;
+  font-size: 17px;
+  margin: 0 0 10px 0;
 }
 h2 {
-	font-size: 15px;
-	margin: 0 0 10px 0;
+  font-size: 15px;
+  margin: 0 0 10px 0;
 }
 h3 {
-	font-size: 14px;
-	margin: 0 0 10px 0;
+  font-size: 14px;
+  margin: 0 0 10px 0;
 }
 
 
@@ -109,116 +109,116 @@ h3 {
 
 /*** Structure ***/
 #page {
-	width: 500px;
-	margin: 0 auto;
-	position: relative;
+  width: 500px;
+  margin: 0 auto;
+  position: relative;
 }
 
 #header {
-	width: 500px;
-	margin: 40px auto 50px auto;
+  width: 500px;
+  margin: 40px auto 50px auto;
 }
 #header h1 {
-	font-size: 32px;
-	margin-bottom: 4px;
+  font-size: 32px;
+  margin-bottom: 4px;
 }
 #header h1 a {
-	border: none;
+  border: none;
 }
 
 #footer {
-	width: 500px;
-	margin: 50px auto 20px auto;
-	padding-top: 10px;
-	font-size: 0.85em;
-	border-top: 1px solid #073642;
+  width: 500px;
+  margin: 50px auto 20px auto;
+  padding-top: 10px;
+  font-size: 0.85em;
+  border-top: 1px solid #073642;
 }
 
 #content {
-	width: 500px;
-	margin: 0 auto;
+  width: 500px;
+  margin: 0 auto;
 }
 
 #sidebar {
-	position: absolute;
-	text-align: right;
-	width: 160px;
-	top: 0;
-	left: -240px;
+  position: absolute;
+  text-align: right;
+  width: 160px;
+  top: 0;
+  left: -240px;
 }
 
 #sidebar li {
-	list-style: none;
-	margin: 2px 0;
+  list-style: none;
+  margin: 2px 0;
 }
 
 #sidebar a {
-	border: none;
-	font-family: "Helvetica Neue", "Helvetica", serif;
-	font-size: 1.2em;
-	padding: 2px 4px;
+  border: none;
+  font-family: "Helvetica Neue", "Helvetica", serif;
+  font-size: 1.2em;
+  padding: 2px 4px;
 }
 
 
 
 /*** Posts ***/
 article {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 article h1 {
-	font-size: 17px;
-	margin: 0 0 10px 0;
+  font-size: 17px;
+  margin: 0 0 10px 0;
 }
 article h1 a {
-	border: none;
+  border: none;
 }
 article h1 a.anchor {
-	margin-left: 8px;
+  margin-left: 8px;
 }
 
 article img {
-	display: block;
-	text-align: center;
-	margin: 0 auto 1em auto;
+  display: block;
+  text-align: center;
+  margin: 0 auto 1em auto;
     max-width: 100%;
 }
 
 article .meta {
-	padding-top: 6px;
-	font-size: 0.85em;
-	font-style: italic;
+  padding-top: 6px;
+  font-size: 0.85em;
+  font-style: italic;
 }
 
 img.left {
-	float: left;
-	margin: 0 1em 1em 0;
+  float: left;
+  margin: 0 1em 1em 0;
 }
 img.right {
-	float: right;
-	margin: 0 0 1em 1em;
+  float: right;
+  margin: 0 0 1em 1em;
 }
 img.center {
-	display: block;
-	text-align: center;
-	margin: 0 auto 1em auto;
+  display: block;
+  text-align: center;
+  margin: 0 auto 1em auto;
 }
 
 
 
 /*** Pagination ***/
 .postnavigation {
-	padding-top: 10px;
+  padding-top: 10px;
     text-align: center;
     font-size: 0.85em;
 }
 
 .postnavigation .left {
-	float: left;
+  float: left;
 }
 
 .postnavigation .right {
-	float: right;
+  float: right;
 }
 
 
@@ -226,30 +226,31 @@ img.center {
 /*** Media Queries ***/
 @media all and (max-width: 870px) {
 
-	#page, #header, #content, #footer {
-		width: inherit;
-		padding-left: 10px;
-		padding-right: 10px;
-	}
+  #page, #header, #content, #footer {
+    width: inherit;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
-	#sidebar {
-		position: relative;
-		text-align: left;
-		width: 100%;
-		left: 0;
-		margin: 10px 10px 20px 10px;
-	}
+  #sidebar {
+    position: relative;
+    text-align: left;
+    width: 100%;
+    left: 0;
+    margin: 10px 10px 20px 10px;
+  }
 
-	#sidebar nav select.mnav {
-		display: block;
-		margin-bottom: 15px;
-	}
+  #sidebar nav select.mnav {
+    display: block;
+    margin-bottom: 15px;
+  }
 
 }
 
 
 
 /*** Icons ***/
+/*
 @font-face {
   font-family: 'solarthemeicons';
   src: url('../fonts/solarthemeicons.eot');
@@ -279,5 +280,6 @@ img.center {
 .icon-sun:before { content: '\e801'; }
 .icon-anchor:before { content: '\e800'; }
 .icon-anchor {
-	font-size: 65%;
+  font-size: 65%;
 }
+*/

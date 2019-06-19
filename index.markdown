@@ -11,6 +11,6 @@ My main research interests are in Machine Learning for perception.
 
 [hi@chenna.me](mailto:hi@chenna.me)
 
-You can find my old website at [http://yubaba.chenna.me](http://yubaba.chenna.me)
+You can find my old website at [http://yubaba.herokuapp.com](http://yubaba.herokuapp.com)
 
 ~ More to come soon ~
