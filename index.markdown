@@ -28,6 +28,7 @@ You can find my old website at [http://yubaba.herokuapp.com](http://yubaba.herok
 English : |  Kautilya
 Telugu : |  కౌటిల్య
 Kannada : |  ಕೌಟಿಲ್ಯ
+Tamil : |  கௌடில்ய
 Hindi : |  कौटिल्य
 Japanese : |  コウティリア
 
