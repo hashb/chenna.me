@@ -31,5 +31,6 @@ Kannada : |  ಕೌಟಿಲ್ಯ
 Tamil : |  கௌடில்ய
 Hindi : |  कौटिल्य
 Japanese : |  コウティリア
+Persian : | کوتلیا
 
 ~ More to come soon ~
