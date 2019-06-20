@@ -184,7 +184,7 @@ article img {
   display: block;
   text-align: center;
   margin: 0 auto 1em auto;
-    max-width: 100%;
+  max-width: 90%;
 }
 
 article .meta {
