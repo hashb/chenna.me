@@ -29,12 +29,12 @@
       <nav>
         <ul>
           <li><a href="/">~/</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/work">Work</a></li>
-          <li><a href="/archives">Archive</a></li>
-          <li><a href="https://twitter.com/{{ site.twitter_username }}">Twitter</a></li>
-          <li><a href="https://github.com/{{ site.github_username }}">Github</a></li>
-          <li><a href="/feed.xml">RSS Feed</a></li>
+          <li><a href="/blog">blog</a></li>
+          <li><a href="/work">work</a></li>
+          <li><a href="/archives">archive</a></li>
+          <li><a href="https://twitter.com/{{ site.twitter_username }}">twitter</a></li>
+          <li><a href="https://github.com/{{ site.github_username }}">github</a></li>
+          <li><a href="/feed.xml">rss</a></li>
         </ul>
       </nav>
     </div>
@@ -53,6 +53,15 @@
   <script>
     $(document).ready(function(){
       $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
+    });
+  </script>
+  <script>
+    $(function(){
+        $('a').each(function(){
+            if ((($(this).prop('href')).split('/'))[3] == ((window.location.href).split('/'))[3]) {
+                $(this).addClass('active'); $(this).parents('li').addClass('active');
+            }
+        });
     });
   </script>
 

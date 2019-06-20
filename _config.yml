@@ -6,7 +6,7 @@
 
 name: Chenna Kautilya
 url: chenna.me
-permalink: /:year/:month/:day/:title/
+permalink: /blog/:year/:month/:day/:title/
 paginate: 10
 paginate_path: "/blog/page:num/"
 title: /home/hashb

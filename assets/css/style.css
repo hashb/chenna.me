@@ -33,7 +33,7 @@ table {
 /*** Basics ***/
 body {
   font-family: 'Karla', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -130,7 +130,7 @@ h3 {
   width: 500px;
   margin: 50px auto 20px auto;
   padding-top: 10px;
-  font-size: 1.2em;
+  font-size: 0.85em;
   border-top: 1px solid #073642;
 }
 
@@ -155,11 +155,14 @@ h3 {
 #sidebar a {
   border: none;
   font-family: 'Karla', sans-serif;
-  font-size: 1.2em;
+  font-size: 1em;
   padding: 2px 4px;
 }
 
-
+#sidebar .active {
+  font-weight: bold;
+  color: #cb4b16;
+}
 
 /*** Posts ***/
 article {
@@ -186,7 +189,7 @@ article img {
 
 article .meta {
   padding-top: 6px;
-  font-size: 1.2em;
+  font-size: 0.85em;
   font-style: italic;
 }
 
