@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Speed up Windows 10 VM on macOS host
+date: 2017-10-10
+categories: vm, config
 ---
 
 ![VM Settings]({{"/assets/images/20171010/windows10vm.png"|absolute_url}})
