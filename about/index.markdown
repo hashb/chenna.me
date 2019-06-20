@@ -1,6 +1,6 @@
 ---
 layout: default
-title: About
+title: About | Chenna Kautilya | Robots, Machine Learning and Lots of Hacks.
 ---
 
 Hi!
