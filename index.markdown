@@ -6,7 +6,7 @@ title: About | Chenna Kautilya | Robots, Machine Learning and Lots of Hacks.
 Hi!
 
 I am Chenna Kautilya. Currently, I work as a
-Motion Planning Engineer at Omron Research Center of America (ORCA).
+Robotics Software Engineer at Omron Research Center of America (ORCA).
 My research interests lie in Robotics, Control, Trajectory
 Optimization, Motion Planning and Machine Learning.
 
