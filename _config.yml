@@ -5,9 +5,7 @@
 # in the templates via {{ site.myvariable }}.
 
 
-paginate: 4
-paginate_path: '/blog/page:num/'
-permalink: '/blog/:year/:month/:day/:title/'
+
 
 title: '/home/hashb'
 description: 'Blog about AI, Machine Learning and Robots.'
@@ -19,6 +17,15 @@ url: 'https://chenna.me'  # the base hostname & protocol for your site
 twitter_username: 'kautilyach'
 github_username:  'hashb'
 linkedin_username: 'kautilyachenna'
+
+paginate: 4
+paginate_path: '/blog/page:num/'
+permalink: '/blog/:year/:month/:day/:title/'
+
+collections:
+  projects:
+    output: true
+    permalink: /work/:name
 
 markdown: kramdown
 kramdown:

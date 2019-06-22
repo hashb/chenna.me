@@ -4,3 +4,22 @@ title: Work | Chenna Kautilya | Robots, Machine Learning and Lots of Hacks.
 ---
 
 I did some work.
+
+{% for project in site["projects"] %}
+
+  <article class="post">
+
+    {% if project.external-url %}
+      <h1>
+        <a href="{{ project.external-url }}">{{ project.title }}</a>
+        <a class="anchor" href="{{ project.url }}"><i class="icon-anchor"></i></a>
+      </h1>
+    {% else %}
+      <h1><a href="{{ project.url }}">{{ project.title }}</a></h1>
+    {% endif %}
+
+    <div class="post-content">{{ project.content }}</div>
+
+  </article>
+
+{% endfor %}
