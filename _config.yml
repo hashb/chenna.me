@@ -4,18 +4,20 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-name: Chenna Kautilya
-url: chenna.me
-permalink: /blog/:year/:month/:day/:title/
-paginate: 4
-paginate_path: "/blog/page:num/"
-title: /home/hashb
-description: 'Blog about AI, Machine Learning and Robots.'
-baseurl: ""  # the subpath of your site, e.g. /blog
-url: "https://chenna.me"  # the base hostname & protocol for your site
 
-twitter_username: kautilyach
-github_username:  hashb
+paginate: 4
+paginate_path: '/blog/page:num/'
+permalink: '/blog/:year/:month/:day/:title/'
+
+title: '/home/hashb'
+description: 'Blog about AI, Machine Learning and Robots.'
+name: 'Chenna Kautilya'
+
+baseurl: ''  # the subpath of your site, e.g. /blog
+url: 'https://chenna.me'  # the base hostname & protocol for your site
+
+twitter_username: 'kautilyach'
+github_username:  'hashb'
 
 markdown: kramdown
 kramdown:

@@ -37,3 +37,6 @@ Japanese : |  コウティリア
 Persian : | کوتلیا
 
 ~ More to come soon ~
+
+*The opinions on this site are my own. They do not necessarily represent those
+of my employer.*

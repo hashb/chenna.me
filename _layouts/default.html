@@ -26,12 +26,13 @@
 
   <div id="page">
     <div id="sidebar">
+      {% assign current = page.url | downcase | split: '/' %}
       <nav>
         <ul>
-          <li><a href="/">home</a></li>
-          <li><a href="/blog">blog</a></li>
-          <li><a href="/work">work</a></li>
-          <li><a href="/archives">archive</a></li>
+          <li><a href="/" {% if current.size == 0 %}class='active'{% endif %}>home</a></li>
+          <li><a href="/blog" {% if current[1] == 'blog' %}class='active'{% endif %}>blog</a></li>
+          <li><a href="/work" {% if current[1] == 'work' %}class='active'{% endif %}>work</a></li>
+          <li><a href="/archives" {% if current[1] == 'archives' %}class='active'{% endif %}>archive</a></li>
           <li><a href="https://twitter.com/{{ site.twitter_username }}">twitter</a></li>
           <li><a href="https://github.com/{{ site.github_username }}">github</a></li>
           <li><a href="/feed.xml">rss</a></li>
@@ -46,24 +47,6 @@
   <footer id="footer">
     <p class="copyright">Copyright &copy; {{ site.time | date: '%Y' }} {{ site.name }}. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
   </footer>
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-  <script src="/assets/js/jquery.mobilemenu.min.js"></script>
-
-  <script>
-    $(document).ready(function(){
-      $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
-    });
-  </script>
-  <script>
-    $(function(){
-        $('a').each(function(){
-            if ((($(this).prop('href')).split('/'))[3] == ((window.location.href).split('/'))[3]) {
-                $(this).addClass('active'); $(this).parents('li').addClass('active');
-            }
-        });
-    });
-  </script>
 
 </body>
 </html>
