@@ -16,9 +16,9 @@ Learning Lab for Manipulator Autonomy ([LL4MA Lab 🦙](https://robot-learning.c
 During this time, I worked on Grasp Planning using Probabilistic Modeling and
 Machine Learning.
 
-~~I am Chenna Kautilya, a Graduate Student in College of Engineering at the
+<del>I am Chenna Kautilya, a Graduate Student in College of Engineering at the
 University of Utah. I tinker with robots and like to work on ROS and Gazebo.
-My main research interests are in Machine Learning for perception.~~
+My main research interests are in Machine Learning for perception.</del>
 
 [hi@chenna.me](mailto:hi@chenna.me)
 

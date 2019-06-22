@@ -10,13 +10,29 @@ permalink: /blog/:year/:month/:day/:title/
 paginate: 4
 paginate_path: "/blog/page:num/"
 title: /home/hashb
-email: chenna@outlook.com
 description: 'Blog about AI, Machine Learning and Robots.'
 baseurl: ""  # the subpath of your site, e.g. /blog
 url: "https://chenna.me"  # the base hostname & protocol for your site
+
 twitter_username: kautilyach
 github_username:  hashb
+
 markdown: kramdown
-plugins: [jekyll-paginate, jekyll-sitemap]
+kramdown:
+  input: GFM
+  hard_wrap: false
+  math_engine: mathjax
+  syntax_highlighter: rouge
+
+gfm_quirks: paragraph_end
+
+future: true
+jailed: false
+
+plugins: [jekyll-paginate,
+          jekyll-sitemap]
+
+remote_theme: hashb/california
+incremental: false
 
 port: 4040
