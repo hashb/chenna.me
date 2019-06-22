@@ -9,7 +9,6 @@
   <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-
   <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
   <link href="/assets/css/style.css" rel="stylesheet" />
   <!-- <link href="/assets/css/colors-dark.css" rel="stylesheet" /> -->
@@ -33,8 +32,6 @@
           <li><a href="/blog" {% if current[1] == 'blog' %}class='active'{% endif %}>blog</a></li>
           <li><a href="/work" {% if current[1] == 'work' %}class='active'{% endif %}>work</a></li>
           <li><a href="/archives" {% if current[1] == 'archives' %}class='active'{% endif %}>archive</a></li>
-          <li><a href="https://twitter.com/{{ site.twitter_username }}">twitter</a></li>
-          <li><a href="https://github.com/{{ site.github_username }}">github</a></li>
           <li><a href="/feed.xml">rss</a></li>
         </ul>
       </nav>
@@ -45,7 +42,9 @@
   </div>
 
   <footer id="footer">
-    <p class="copyright">Copyright &copy; {{ site.time | date: '%Y' }} {{ site.name }}. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
+    <p class="copyright">Copyright &copy; {{ site.time | date: '%Y' }} {{ site.name }}. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a>.
+    <br>
+    The opinions on this site are my own. They do not necessarily represent those of my employer.</p>
   </footer>
 
 </body>

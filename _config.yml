@@ -18,6 +18,7 @@ url: 'https://chenna.me'  # the base hostname & protocol for your site
 
 twitter_username: 'kautilyach'
 github_username:  'hashb'
+linkedin_username: 'kautilyachenna'
 
 markdown: kramdown
 kramdown:

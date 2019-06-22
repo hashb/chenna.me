@@ -5,9 +5,9 @@ title: About | Chenna Kautilya | Robots, Machine Learning and Lots of Hacks.
 
 Hi!
 
-I am Chenna Kautilya. Currently, I work as a
-Robotics Software Engineer at Omron Research Center of America (ORCA).
-My research interests lie in Robotics, Control, Trajectory
+I am Chenna Kautilya. I tinker with robots and like to work on ROS and Gazebo.
+Currently, I work as a Robotics Software Engineer at Omron Research Center of
+America (ORCA). My research interests lie in Robotics, Control, Trajectory
 Optimization, Motion Planning and Machine Learning.
 
 I earned a master's degree in Robotics from the University of Utah.
@@ -16,27 +16,17 @@ Learning Lab for Manipulator Autonomy ([LL4MA Lab 🦙](https://robot-learning.c
 During this time, I worked on Grasp Planning using Probabilistic Modeling and
 Machine Learning.
 
-<del>I am Chenna Kautilya, a Graduate Student in College of Engineering at the
-University of Utah. I tinker with robots and like to work on ROS and Gazebo.
-My main research interests are in Machine Learning for perception.</del>
+You can reach over [email](mailto:hi@chenna.me),
+[twitter](https://twitter.com/{{site.twitter_username}}),
+[LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
+projects are on [GitHub](https://github.com/{{site.github_username}}). My old
+website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
+tor 🧅 at [chennahkuqdo3pen.onion](https://chennahkuqdo3pen.tor2web.xyz/)
 
-[hi@chenna.me](mailto:hi@chenna.me)
-
-[kautilyach@protonmail.com](mailto:kautilyach@protonmail.com)
-
-You can find my old website at [http://yubaba.herokuapp.com](http://yubaba.herokuapp.com)
-
-You can find me on tor 🧅 at [chennahkuqdo3pen.onion](http://chennahkuqdo3pen.onion/)
-
-English : |  Kautilya
-Telugu : |  కౌటిల్య
-Kannada : |  ಕೌಟಿಲ್ಯ
-Tamil : |  கௌடில்ய
-Hindi : |  कौटिल्य
-Japanese : |  コウティリア
-Persian : | کوتلیا
-
-~ More to come soon ~
-
-*The opinions on this site are my own. They do not necessarily represent those
-of my employer.*
+English  |:|&nbsp;  Kautilya
+Telugu  |:|&nbsp;  కౌటిల్య
+Kannada  |:|&nbsp;  ಕೌಟಿಲ್ಯ
+Tamil  |:|&nbsp;  கௌடில்ய
+Hindi  |:|&nbsp;  कौटिल्य
+Japanese  |:|&nbsp;  コウティリア
+Persian  |:|&nbsp; کوتلیا
