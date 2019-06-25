@@ -10,6 +10,12 @@ Currently, I work as a Robotics Software Engineer at Omron Research Center of
 America (ORCA). My research interests lie in Robotics, Control, Trajectory
 Optimization, Motion Planning and Machine Learning.
 
+<figure>
+  <img src="/assets/images/path_planning_01.600h.png" alt="Path Planning is hard" class="center">
+<figcaption markdown="1">Path Planning is hard [^1]
+</figcaption>
+</figure>
+
 I earned a master's degree in Robotics from the University of Utah.
 I worked under [Dr. Tucker Hermans](http://www.cs.utah.edu/~thermans/) at the
 Learning Lab for Manipulator Autonomy ([LL4MA Lab 🦙](https://robot-learning.cs.utah.edu/)).
@@ -30,3 +36,6 @@ Tamil  |:|&nbsp;  கௌடில்ய
 Hindi  |:|&nbsp;  कौटिल्य
 Japanese  |:|&nbsp;  コウティリア
 Persian  |:|&nbsp; کوتلیا
+
+
+[^1]: This picutre was taken from [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) by [Jorge Cham](http://phdcomics.com/)

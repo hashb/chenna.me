@@ -53,8 +53,8 @@ ol li, ul li { margin-top: 10px; margin-bottom: 10px; }
 em, i { font-style: italic; }
 strong, b { font-weight: bold; }
 small { font-size: 1.2em; }
-sup { vertical-align: super; font-size: 1.2em; }
-sub { vertical-align: sub; font-size: 1.2em; }
+sup { vertical-align: super; font-size: 0.85em; }
+sub { vertical-align: sub; font-size: 0.85em; }
 
 code {
     font: 0.85em Monaco, Courier, Monospace;
@@ -196,17 +196,29 @@ article .meta {
 img.left {
   float: left;
   margin: 0 1em 1em 0;
+  max-width: 95%;
 }
 img.right {
   float: right;
   margin: 0 0 1em 1em;
+  max-width: 95%;
 }
 img.center {
   display: block;
   text-align: center;
   margin: 0 auto 1em auto;
+  max-width: 95%;
 }
 
+/*
+ TODO: figure and related css;
+ */
+
+figcaption {
+  display: block;
+  text-align: center;
+  font-style: italic;
+}
 
 
 /*** Pagination ***/
