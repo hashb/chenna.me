@@ -29,9 +29,9 @@
       <nav>
         <ul>
           <li><a href="/" {% if current.size == 0 %}class='active'{% endif %}>home</a></li>
-          <li><a href="/blog" {% if current[1] == 'blog' %}class='active'{% endif %}>blog</a></li>
-          <li><a href="/work" {% if current[1] == 'work' %}class='active'{% endif %}>work</a></li>
-          <li><a href="/archives" {% if current[1] == 'archives' %}class='active'{% endif %}>archive</a></li>
+          <li><a href="/blog/" {% if current[1] == 'blog' %}class='active'{% endif %}>blog</a></li>
+          <li><a href="/work/" {% if current[1] == 'work' %}class='active'{% endif %}>work</a></li>
+          <li><a href="/archives/" {% if current[1] == 'archives' %}class='active'{% endif %}>archive</a></li>
           <li><a href="/feed.xml">rss</a></li>
         </ul>
       </nav>
