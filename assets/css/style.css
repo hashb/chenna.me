@@ -52,7 +52,7 @@ ul, ol { padding: 0 0 18px 30px; }
 ol li, ul li { margin-top: 10px; margin-bottom: 10px; }
 em, i { font-style: italic; }
 strong, b { font-weight: bold; }
-small { font-size: 1.2em; }
+small { font-size: 1em; }
 sup { vertical-align: super; font-size: 0.85em; }
 sub { vertical-align: sub; font-size: 0.85em; }
 
@@ -206,7 +206,7 @@ img.right {
 img.center {
   display: block;
   text-align: center;
-  margin: 0 auto 1em auto;
+  margin: auto;
   max-width: 95%;
 }
 
