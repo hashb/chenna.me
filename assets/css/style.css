@@ -33,6 +33,8 @@ table {
 /*** Basics ***/
 body {
   font-family: 'Karla', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   font-size: 14px;
   line-height: 1.7;
 }
