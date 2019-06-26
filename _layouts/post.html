@@ -4,11 +4,9 @@ layout: default
 <article class="post">
 
   {% if page.external-url %}
-    <h1>
-      <a href="{{ page.external-url }}">🔗</a>
-      <span> | </span>
-      <a href="{{ page.url }}">{{ page.title }}</a>
-    </h1>
+    <h1><a href="{{ page.url }}">{{ page.title }}</a></h1>
+
+    <p class="meta"><span class="postdate">Link: <a href="{{ page.external-url }}">{{ page.external-url }}</a></span></p>
   {% else %}
     <h1><a href="{{ page.url }}">{{ page.title }}</a></h1>
   {% endif %}
