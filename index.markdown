@@ -27,7 +27,8 @@ You can reach over [email](mailto:hi@chenna.me),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
 projects are on [GitHub](https://github.com/{{site.github_username}}). My old
 website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
-tor 🧅 at [chennahkuqdo3pen.onion](https://chennahkuqdo3pen.tor2web.xyz/)
+tor 🧅 at [chennahkuqdo3pen.onion](https://chennahkuqdo3pen.tor2web.xyz/).
+If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).
 
 English  |:|&nbsp;  Kautilya
 Telugu  |:|&nbsp;  కౌటిల్య
