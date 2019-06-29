@@ -1,11 +1,4 @@
 # Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-
-
-
 
 title: '/home/hashb'
 description: 'Blog about AI, Machine Learning and Robots.'
@@ -14,6 +7,7 @@ name: 'Chenna Kautilya'
 baseurl: ''  # the subpath of your site, e.g. /blog
 url: 'https://chenna.me'  # the base hostname & protocol for your site
 
+# Social
 twitter_username: 'kautilyach'
 github_username:  'hashb'
 linkedin_username: 'kautilyachenna'

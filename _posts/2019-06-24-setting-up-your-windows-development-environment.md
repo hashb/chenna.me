@@ -22,3 +22,4 @@ date: 2019-06-24 15:12 -0700
 - **WinMerge**: File comparision and merging
 
 ## Setting up WSL
+*waiting for wsl2 to come out*
