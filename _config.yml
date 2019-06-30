@@ -33,10 +33,23 @@ gfm_quirks: paragraph_end
 future: true
 jailed: false
 
-plugins: [jekyll-paginate,
-          jekyll-sitemap]
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-seo-tag
 
 remote_theme: hashb/california
 incremental: false
+
+twitter:
+  username: kautilyach
+
+social:
+  name: Chenna Kautilya
+  links:
+    - https://twitter.com/kautilyach
+    - https://www.linkedin.com/in/kautilyachenna
+    - https://github.com/hashb
+    - https://keybase.io/hashb
 
 port: 4040
