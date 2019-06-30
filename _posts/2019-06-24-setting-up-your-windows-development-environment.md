@@ -5,7 +5,7 @@ date: 2019-06-24 15:12 -0700
 ---
 
 *This post is a work in progress*
-
+<!-- more -->
 
 ## Useful Software on Windows
 - **7zip**: Awesome utility for working with multiple compression formats

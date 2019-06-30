@@ -10,5 +10,5 @@ really slow. I first tried increasing the RAM to 6GB but there was no
 significant improvement in performance. I started tweaking a few settings and
 found that enabling 2D and 3D acceleration results in significant performance
 improvements.
-
+<!-- more -->
 ![VM Settings]({{"/assets/images/20171010/windows10vm.png"|absolute_url}})

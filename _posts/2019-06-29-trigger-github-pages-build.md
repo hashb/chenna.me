@@ -10,7 +10,7 @@ theme is updated. I tried pushing empty commits to the Github pages repo but
 that started to get annoying after sometime. I did a little digging and found
 that github has an [Pages Api](https://developer.github.com/v3/repos/pages/)
 for exactly this.
-
+<!-- more -->
 ## Get Authorization token
 First go to [https://github.com/settings/tokens](https://github.com/settings/tokens)
 and under personal access tokens, click on **Generate new token**. Give the
