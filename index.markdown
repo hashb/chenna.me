@@ -40,4 +40,4 @@ Japanese  |:|&nbsp;  コウティリア
 Persian  |:|&nbsp; کوتلیا
 
 
-[^1]: This picutre was taken from [Jorge Cham](http://phdcomics.com/)'s work for [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) as part of the R.O.B.O.T. Comics series.
+[^1]: This picture was taken from [Jorge Cham](http://phdcomics.com/)'s work for [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) as part of the R.O.B.O.T. Comics series.
