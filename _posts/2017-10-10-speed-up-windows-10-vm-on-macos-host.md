@@ -5,10 +5,10 @@ date: 2017-10-10
 categories: vm, config
 ---
 
-![VM Settings]({{"/assets/images/20171010/windows10vm.png"|absolute_url}})
-
 While using Windows 10 Guest on macOS host, I found that Windows was running
 really slow. I first tried increasing the RAM to 6GB but there was no
 significant improvement in performance. I started tweaking a few settings and
 found that enabling 2D and 3D acceleration results in significant performance
 improvements.
+
+![VM Settings]({{"/assets/images/20171010/windows10vm.png"|absolute_url}})

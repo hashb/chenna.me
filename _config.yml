@@ -7,14 +7,11 @@ name: 'Chenna Kautilya'
 baseurl: ''  # the subpath of your site, e.g. /blog
 url: 'https://chenna.me'  # the base hostname & protocol for your site
 
-# Social
-twitter_username: 'kautilyach'
-github_username:  'hashb'
-linkedin_username: 'kautilyachenna'
-
 paginate: 4
 paginate_path: '/blog/page:num/'
 permalink: '/blog/:year/:month/:day/:title/'
+
+excerpt_separator: <!-- more -->
 
 collections:
   projects:
@@ -40,6 +37,11 @@ plugins:
 
 remote_theme: hashb/california
 incremental: false
+
+# Social
+twitter_username: 'kautilyach'
+github_username:  'hashb'
+linkedin_username: 'kautilyachenna'
 
 twitter:
   username: kautilyach
