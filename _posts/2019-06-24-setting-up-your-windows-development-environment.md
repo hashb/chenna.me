@@ -23,3 +23,4 @@ date: 2019-06-24 15:12 -0700
 
 ## Setting up WSL
 *waiting for wsl2 to come out*
+![WSL ubuntu 18.04](/assets/images/20190624/ubuntu-wsl.png)
