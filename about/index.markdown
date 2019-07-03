@@ -7,39 +7,83 @@ title: About 👉 Chenna Kautilya 👈 Robots, Machine Learning and Lots of Hack
 
 ### Computer Science
 
-#### Algorithms and Data structures
+- Algorithms and Data structures
+    - stuff from algorithm design manual
 
-#### Artificial Intelligence
+- Artificial Intelligence
+    - classical stuff
+    - mcmc and hmc
 
-#### Computer vision
+- Computer vision
+    - Camera model
+    - Structure from motion
+    - bundle adjustment
+    - iterative closest point
 
-#### Image Processing
+- Image Processing
+    - I never took the class
 
-#### Sci. Data Visualization
+- Sci. Data Visualization
+    - look at gregre's notes
 
-#### Machine learning
+- Machine learning
+    - SVM
+    - Decision Trees
+    - learning theory
 
-#### Computer Graphics
+- Deep Learning
+    - resnet
+    - optimization
 
-#### Networking
+- Computer Graphics
+    - Intro to Graphics
+    - Ray tracing
 
-#### Cryptography
+- Networking
+    - Networking 101
 
-#### Computer Architecture
+- Cryptography
+    - Public key cryptography
+    - key exchange
 
-#### Operating Systems
+- Computer Architecture
+    - registers and memory and stuff
 
-#### Concurrent, parallel, and distributed systems
+- Operating Systems
+    - Threads, locks
+    - processes
 
-#### Databases
+- Concurrent, parallel, and distributed systems
 
-#### Programming languages and compilers
+- Databases
+    - in context of distributed systems
+    - sharding
+
+- Programming languages and compilers
 
 ### Robotics
+- Kinematics and Dynamics
 
+- Trajectory Optimization
+    - Shooting methods
+    - Collocation methods
+
+- Motion Planning
+    - Graph Search
+    - Sampling based
+
+- System Identification
+
+- Robot Control (classical and state space)
 
 
 ### Mathematics
+- Optimization
+    - Gradient based methods
+    - Hessian based methods
+
+- Numerical Methods
+- Probabilistic Modelling
 
 ### Economics
 
