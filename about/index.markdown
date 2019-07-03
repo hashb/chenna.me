@@ -1,16 +1,46 @@
 ---
 layout: default
-title: About | Chenna Kautilya | Robots, Machine Learning and Lots of Hacks.
+title: About * Chenna Kautilya * Robots, Machine Learning and Lots of Hacks.
 ---
 
-Hi!
+## Knowledge Index
 
-I am Kautilya Chenna, a Graduate Student in College of Engineering at the
-University of Utah. I tinker with robots and like to work on ROS and Gazebo.
-My main research interests are in Machine Learning for perception.
+### Computer Science
 
-kautilyach@protonmail.com
+#### Algorithms and Data structures
 
-I don't think this page can be found anymore.
+#### Artificial Intelligence
 
-~ More to come soon ~
+#### Computer vision
+
+#### Image Processing
+
+#### Sci. Data Visualization
+
+#### Machine learning
+
+#### Computer Graphics
+
+#### Networking
+
+#### Cryptography
+
+#### Computer Architecture
+
+#### Operating Systems
+
+#### Concurrent, parallel, and distributed systems
+
+#### Databases
+
+#### Programming languages and compilers
+
+### Robotics
+
+
+
+### Mathematics
+
+### Economics
+
+### Society
