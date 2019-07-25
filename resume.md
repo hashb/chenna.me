@@ -5,7 +5,7 @@ title: Resume 👉 Chenna Kautilya 👈
 ## Chenna Kautilya
 
 ```
-San Ramon, CA - 94583
+Sunny California - 94xxx
 chenna -at- outlook.com
 ```
 
