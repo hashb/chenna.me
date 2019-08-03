@@ -2,6 +2,7 @@
 layout: post
 title: Setting up your Windows Development Environment
 date: 2019-06-24 15:12 -0700
+tags: [windows, tools]
 ---
 
 *This post is a work in progress*

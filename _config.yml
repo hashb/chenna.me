@@ -16,7 +16,7 @@ excerpt_separator: <!-- more -->
 collections:
   projects:
     output: true
-    permalink: /work/:name
+    permalink: '/work/:year/:month/:title/'
 
 markdown: kramdown
 kramdown:

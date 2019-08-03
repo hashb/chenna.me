@@ -2,6 +2,7 @@
 layout: post
 title: Trigger Github Pages build
 date: 2019-06-29 10:14 -0700
+tags: [tools]
 ---
 
 I recently moved the `_layouts` and `_sass` folders into their own theme repo.

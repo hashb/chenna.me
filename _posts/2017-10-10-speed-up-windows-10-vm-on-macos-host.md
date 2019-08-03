@@ -2,7 +2,7 @@
 layout: post
 title: Speed up Windows 10 VM on macOS host
 date: 2017-10-10
-categories: vm, config
+tags: [tools]
 ---
 
 While using Windows 10 Guest on macOS host, I found that Windows was running
