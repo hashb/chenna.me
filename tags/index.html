@@ -31,7 +31,7 @@ title: Tags 👉 Chenna Kautilya 👈 Robots, Machine Learning and Lots of Hacks
       {% if post.tags contains tag %}
       <li>
       <p>
-        <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %b %Y" }}</time>&nbsp&nbsp
+        <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%d %b %Y" }}</time>&nbsp&nbsp
         <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
       </p>
     </li>
