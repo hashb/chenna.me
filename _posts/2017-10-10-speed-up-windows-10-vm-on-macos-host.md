@@ -11,4 +11,4 @@ significant improvement in performance. I started tweaking a few settings and
 found that enabling 2D and 3D acceleration results in significant performance
 improvements.
 <!-- more -->
-![VM Settings]({{"/assets/images/20171010/windows10vm.png"|absolute_url}})
+![VM Settings](/assets/images/20171010/windows10vm.png)
