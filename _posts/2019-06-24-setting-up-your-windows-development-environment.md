@@ -5,7 +5,15 @@ date: 2019-06-24 15:12 -0700
 tags: [windows, tools]
 ---
 
-*This post is a work in progress*
+Are you forced to work in a Windows environment at work? Do you think Windows
+is a pain to work with? Would you rather eat a shoe? Then, this post is for
+you. Over the past year, I have been working on a Windows 10 machine. In this
+post, I am going to document some tools that I use to make my life a little
+better.
+
+Most of these tools are pre-WSL time. I am going to update this post once I
+adopted WSL into my workflow.
+
 <!-- more -->
 
 ## Useful Software on Windows
