@@ -7,7 +7,7 @@ title: Now in my life | Chenna Kautilya
 
 I am working at Omron Research as a Robotics Software Engineer.
 
-## Learn
+## Learning
 
 - Robot Control
 - Motion Planning

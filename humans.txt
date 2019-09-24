@@ -1,5 +1,5 @@
 This site is built with jekyll and hosted on github.
-Kautilya writes posts on the site. Theme is created by Matt Harzewski.
+Kautilya writes posts on the site.
 
 If you want to send me something super secret, use my pgp key.
 You can find me on keybase @hashb.
