@@ -31,6 +31,7 @@ website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
 tor 🧅 at [chennahkuqdo3pen.onion](http://chennahkuqdo3pen.onion/).
 If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).
 
+<!--
 English  |:|&nbsp;  Kautilya
 Telugu  |:|&nbsp;  కౌటిల్య
 Kannada  |:|&nbsp;  ಕೌಟಿಲ್ಯ
@@ -38,6 +39,6 @@ Tamil  |:|&nbsp;  கௌடில்ய
 Hindi  |:|&nbsp;  कौटिल्य
 Japanese  |:|&nbsp;  コウティリア
 Persian  |:|&nbsp; کوتلیا
-
+-->
 
 [^1]: This picture was taken from [Jorge Cham](http://phdcomics.com/)'s work for [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) as part of the R.O.B.O.T. Comics series.
