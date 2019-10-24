@@ -5,7 +5,7 @@ date: 2019-10-20 12:00 -0700
 tags: [Captain's log]
 ---
 
-I have been having trouble keeping myself motivated to work on my side
+I've been having trouble keeping myself motivated to work on my side
 projects. I am not sure if I'd call this a slump but it feels very close
 to one. During my time at the LL4MA Lab, I went through a similar phase.
 I was stuck on the same problem for a long time and losing motivation to
@@ -27,15 +27,34 @@ detailed post on Captain's log and stardates at a later time.
 ### Wed, 23 Oct 2019
 
 I decided to write a Captain's log and started this post. I extensively
-researched how to compute current [stardate].
+researched how to compute current stardate<sup>[1]</sup>.
 
-I have also been looking into building a knowledge base [HN]. I currently
-use notion to write stuff in but I don't yet have a system in place.
-I should work on this.
+I have also been looking into building a knowledge base HN<sup>[2]</sup>.
+I currently use notion to write stuff in but I don't yet have a system
+in place. I should work on this.
 
-[Actiona] is a tool to automate clicks. You can program neat little macros
-and run them in a loop. A good alternative to AutoClicker.
+Actiona<sup>[3]</sup> is a tool to automate clicks. You can program neat
+little macros and run them in a loop. A good alternative to AutoClicker.
 
-[stardate]: http://starchive.cs.umanitoba.ca/?stardates/
-[HN]: https://news.ycombinator.com/item?id=21332957
-[Actiona]: https://wiki.actiona.tools/doku.php?id=en:start
+### Thu, 24 Oct 2019
+
+Skill stacking<sup>[4],[5],[6]</sup> seems like a cool idea. Be good at
+several things instead of being the best at one thing.
+
+I came across this blog<sup>[7]</sup> by John Rauser where he presents
+his thoughts on Writing<sup>[8]</sup> and Presenting<sup>[9]</sup>.
+I have added them to my reading list a while ago but haven't gotten to
+reading them. I will be travelling tomorrow and I should read them then.
+
+Structured procrastination<sup>[10]</sup>
+
+[1]: http://starchive.cs.umanitoba.ca/?stardates/
+[2]: https://news.ycombinator.com/item?id=21332957
+[3]: https://wiki.actiona.tools/doku.php?id=en:start
+[4]: https://www.scottadamssays.com/2016/12/27/the-kristina-talent-stack/
+[5]: https://forge.medium.com/how-to-become-the-best-in-the-world-at-something-f1b658f93428
+[6]: http://saeedgatson.com/talent-stacking-benefits/
+[7]: https://thefractionatingcolumn.com/about/
+[8]: https://thefractionatingcolumn.com/2014/01/20/thoughts-on-writing/
+[9]: https://thefractionatingcolumn.com/2014/10/21/thoughts-on-presenting/
+[10]: http://www.structuredprocrastination.com/
