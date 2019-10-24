@@ -31,5 +31,9 @@ I have also been looking into building a knowledge base [HN]. I currently
 use notion to write stuff in but I don't yet have a system in place.
 I should work on this.
 
+[Actiona] is a tool to automate clicks. You can program neat little macros
+and run them in a loop. A good alternative to AutoClicker.
+
 [stardate]: http://starchive.cs.umanitoba.ca/?stardates/
 [HN]: https://news.ycombinator.com/item?id=21332957
+[Actiona]: https://wiki.actiona.tools/doku.php?id=en:start
