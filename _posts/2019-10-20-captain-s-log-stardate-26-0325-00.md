@@ -13,7 +13,7 @@ do any work. My advisor, Dr. Hermans, asked me to write a status update
 at the end of everyday of all the things I worked on. The idea was that
 I would be able to look back at this at the end of the week and realize
 that my time was productive and to keep me motivated.
-
+<!-- more -->
 I have decided to start this process again. This will hopefully serve as
 a documentation of my work as well as help me realize all the things I
 have accomplised over the week.
