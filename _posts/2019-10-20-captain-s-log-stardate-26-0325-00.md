@@ -48,6 +48,12 @@ reading them. I will be travelling tomorrow and I should read them then.
 
 Structured procrastination<sup>[10]</sup>
 
+### Fri, 25 Oct 2019
+
+It has been a rather unproductive day today. I switched from instapaper to
+pinboard. I have been working on setting up my pinboard account. I am still
+not sure if I need a new bookmark service.
+
 [1]: http://starchive.cs.umanitoba.ca/?stardates/
 [2]: https://news.ycombinator.com/item?id=21332957
 [3]: https://wiki.actiona.tools/doku.php?id=en:start
