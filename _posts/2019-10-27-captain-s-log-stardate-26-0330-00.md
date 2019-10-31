@@ -23,6 +23,18 @@ JSON for lists and XML for trees<sup>[3]</sup>. XML tags will help you easily
 follow the structure of your data, while JSON can get very confusing very
 quick.
 
+I recently read an article on why Nokia failed. It boiled down to 3 reasons
+<sup>[4],[5]</sup>.
+1. Top executives did not have a long term vision
+2. Top executives did not listen to the employees
+3. Top executives resisted change
+
+It is probably not as simple as that but it is definitely the highlights of
+why they failed. On the otherhand, we see Microsoft manage to swing up with a
+change in leadership with Satya Nadella.
+
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
 [2]: https://blog.halide.cam/inside-the-iphone-11-camera-part-1-a-completely-new-camera-28ea5d091071
 [3]: https://engineering.instawork.com/when-xml-beats-json-ui-layouts-53c7f1d3fdb7
+[4]: https://thefailurestory.com/why-nokia-failed-the-business-failure-story/
+[5]: https://medium.com/multiplier-magazine/why-did-nokia-fail-81110d981787
