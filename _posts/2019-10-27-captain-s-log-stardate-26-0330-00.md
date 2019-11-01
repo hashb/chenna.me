@@ -33,6 +33,16 @@ It is probably not as simple as that but it is definitely the highlights of
 why they failed. On the otherhand, we see Microsoft manage to swing up with a
 change in leadership with Satya Nadella.
 
+### Thu, 31 Oct 2019
+
+meetings and other things
+
+Pie review:
+- Pecan pie tastes very good! (5 :stars:)
+- Four Berry pie is too sweet and acidic. (2 :stars:)
+
+
+
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
 [2]: https://blog.halide.cam/inside-the-iphone-11-camera-part-1-a-completely-new-camera-28ea5d091071
 [3]: https://engineering.instawork.com/when-xml-beats-json-ui-layouts-53c7f1d3fdb7
