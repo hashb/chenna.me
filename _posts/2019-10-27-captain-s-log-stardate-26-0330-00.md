@@ -35,12 +35,13 @@ change in leadership with Satya Nadella.
 
 ### Thu, 31 Oct 2019
 
-meetings and other things
+*Happy Halloween!!!*
+
+Today was full of meetings and other things
 
 Pie review:
 - Pecan pie tastes very good! (5 :stars:)
 - Four Berry pie is too sweet and acidic. (2 :stars:)
-
 
 
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
