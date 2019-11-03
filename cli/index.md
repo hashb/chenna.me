@@ -3,6 +3,8 @@ layout: default
 title: The CLI Life | Chenna Kautilya
 ---
 
+# The CLI Life
+
 Inspired by [1],[2] and, [3], I have decided to write down the tools that I use
 to make my life easier.
 
