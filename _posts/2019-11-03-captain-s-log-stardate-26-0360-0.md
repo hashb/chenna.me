@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Captain's log, stardate [-26]0360.0
+title: Captain's log, stardate [-26]0360.00
 date: 2019-11-03 12:00 -0800
 tags: [Captain's log]
 ---
