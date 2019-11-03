@@ -40,8 +40,8 @@ change in leadership with Satya Nadella.
 Today was full of meetings and other things
 
 Pie review:
-- Pecan pie tastes very good! (5 :stars:)
-- Four Berry pie is too sweet and acidic. (2 :stars:)
+- Pecan pie tastes very good! (5 :star:)
+- Four Berry pie is too sweet and acidic. (2 :star:)
 
 ### Fri, 01 Nov 2019
 
@@ -49,6 +49,10 @@ Continuous Integration, Continuous Testing and all that good stuff.
 I have been looking into deploying Jenkins on a Kubernetes cluster. Also
 looking into the whole DevOps cycle.
 
+### Sat, 02 Nov 2019
+
+Worked on a secret project. Servos, pulleys, linkages and weird mechanisms. It
+was fun! Will do it again Monday.
 
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
 [2]: https://blog.halide.cam/inside-the-iphone-11-camera-part-1-a-completely-new-camera-28ea5d091071
