@@ -11,3 +11,7 @@ I am entering stormy seas. A lot of changes in my life at once. It is going to
 be interesting to see how I tackle this. I need to update this log now more 
 than ever.
 
+Diffee Checker<sup>[1]</sup> is a website to check the visual difference 
+between two webpages. 
+
+[1]: http://diffee.me/
