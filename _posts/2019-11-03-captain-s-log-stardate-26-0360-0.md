@@ -14,4 +14,9 @@ than ever.
 Diffee Checker<sup>[1]</sup> is a website to check the visual difference 
 between two webpages. 
 
+### Mon, 04 Nov 2019
+
+How to increase your mouse speed on Ubuntu<sup>[2]</sup>.
+
 [1]: http://diffee.me/
+[2]: https://io.bikegremlin.com/11541/linux-mouse-scroll-speed/
