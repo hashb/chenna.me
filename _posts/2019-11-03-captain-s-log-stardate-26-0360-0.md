@@ -8,15 +8,22 @@ tags: [Captain's log]
 ### Sun, 03 Nov 2019
 
 I am entering stormy seas. A lot of changes in my life at once. It is going to
-be interesting to see how I tackle this. I need to update this log now more 
+be interesting to see how I tackle this. I need to update this log now more
 than ever.
 
-Diffee Checker<sup>[1]</sup> is a website to check the visual difference 
-between two webpages. 
+Diffee Checker<sup>[1]</sup> is a website to check the visual difference
+between two webpages.
 
 ### Mon, 04 Nov 2019
 
 How to increase your mouse speed on Ubuntu<sup>[2]</sup>.
 
+### Tue, 05 Nov 2019
+
+You cannot seperate template definition from its implementation<sup>[3]</sup>.
+This is because the compiler when expanding the template definition wouldn't
+know how to expand it.
+
 [1]: http://diffee.me/
 [2]: https://io.bikegremlin.com/11541/linux-mouse-scroll-speed/
+[3]: https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
