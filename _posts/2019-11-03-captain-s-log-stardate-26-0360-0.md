@@ -24,6 +24,11 @@ You cannot seperate template definition from its implementation<sup>[3]</sup>.
 This is because the compiler when expanding the template definition wouldn't
 know how to expand it.
 
+### Wed, 06 Nov 2019
+
+Life lessons: start before you think you are ready<sup>[4]</sup>
+
 [1]: http://diffee.me/
 [2]: https://io.bikegremlin.com/11541/linux-mouse-scroll-speed/
 [3]: https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
+[4]: https://austinkleon.com/2019/11/05/start-before-you-think-youre-ready/
