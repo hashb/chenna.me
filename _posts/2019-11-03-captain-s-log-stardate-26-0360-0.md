@@ -28,7 +28,20 @@ know how to expand it.
 
 Life lessons: start before you think you are ready<sup>[4]</sup>
 
+### Thu, 07 Nov 2019
+
+To run something on startup, you can use crontab `@reboot` functionality.
+```
+@reboot <user> /path/to/script.sh
+```
+
+Google posted a really nice article on how to comment on code reviews<sup>[5]</sup>.
+
+Interesting list of tutorials by Daniel Miessler<sup>[6]</sup>
+
 [1]: http://diffee.me/
 [2]: https://io.bikegremlin.com/11541/linux-mouse-scroll-speed/
 [3]: https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
 [4]: https://austinkleon.com/2019/11/05/start-before-you-think-youre-ready/
+[5]: https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html
+[6]: https://danielmiessler.com/study/
