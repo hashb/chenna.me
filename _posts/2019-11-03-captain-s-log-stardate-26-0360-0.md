@@ -39,9 +39,15 @@ Google posted a really nice article on how to comment on code reviews<sup>[5]</s
 
 Interesting list of tutorials by Daniel Miessler<sup>[6]</sup>
 
+I have, for sometime, been trying to better understand how compilers work. I 
+plan on writing a blog post on it soon<sup>[7], [8], [9]</sup>.
+
 [1]: http://diffee.me/
 [2]: https://io.bikegremlin.com/11541/linux-mouse-scroll-speed/
 [3]: https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
 [4]: https://austinkleon.com/2019/11/05/start-before-you-think-youre-ready/
 [5]: https://testing.googleblog.com/2019/11/code-health-respectful-reviews-useful.html
 [6]: https://danielmiessler.com/study/
+[7]: https://towardsdatascience.com/understanding-compilers-for-humans-version-2-157f0edb02dd
+[8]: http://xahlee.info/parser/compiler_tutorial.html
+[9]: https://course.ccs.neu.edu/cs3650/ssl/TEXT-CD/Content/COD3e/CDSections/CD2.12.pdf
