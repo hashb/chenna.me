@@ -6,7 +6,7 @@ tags: [design, work]
 ---
 
 The principle of layered complexity to display information such a way that
-your target audience/users can immidieatly get a high level overview of the
+your target audience/users can immediately get a high level overview of the
 topic. While retaining the next level details if the user needs it.
 
 *This post is a work in progress*

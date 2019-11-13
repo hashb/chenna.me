@@ -16,7 +16,7 @@ that my time was productive and to keep me motivated.
 
 I have decided to start this process again. This will hopefully serve as
 a documentation of my work as well as help me realize all the things I
-have accomplised over the week.
+have accomplished over the week.
 
 I will create a post every Sunday and fill it up over the week. I decided
 to call this Captain's log inspired by Star Trek. I will write a more
@@ -42,7 +42,7 @@ several things instead of being the best at one thing.
 I came across this blog<sup>[7]</sup> by John Rauser where he presents
 his thoughts on Writing<sup>[8]</sup> and Presenting<sup>[9]</sup>.
 I have added them to my reading list a while ago but haven't gotten to
-reading them. I will be travelling tomorrow and I should read them then.
+reading them. I will be traveling tomorrow and I should read them then.
 
 Structured procrastination<sup>[10]</sup>
 

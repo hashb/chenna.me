@@ -28,7 +28,7 @@ adopted WSL into my workflow.
 - **ShareX**: Screen recorder
 - **VcXsrv**: X server for Windows
 - **WinDirStat**: Disk usage statistics
-- **WinMerge**: File comparision and merging
+- **WinMerge**: File comparison and merging
 
 ## Setting up WSL
 *waiting for wsl2 to come out*

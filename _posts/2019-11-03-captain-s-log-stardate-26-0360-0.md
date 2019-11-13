@@ -20,7 +20,7 @@ How to increase your mouse speed on Ubuntu<sup>[2]</sup>.
 
 ### Tue, 05 Nov 2019
 
-You cannot seperate template definition from its implementation<sup>[3]</sup>.
+You cannot separate template definition from its implementation<sup>[3]</sup>.
 This is because the compiler when expanding the template definition wouldn't
 know how to expand it.
 

@@ -30,7 +30,7 @@ I recently read an article on why Nokia failed. It boiled down to 3 reasons
 3. Top executives resisted change
 
 It is probably not as simple as that but it is definitely the highlights of
-why they failed. On the otherhand, we see Microsoft manage to swing up with a
+why they failed. On the other-hand, we see Microsoft manage to swing up with a
 change in leadership with Satya Nadella.
 
 ### Thu, 31 Oct 2019
