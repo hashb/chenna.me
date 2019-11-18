@@ -17,7 +17,9 @@ One of the best explanations of S.O.L.I.D principles I have found<sup>[4]</sup>
 Capital city of Sri Lanka is Sri Jayawardenepura Kotte. It was formerly
 Colombo (1815 - 1982). Indian geography text book writers never got this memo.
 
-One of the best online markdown and latex editors<sup>[5]</sup>
+madoko<sup>[5]</sup> is one of the best online markdown and latex editors
+that I've come across. It was created by Daan Leijen from Microsoft Research.
+It works with Dropbox and Github.
 
 ### Wed, 13 Nov 2019
 There are two types of Hypervisors, commonly referred to as Type-1 and Type-2
