@@ -21,7 +21,7 @@ More information about the options and usage can be found at [1] and [2].
 
     ---
 
-Debugging on Linux<sup>[3]</sup>
+Debugging on Linux<sup>[3],[7],[8]</sup>
 
 `ldd` is short for list dynamic dependencies which does exactly that, it lists
 all the dynamic libraries that your program/library depends on. It is useful to
@@ -63,3 +63,5 @@ runtime of the program. This is done using virtual functions.
 [4]: https://cstheory.stackexchange.com/questions/19759/core-algorithms-deployed/19773#19773
 [5]: https://www.cs.swarthmore.edu/~newhall/unixlinks.html
 [6]: https://en.cppreference.com/w/cpp/language/identifiers
+[7]: https://www.cs.swarthmore.edu/~newhall/unixhelp/compilecycle.html
+[8]: https://www.cs.swarthmore.edu/~newhall/unixhelp/binaryfiles.html
