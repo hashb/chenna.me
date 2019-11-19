@@ -13,25 +13,29 @@ Back to work.
 
 *Law of Large Numbers* states that the average of the results obtained from a
 large number of trials should be close to the expected value, and will tend to
-become closer as more trials are performed<sup>[1]</sup>.
+become closer as more trials are performed<sup>[1]</sup>.  
+▣
 
 When you take a picture with your smartphone, you are selecting a picture from
-a buffer that your smartphone is continuously capturing<sup>[2]</sup>.
+a buffer that your smartphone is continuously capturing<sup>[2]</sup>.  
+▣
 
 When deciding a new markup language for your data structure files, remember
 JSON for lists and XML for trees<sup>[3]</sup>. XML tags will help you easily
 follow the structure of your data, while JSON can get very confusing very
-quick.
+quick.  
+▣
 
 I recently read an article on why Nokia failed. It boiled down to 3 reasons
-<sup>[4],[5]</sup>.
+<sup>[4], [5]</sup>.
 1. Top executives did not have a long term vision
 2. Top executives did not listen to the employees
 3. Top executives resisted change
 
 It is probably not as simple as that but it is definitely the highlights of
 why they failed. On the other-hand, we see Microsoft manage to swing up with a
-change in leadership with Satya Nadella.
+change in leadership with Satya Nadella.  
+▣
 
 ### Thu, 31 Oct 2019
 
@@ -41,18 +45,21 @@ Today was full of meetings and other things
 
 Pie review:
 - Pecan pie tastes very good! (5 :star:)
-- Four Berry pie is too sweet and acidic. (2 :star:)
+- Four Berry pie is too sweet and acidic. (2 :star:)  
+▣
 
 ### Fri, 01 Nov 2019
 
 Continuous Integration, Continuous Testing and all that good stuff.  
 I have been looking into deploying Jenkins on a Kubernetes cluster. Also
-looking into the whole DevOps cycle.
+looking into the whole DevOps cycle.  
+▣
 
 ### Sat, 02 Nov 2019
 
 Worked on a secret project. Servos, pulleys, linkages and weird mechanisms. It
-was fun! Will do it again Monday.
+was fun! Will do it again Monday.  
+▣
 
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
 [2]: https://blog.halide.cam/inside-the-iphone-11-camera-part-1-a-completely-new-camera-28ea5d091071

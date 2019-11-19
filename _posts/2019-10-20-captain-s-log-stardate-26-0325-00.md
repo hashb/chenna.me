@@ -20,7 +20,8 @@ have accomplished over the week.
 
 I will create a post every Sunday and fill it up over the week. I decided
 to call this Captain's log inspired by Star Trek. I will write a more
-detailed post on Captain's log and stardates at a later time.
+detailed post on Captain's log and stardates at a later time.  
+▣
 
 ### Wed, 23 Oct 2019
 
@@ -29,28 +30,34 @@ researched how to compute current stardate<sup>[1]</sup>.
 
 I have also been looking into building a knowledge base HN<sup>[2]</sup>.
 I currently use notion to write stuff in but I don't yet have a system
-in place. I should work on this.
+in place. I should work on this.  
+▣
 
 Actiona<sup>[3]</sup> is a tool to automate clicks. You can program neat
-little macros and run them in a loop. A good alternative to AutoClicker.
+little macros and run them in a loop. A good alternative to AutoClicker.  
+▣
 
 ### Thu, 24 Oct 2019
 
-Skill stacking<sup>[4],[5],[6]</sup> seems like a cool idea. Be good at
-several things instead of being the best at one thing.
+Skill stacking<sup>[4], [5], [6]</sup> seems like a cool idea. Be good at
+several things instead of being the best at one thing.  
+▣
 
 I came across this blog<sup>[7]</sup> by John Rauser where he presents
 his thoughts on Writing<sup>[8]</sup> and Presenting<sup>[9]</sup>.
 I have added them to my reading list a while ago but haven't gotten to
-reading them. I will be traveling tomorrow and I should read them then.
+reading them. I will be traveling tomorrow and I should read them then.  
+▣
 
-Structured procrastination<sup>[10]</sup>
+Structured procrastination<sup>[10]</sup>  
+▣
 
 ### Fri, 25 Oct 2019
 
 It has been a rather unproductive day today. I switched from instapaper to
 pinboard. I have been working on setting up my pinboard account. I am still
-not sure if I need a new bookmark service.
+not sure if I need a new bookmark service.  
+▣
 
 [1]: http://starchive.cs.umanitoba.ca/?stardates/
 [2]: https://news.ycombinator.com/item?id=21332957
