@@ -17,9 +17,8 @@ vstest.console.exe bin\Release\MyTests.dll /TestCaseFilter:"(FullyQualifiedName~
 ```
 {: .code-wrap}
 
-More information about the options and usage can be found at [1] and [2].
-
-    ---
+More information about the options and usage can be found at [1] and [2].  
+▩
 
 Debugging on Linux<sup>[3],[7],[8]</sup>
 
@@ -32,18 +31,18 @@ type of errors.
 
 `ltrace` lists all library calls a program makes till it stops
 
-`nm` lists symbols from object files
+`nm` lists symbols from object files  
+▩
 
-    ---
+Real world applications that use popular algorithms<sup>[4]</sup>  
+▩
 
-Real world applications that use popular algorithms<sup>[4]</sup>
 
 ### Tue, 19 Nov 2019
 
 Tia Newhall's<sup>[5]</sup> CS and Unix Links page contains a lot of useful
-resources for working with the Unix OS.
-
-    ---
+resources for working with the Unix OS.  
+▩
 
 Early binding vs Late Binding
 
@@ -54,8 +53,8 @@ Early binding or compile time polymorphism is when the function call is resolved
 during compile time. This is done using overloading of functions or operators.
 
 Late binding or runtime polymorphism is when the function call is resolved at
-runtime of the program. This is done using virtual functions.
-
+runtime of the program. This is done using virtual functions.  
+▩
 
 [1]: https://docs.microsoft.com/en-us/visualstudio/test/vstest-console-options?view=vs-2019
 [2]: https://blogs.msdn.microsoft.com/vikramagrawal/2012/07/23/running-selective-unit-tests-in-vs-2012-rc-using-testcasefilter/

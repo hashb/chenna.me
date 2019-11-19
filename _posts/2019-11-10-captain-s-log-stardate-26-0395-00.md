@@ -6,16 +6,20 @@ tags: [Captain's log]
 ---
 
 ### Sun, 10 Nov 2019
-Randy Pausch Last Lecture: Achieving Your Childhood Dreams<sup>[1]</sup>
+Randy Pausch Last Lecture: Achieving Your Childhood Dreams<sup>[1]</sup>  
+▩
 
 Falsehoods CS students believe in<sup>[2]</sup>  
-Things They Don't Teach You In School<sup>[3]</sup>
+Things They Don't Teach You In School<sup>[3]</sup>  
+▩
 
-One of the best explanations of S.O.L.I.D principles I have found<sup>[4]</sup>
+One of the best explanations of S.O.L.I.D principles I have found<sup>[4]</sup>  
+▩
 
 ### Tue, 12 Nov 2019
 Capital city of Sri Lanka is Sri Jayawardenepura Kotte. It was formerly
-Colombo (1815 - 1982). Indian geography text book writers never got this memo.
+Colombo (1815 - 1982). Indian geography text book writers never got this memo.  
+▩
 
 madoko<sup>[5]</sup> is one of the best online markdown and latex editors
 that I've come across. It was created by Daan Leijen from Microsoft Research.
