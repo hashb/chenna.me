@@ -56,6 +56,16 @@ Late binding or runtime polymorphism is when the function call is resolved at
 runtime of the program. This is done using virtual functions.  
 ▣
 
+### Wed, 20 Nov 2019
+
+Gnu Parallel
+
+```
+find . -name '*.dat' | parallel -j8 python ./process_dat.py {} \;
+```
+▣
+
+
 [1]: https://docs.microsoft.com/en-us/visualstudio/test/vstest-console-options?view=vs-2019
 [2]: https://blogs.msdn.microsoft.com/vikramagrawal/2012/07/23/running-selective-unit-tests-in-vs-2012-rc-using-testcasefilter/
 [3]: https://www.cs.swarthmore.edu/~newhall/unixhelp/debuggingtips_C++.html
