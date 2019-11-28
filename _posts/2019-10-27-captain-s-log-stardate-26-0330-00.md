@@ -13,21 +13,21 @@ Back to work.
 
 *Law of Large Numbers* states that the average of the results obtained from a
 large number of trials should be close to the expected value, and will tend to
-become closer as more trials are performed<sup>[1]</sup>.  
+become closer as more trials are performed[^1].  
 ▣
 
 When you take a picture with your smartphone, you are selecting a picture from
-a buffer that your smartphone is continuously capturing<sup>[2]</sup>.  
+a buffer that your smartphone is continuously capturing[^2].  
 ▣
 
 When deciding a new markup language for your data structure files, remember
-JSON for lists and XML for trees<sup>[3]</sup>. XML tags will help you easily
+JSON for lists and XML for trees[^3]. XML tags will help you easily
 follow the structure of your data, while JSON can get very confusing very
 quick.  
 ▣
 
 I recently read an article on why Nokia failed. It boiled down to 3 reasons
-<sup>[4], [5]</sup>.
+[^4] [^5].
 1. Top executives did not have a long term vision
 2. Top executives did not listen to the employees
 3. Top executives resisted change
@@ -61,8 +61,8 @@ Worked on a secret project. Servos, pulleys, linkages and weird mechanisms. It
 was fun! Will do it again Monday.  
 ▣
 
-[1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
-[2]: https://blog.halide.cam/inside-the-iphone-11-camera-part-1-a-completely-new-camera-28ea5d091071
-[3]: https://engineering.instawork.com/when-xml-beats-json-ui-layouts-53c7f1d3fdb7
-[4]: https://thefailurestory.com/why-nokia-failed-the-business-failure-story/
-[5]: https://medium.com/multiplier-magazine/why-did-nokia-fail-81110d981787
+[^1]: <https://en.wikipedia.org/wiki/Law_of_large_numbers>
+[^2]: <https://blog.halide.cam/inside-the-iphone-11-camera-part-1-a-completely-new-camera-28ea5d091071>
+[^3]: <https://engineering.instawork.com/when-xml-beats-json-ui-layouts-53c7f1d3fdb7>
+[^4]: <https://thefailurestory.com/why-nokia-failed-the-business-failure-story/>
+[^5]: <https://medium.com/multiplier-magazine/why-did-nokia-fail-81110d981787>

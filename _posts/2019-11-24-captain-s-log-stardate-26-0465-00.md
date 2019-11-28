@@ -6,7 +6,7 @@ tags: [Captain's log]
 ---
 
 ### Wed, 27 Nov 2019
-Borg backup<sup>[1]</sup> + vorta<sup>[2]</sup> for deduplicating backups.
+Borg backup[^1] + vorta[^2] for deduplicating backups.
 
-[1]: https://borgbackup.readthedocs.io/en/stable/
-[2]: https://vorta.borgbase.com/
+[^1]: <https://borgbackup.readthedocs.io/en/stable/>
+[^2]: <https://vorta.borgbase.com/>

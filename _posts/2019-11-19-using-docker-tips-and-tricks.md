@@ -12,6 +12,6 @@ Docker jargon
 - *Docker Hub*
 - *DockerFile*
 
-Docker uses overlayfs filesystem architecture to manage file changes<sup>[1]</sup>.
+Docker uses overlayfs filesystem architecture to manage file changes[^1].
 
-[1]: https://jvns.ca/blog/2019/11/18/how-containers-work--overlayfs/
+[^1]: <https://jvns.ca/blog/2019/11/18/how-containers-work--overlayfs/>
