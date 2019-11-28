@@ -5,6 +5,10 @@ date: 2019-11-10 16:27 -0800
 tags: [Captain's log]
 ---
 
+This week in review: Life lessons, Geography lessons, and Hypervisors
+
+<!-- more -->
+
 ### Sun, 10 Nov 2019
 Randy Pausch Last Lecture: Achieving Your Childhood Dreams[^1]  
 ▣

@@ -5,6 +5,12 @@ date: 2019-11-24 12:00 -0800
 tags: [Captain's log]
 ---
 
+This week in review: slacking off!! I did not keep up with writing updates
+this week. I wasn't really busy, I was just lazy. In other news, I started
+using Borg backup system.
+
+<!-- more -->
+
 ### Wed, 27 Nov 2019
 Borg backup[^1] + vorta[^2] for deduplicating backups.
 

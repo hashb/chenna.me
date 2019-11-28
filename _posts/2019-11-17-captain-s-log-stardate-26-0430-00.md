@@ -5,6 +5,11 @@ date: 2019-11-17 12:00 -0800
 tags: [Captain's log]
 ---
 
+This week in review: testing and debugging across the stack, early and late
+binding, GNU Parallel!
+
+<!-- more -->
+
 ### Mon, 18 Nov 2019
 `vstest.console.exe` is a great tool to run tests from the command line. I have
 been using this to automate some of my workflows. The command line arguments
@@ -58,7 +63,7 @@ runtime of the program. This is done using virtual functions.
 
 ### Wed, 20 Nov 2019
 
-Gnu Parallel
+GNU Parallel
 
 ```
 find . -name '*.dat' | parallel -j8 python ./process_dat.py {} \;

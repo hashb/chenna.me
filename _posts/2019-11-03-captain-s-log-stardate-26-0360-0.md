@@ -5,6 +5,11 @@ date: 2019-11-03 12:00 -0800
 tags: [Captain's log]
 ---
 
+We are entering troubled waters, beware! visual diff tool, C++ Templates,
+Google's"Testing on the Toilet" and Compilers.
+
+<!-- more -->
+
 ### Sun, 03 Nov 2019
 
 I am entering stormy seas. A lot of changes in my life at once. It is going to

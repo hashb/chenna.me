@@ -21,7 +21,8 @@ have accomplished over the week.
 I will create a post every Sunday and fill it up over the week. I decided
 to call this Captain's log inspired by Star Trek. I will write a more
 detailed post on Captain's log and stardates at a later time.  
-▣
+
+<!-- more -->
 
 ### Wed, 23 Oct 2019
 

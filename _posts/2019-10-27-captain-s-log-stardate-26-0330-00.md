@@ -5,6 +5,11 @@ date: 2019-10-27 12:00 -0700
 tags: [Captain's log]
 ---
 
+Fun week! Halloween, more DevOps stuff, JSON vs XML, cool electronics and 
+Pies!! 
+
+<!-- more -->
+
 ### Tue, 29 Oct 2019
 
 Back to work.
