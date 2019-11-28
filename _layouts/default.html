@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  {% seo %}
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="/assets/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header id="header">
+    <h1><a href="/">{{ site.title }}</a></h1>
+    <p>{{ site.description }}</p>
+  </header>
+
+  <div id="page">
+    <div id="sidebar">
+      {% assign current = page.url | downcase | split: '/' %}
+      <nav>
+        <ul>
+          <li><a href="/" {% if current.size == 0 %}class='active'{% endif %}>home</a></li>
+          <li><a href="/blog/" {% if current[1] == 'blog' %}class='active'{% endif %}>blog</a></li>
+          <li><a href="/work/" {% if current[1] == 'work' %}class='active'{% endif %}>work</a></li>
+          <li><a href="/archives/" {% if current[1] == 'archives' %}class='active'{% endif %}>archive</a></li>
+          <li><a href="/feed.xml">rss</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="content">
+      {{ content }}
+    </div>
+  </div>
+
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; Chenna Kautilya, {{ site.time | date: '%Y' }}. Powered by <a href="http://jekyllrb.com">Jekyll</a>,
+      <a href="https://github.com/hashb/california">California</a> theme.
+    <br>
+    The opinions on this site are my own and do not represent those of my employer.
+    <br>
+    This page was built on {{site.time}}
+  </p>
+  <img src="http://terra.chenna.me/by-nc-sa.png" alt="by-nc-sa" style="display: block; margin-left: auto; margin-right: auto; width: 15%;">
+  <noscript>
+    hello stranger with no javascript ;)
+  </noscript>
+  </footer>
+
+</body>
+</html>
