@@ -2,6 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0395.00
 date: 2019-11-10 16:27 -0800
+last_modified_at: 2019-11-27 12:00 -0800
 tags: [Captain's log]
 ---
 
