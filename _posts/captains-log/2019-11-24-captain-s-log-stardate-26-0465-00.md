@@ -10,6 +10,8 @@ This week in review: slacking off!! I did not keep up with writing updates
 this week. I wasn't really busy, I was just lazy. In other news, I started
 using Borg backup system.
 
+Happy Thanksgiving!! I am in a food coma!
+
 <!-- more -->
 
 ### Wed, 27 Nov 2019
