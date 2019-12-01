@@ -6,7 +6,7 @@ on:
 
 jobs:
   post:
-    name: Creates a new Captain''s Log post
+    name: Creates a new Captains Log post
     runs-on: ubuntu-latest
 
     steps:
