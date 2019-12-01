@@ -1,0 +1,15 @@
+name: Captain''s Log
+
+on:
+  schedule:
+    - cron: '0 0 * * SUN'
+
+jobs:
+  post:
+    name: Creates a new Captain''s Log post
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: run new-post.sh
+      run: ./scripts/new-post.sh
