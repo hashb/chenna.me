@@ -1,0 +1,25 @@
+name: Captains Log
+
+on:
+  schedule:
+    - cron: '0 0 * * SUN'
+
+jobs:
+  post:
+    name: Creates a new Captain''s Log post
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: run new-post.sh
+      run: ./scripts/new-post.sh
+    - name: Commit files
+      run: |
+        git config --local user.email "hashb@users.noreply.github.com"
+        git config --local user.name "Chenna Kautilya"
+        git add ./_posts/
+        git commit -m "Created new Captains log"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
