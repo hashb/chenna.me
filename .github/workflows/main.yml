@@ -18,7 +18,7 @@ jobs:
         git config --local user.email "hashb@users.noreply.github.com"
         git config --local user.name "Chenna Kautilya"
         git add ./_posts/
-        git commit -m "Created new Captains log"
+        git commit -m ":balloon: Created new Captains log"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
