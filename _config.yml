@@ -35,9 +35,12 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jemoji
+  - jekyll-feed
 
 remote_theme: hashb/california
 incremental: false
+
+author: Chenna Kautilya
 
 # Social
 twitter_username: 'kautilyach'
