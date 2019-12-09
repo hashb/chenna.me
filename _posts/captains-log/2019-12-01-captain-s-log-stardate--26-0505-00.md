@@ -6,7 +6,7 @@ last_modified_at: 2019-12-01 12:09:13 +0000
 tags: [Captain's log]
 ---
 
-This week in review: 
+This week in review: rain, chicken tenders and Catch-22
 
 <!-- more -->
 
