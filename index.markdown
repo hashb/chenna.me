@@ -16,7 +16,8 @@ Optimization, Motion Planning and Machine Learning.
     <source type="image/jpeg" srcset="/assets/images/path_planning_01.600h.jpg">
     <img src="/assets/images/path_planning_01.600h.png" alt="Path Planning is hard" class="center">
   </picture>
-  <figcaption markdown="1">Path Planning is hard [^1]</figcaption>
+<figcaption markdown="1">Path Planning is hard [^1]
+</figcaption>
 </figure>
 
 I earned a master's degree in Robotics from the University of Utah.
