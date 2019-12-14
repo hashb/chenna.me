@@ -35,3 +35,8 @@ refactoring as part of your project planning.▣
 
 I saw this quote earlier today and it seemed interesting. I can't disagree
 with this, my dreams have significantly diverged from my life right now.▣
+
+Interesting list of projects to try out. I am particularly interested in the
+compiler - Tiny BASIC and mini operating system ones.▣
+
+[^1]: <http://web.eecs.utk.edu/~azh/blog/challengingprojects.html>
