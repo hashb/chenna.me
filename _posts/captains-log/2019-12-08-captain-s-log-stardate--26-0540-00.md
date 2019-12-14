@@ -29,3 +29,9 @@ To maintain code quality, monitor 3 things
 
 This will help you avoid pain down the line. You must also think about 
 refactoring as part of your project planning.▣
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">WE ARE JUST THE WRECKED AND BROKEN TROJAN HORSES OF OUR DREAMS. That&#39;s how our dreams invade the cities.</p>&mdash; Robert Montgomery (@MontgomeryGhost) <a href="https://twitter.com/MontgomeryGhost/status/426810086242414593">January 24, 2014</a></blockquote>
+<!-- <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
+
+I saw this quote earlier today and it seemed interesting. I can't disagree
+with this, my dreams have significantly diverged from my life right now.▣
