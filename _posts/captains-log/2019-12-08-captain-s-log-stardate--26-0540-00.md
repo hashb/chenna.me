@@ -49,5 +49,12 @@ My version of The Joel Test[^2]
 7. Do you use the best tools money can buy?
 8. Do new candidates write code during interview?
 
+This is not an exhaustive list. I am still trying to understand what is important
+for different types of teams. This core list might be valid for all but you might
+need additional tests for a team working on frontend development or a team
+building a compiler.▣
+
+<blockquote><p>Be kinder to yourself</p>&mdash; magsheer</blockquote>
+
 [^1]: <http://web.eecs.utk.edu/~azh/blog/challengingprojects.html>
 [^2]: <https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/>
