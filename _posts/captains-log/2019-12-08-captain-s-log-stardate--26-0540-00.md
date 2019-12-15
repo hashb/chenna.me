@@ -36,7 +36,18 @@ refactoring as part of your project planning.▣
 I saw this quote earlier today and it seemed interesting. I can't disagree
 with this, my dreams have significantly diverged from my life right now.▣
 
-Interesting list of projects to try out. I am particularly interested in the
+Interesting list of projects to try out[^1]. I am particularly interested in the
 compiler - Tiny BASIC and mini operating system ones.▣
 
+My version of The Joel Test[^2] 
+1. Do you use version control?
+2. Can you make a build in one step and are use a CI system?
+3. Do you use an Issue tracking system?
+4. Do you fix existing bugs before writing new code?
+5. Do you have an up to date schedule?
+6. Do you have a spec?
+7. Do you use the best tools money can buy?
+8. Do new candidates write code during interview?
+
 [^1]: <http://web.eecs.utk.edu/~azh/blog/challengingprojects.html>
+[^2]: <https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/>
