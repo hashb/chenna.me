@@ -7,7 +7,7 @@ tags: [Captain's log]
 ---
 
 This week in review: Dynamically loading `*.so`, resolving local domains with
-mDNS
+mDNS, Code Quality, and be kinder.
 
 <!-- more -->
 
