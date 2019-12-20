@@ -20,6 +20,6 @@ jobs:
         git add ./_posts/
         git commit -m ":balloon: Created new Captains log for $(./scripts/stardate $(date '+%Y-%m-%d'))"
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: hashb/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
