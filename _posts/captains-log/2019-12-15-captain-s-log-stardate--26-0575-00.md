@@ -20,5 +20,10 @@ Zero day
 ### Thu, 19 Dec 2019
 Empathy is an important factor in software development[^1] [^2].
 
+### Sat, 21 Dec 2019
+How to make your customers hate you or API practices if you hate your
+customers[^3].
+
 [^1]: <https://www.empathy-driven-development.com/>
 [^2]: <https://codingwithempathy.com/2016/02/14/start-of-an-empathic-journey/>
+[^3]: <https://queue.acm.org/detail.cfm?id=3375635>
