@@ -9,3 +9,6 @@ tags: [Captain's log]
 This week in review:
 
 <!-- more -->
+
+### Sun, 22 Dec 2019
+cleaning up
