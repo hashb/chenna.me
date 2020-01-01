@@ -36,6 +36,7 @@ plugins:
   - jekyll-seo-tag
   - jemoji
   - jekyll-feed
+  - jekyll-redirect-from
 
 remote_theme: hashb/california
 incremental: false
