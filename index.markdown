@@ -30,7 +30,7 @@ You can reach over [email](mailto:hi@chenna.me),
 [twitter](https://twitter.com/{{site.twitter_username}}),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
 projects are on [GitHub :octocat:](https://github.com/{{site.github_username}}) and on
-my [resume](https://chenna.me/resume). My old
+my [resume](https://resume.chenna.me/). My old
 website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
 tor 🧅 at [chennahkuqdo3pen.onion](http://chennahkuqdo3pen.onion/).
 If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).
