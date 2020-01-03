@@ -1,3 +1,4 @@
 _site
 *.lock
 hashb.github.io.sublime-workspace
+.vscode/
