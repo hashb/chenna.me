@@ -3,8 +3,10 @@
 echo $PWD
 
 stardate="$(echo $(./scripts/stardate $(date '+%Y-%m-%d')) | tr \[\]. -)"
-base_path="./_posts/captains-log/"
+base_path="./_posts/captains-log/$(date +%Y)/$(date +%m)/"
 file_name="$base_path$(date '+%Y-%m-%d')-captain-s-log-stardate$stardate.md"
+
+mkdir -p $base_path
 
 echo "---" | tee -a $file_name
 echo "layout: post" | tee -a $file_name
