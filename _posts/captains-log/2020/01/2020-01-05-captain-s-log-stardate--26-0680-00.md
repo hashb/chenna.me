@@ -14,7 +14,7 @@ This week in review: pre-commit hooks
 Adding a pre-commit hook to automate last modified date update. Pre-commit
 hooks can do a lot of interesting things.
 
-```
+```bash
 #!/bin/sh
 
 # https://blog.nerde.pw/2016/08/09/jekyll-last-modified-date.html
@@ -28,3 +28,5 @@ git diff --cached --name-status | while read a b; do
 done
 ```
 ▣
+
+### Wed, 08 Jan 2020
