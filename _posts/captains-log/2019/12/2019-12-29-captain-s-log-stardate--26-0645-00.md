@@ -2,11 +2,11 @@
 layout: post
 title: Captain's log, stardate [-26]0645.00
 date: 2019-12-29 12:03:10 +0000
-last_modified_at: 2020-01-02 16:32:02 -0800
+last_modified_at: 2020-01-07 17:22:43 -0800
 tags: [Captain's log]
 ---
 
-This week in review: decade is over.
+This week in review: decade is over, tmux and vscode, fools and fanatics.
 
 <!-- more -->
 
