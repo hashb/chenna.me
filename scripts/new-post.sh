@@ -17,6 +17,7 @@ echo "tags: [Captain's log]" | tee -a $file_name
 echo "---" | tee -a $file_name
 echo "" | tee -a $file_name
 echo "This week in review:" | tee -a $file_name
+echo "▣" | tee -a $file_name
 echo "" | tee -a $file_name
 echo "<!-- more -->" | tee -a $file_name
 
