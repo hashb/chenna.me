@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0680.00
 date: 2020-01-05 12:03:04 +0000
-last_modified_at: 2020-01-09 16:21:36 -0800
+last_modified_at: 2020-01-09 16:24:19 -0800
 tags: [Captain's log]
 ---
 
@@ -35,7 +35,7 @@ zero day!
 ### Thu, 09 Jan 2020
 Automated planning in a nutshell[^1]. I have been looking into high level
 Task Planning for robotic systems. The most popular one seems to be the Planning
-Domain Description language (PPDL). I think I will write more about this later.
+Domain Description language (PDDL). I think I will write more about this later.
 
 TODO: remember to do a writeup on Camera Calibration.
 
