@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0680.00
 date: 2020-01-05 12:03:04 +0000
-last_modified_at: 2020-01-09 16:24:19 -0800
+last_modified_at: 2020-01-10 15:52:30 -0800
 tags: [Captain's log]
 ---
 
@@ -37,6 +37,11 @@ Automated planning in a nutshell[^1]. I have been looking into high level
 Task Planning for robotic systems. The most popular one seems to be the Planning
 Domain Description language (PDDL). I think I will write more about this later.
 
-TODO: remember to do a writeup on Camera Calibration.
+TODO: remember to do a writeup on Camera Calibration.▣
+
+### Fri, 10 Jan 2020
+**Copy on Write** (CoW): It is when you ask for something to be copied but the
+program doesn't immediately copy it, instead will copy it when you try to
+modify or write the object. Btrfs or B-Tree file system uses CoW.▣
 
 [^1]: <https://github.com/pellierd/pddl4j/wiki/Automated-planning-in-a-nutshell>
