@@ -41,6 +41,13 @@ plugins:
 remote_theme: hashb/california
 incremental: false
 
+jekyll_compose:
+  default_front_matter:
+    posts:
+      last_modified_at:
+      tags:
+      published: false
+
 author: Chenna Kautilya
 
 # Social
