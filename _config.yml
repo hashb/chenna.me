@@ -7,6 +7,8 @@ name: 'Chenna Kautilya''s home on the Internet'
 baseurl: ''  # the subpath of your site, e.g. /blog
 url: 'https://chenna.me'  # the base hostname & protocol for your site
 
+timezone: America/Los_Angeles
+
 paginate: 4
 paginate_path: '/blog/page:num/'
 permalink: '/blog/:year/:month/:day/:title/'
