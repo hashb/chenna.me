@@ -18,7 +18,7 @@ jobs:
         git config --local user.email "hashb@users.noreply.github.com"
         git config --local user.name "Chenna Kautilya"
         git add ./_posts/
-        git commit -m ":balloon: Created new Captains log for $(./scripts/stardate $(date '+%Y-%m-%d'))"
+        git commit -m ":balloon: Created new Captains log for $(./scripts/stardate $(date -u '+%Y-%m-%d'))"
     - name: Push changes
       uses: hashb/github-push-action@master
       with:

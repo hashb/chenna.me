@@ -2,17 +2,17 @@
 
 echo $PWD
 
-stardate="$(echo $(./scripts/stardate $(date '+%Y-%m-%d')) | tr \[\]. -)"
-base_path="./_posts/captains-log/$(date +%Y)/$(date +%m)/"
-file_name="$base_path$(date '+%Y-%m-%d')-captain-s-log-stardate$stardate.md"
+stardate="$(echo $(./scripts/stardate $(date -u '+%Y-%m-%d')) | tr \[\]. -)"
+base_path="./_posts/captains-log/$(date -u +%Y)/$(date -u +%m)/"
+file_name="$base_path$(date -u '+%Y-%m-%d')-captain-s-log-stardate$stardate.md"
 
 mkdir -p $base_path
 
 echo "---" | tee -a $file_name
 echo "layout: post" | tee -a $file_name
-echo "title: Captain's log, stardate $(./scripts/stardate $(date '+%Y-%m-%d'))" | tee -a $file_name
-echo "date: $(date '+%Y-%m-%d %T %z')" | tee -a $file_name
-echo "last_modified_at: $(date '+%Y-%m-%d %T %z')" | tee -a $file_name
+echo "title: Captain's log, stardate $(./scripts/stardate $(date -u '+%Y-%m-%d'))" | tee -a $file_name
+echo "date: $(date -u '+%Y-%m-%d %T %z')" | tee -a $file_name
+echo "last_modified_at: $(date -u '+%Y-%m-%d %T %z')" | tee -a $file_name
 echo "tags: [Captain's log]" | tee -a $file_name
 echo "---" | tee -a $file_name
 echo "" | tee -a $file_name

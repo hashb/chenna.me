@@ -1,1 +1,1 @@
-date "+%Y-%m-%d %T %z"
+date -u "+%Y-%m-%d %T %z"
