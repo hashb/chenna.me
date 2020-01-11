@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0680.00
 date: 2020-01-05 12:03:04 +0000
-last_modified_at: 2020-01-11 08:13:26 +0000
+last_modified_at: 2020-01-11 19:26:10 +0000
 tags: [Captain's log]
 ---
 
@@ -48,5 +48,7 @@ Use UTC time everywhere! I just found a weird bug on my site. Some of the dates
 on the posts were off by 1. This was caused due to the site being build using
 UTC time but the dates on the posts and last modified at were in Cali time. I
 have switched all my scripts to use UTC time now. Time is weird, use UTC.▣
+
+### Sat, 11 Jan 2020
 
 [^1]: <https://github.com/pellierd/pddl4j/wiki/Automated-planning-in-a-nutshell>
