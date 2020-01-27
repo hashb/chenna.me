@@ -1,6 +1,7 @@
 ---
 layout: default
 title: The CLI Life | Chenna Kautilya
+permalink: /cli
 ---
 
 # The CLI Life

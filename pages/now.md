@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Now in my life | Chenna Kautilya
+permalink: /now
 ---
 
 # Now
