@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0785.00
 date: 2020-01-26 12:02:44 +0000
-last_modified_at: 2020-01-26 12:02:44 +0000
+last_modified_at: 2020-01-28 01:22:12 +0000
 tags: [Captain's log]
 ---
 
@@ -10,11 +10,8 @@ This week in review:
 
 <!-- more -->
 
-### Sun, 26 Jan 2020
-▣
-
 ### Mon, 27 Jan 2020
-▣
+TCP/IP protocol sucks if you want to do realtime communication.▣
 
 ### Tue, 28 Jan 2020
 ▣
