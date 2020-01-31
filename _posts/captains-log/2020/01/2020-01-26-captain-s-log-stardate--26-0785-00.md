@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0785.00
 date: 2020-01-26 12:02:44 +0000
-last_modified_at: 2020-01-30 05:50:20 +0000
+last_modified_at: 2020-01-31 05:20:31 +0000
 tags: [Captain's log]
 ---
 
@@ -26,9 +26,6 @@ the type of system a lot of safety system manufacturers use.
 
 In a White Channel system, your entire system is safety rated, down to the last
 coupler. This makes it very hard to design and a lot more expensive.▣
-
-### Thu, 30 Jan 2020
-▣
 
 ### Fri, 31 Jan 2020
 ▣
