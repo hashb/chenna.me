@@ -2,11 +2,11 @@
 layout: post
 title: Captain's log, stardate [-26]0785.00
 date: 2020-01-26 12:02:44 +0000
-last_modified_at: 2020-01-31 05:20:31 +0000
+last_modified_at: 2020-02-03 00:19:28 +0000
 tags: [Captain's log]
 ---
 
-This week in review:
+This week in review: Real time communication and safety.
 
 <!-- more -->
 
@@ -26,12 +26,6 @@ the type of system a lot of safety system manufacturers use.
 
 In a White Channel system, your entire system is safety rated, down to the last
 coupler. This makes it very hard to design and a lot more expensive.▣
-
-### Fri, 31 Jan 2020
-▣
-
-### Sat, 01 Feb 2020
-▣
 
 
 [^1]: <https://journals.sagepub.com/doi/pdf/10.1177/002029400704001003>
