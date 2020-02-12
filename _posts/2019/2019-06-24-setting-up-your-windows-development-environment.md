@@ -2,6 +2,7 @@
 layout: post
 title: Setting up your Windows Development Environment
 date: 2019-06-24 15:12 -0700
+last_modified_at: 2020-02-12 23:55:52 +0000
 tags: [windows, tools]
 ---
 
@@ -33,3 +34,10 @@ adopted WSL into my workflow.
 ## Setting up WSL
 *waiting for wsl2 to come out*
 ![WSL ubuntu 18.04](/assets/images/20190624/ubuntu-wsl.png)
+
+[Yori](http://www.malsmith.net/yori/):  A CMD Alternative
+[Windows Terminal](#): Windows Terminal is very fast and highly customizable.
+
+VS Code has grown on me. It is still slow compared to sublime at startup, but
+the number of features integrated into it make it worth using. 
+
