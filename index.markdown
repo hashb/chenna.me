@@ -5,10 +5,9 @@ title: About 👉 Chenna Kautilya 👈 Robots, Machine Learning and Lots of Hack
 
 Hi!
 
-I am Chenna Kautilya. I tinker with robots and like to work on ROS and Gazebo.
-Currently, I work as a Robotics Software Engineer at Omron Research Center of
-America (ORCA). My research interests lie in Robotics, Control, Trajectory
-Optimization, Motion Planning and Machine Learning.
+I am Chenna Kautilya. I work as a Robotics Software Engineer at Omron Research
+Center of America (ORCA). My research interests lie in Robotics, Control,
+Trajectory Optimization, Motion Planning and Machine Learning.
 
 <figure>
   <picture>
