@@ -2,7 +2,7 @@
 layout: post
 title: Using CasADi for Trajectory Optimization
 date: 2019-06-30 00:40 -0700
-tags: [robotics]
+tags: [Robotics]
 mathjax: true
 ---
 

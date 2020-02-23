@@ -2,7 +2,7 @@
 layout: post
 title: Solving Sudoku
 date: 2019-09-08 00:36 -0700
-tags: [optimization]
+tags: [Optimization, Maths]
 mathjax: true
 ---
 

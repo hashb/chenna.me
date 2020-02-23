@@ -2,8 +2,8 @@
 layout: post
 title: 🔗 Thats one of thinking about Garbage Collection
 date: 2020-02-22 19:11 +0000
-last_modified_at: 2020-02-22 19:20:18 +0000
-tags: [Garbage Collection]
+last_modified_at: 2020-02-23 06:54:57 +0000
+tags: [Link, Garbage Collection]
 published: true
 external-url: https://groups.google.com/forum/message/raw?msg=comp.lang.ada/E9bNCvDQ12k/1tezW24ZxdAJ
 ---
@@ -20,5 +20,5 @@ external-url: https://groups.google.com/forum/message/raw?msg=comp.lang.ada/E9bN
 > ultimate in garbage collection is performed without programmer intervention.
 > <footer>Kent Mitchell</footer>
 
-As long as the system is reasonlably deterministic, I guess it doesn't matter,
+As long as the system is reasonably deterministic, I guess it doesn't matter,
 since the application calls for eventual destruction of the memory.

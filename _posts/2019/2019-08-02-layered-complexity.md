@@ -2,7 +2,7 @@
 layout: post
 title: Layered Complexity
 date: 2019-08-02 15:36 -0700
-tags: [design, work]
+tags: [Design, Documentation]
 ---
 
 The principle of layered complexity to display information such a way that

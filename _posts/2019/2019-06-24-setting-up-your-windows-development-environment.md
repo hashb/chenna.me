@@ -2,8 +2,8 @@
 layout: post
 title: Setting up your Windows Development Environment
 date: 2019-06-24 15:12 -0700
-last_modified_at: 2020-02-12 23:55:52 +0000
-tags: [windows, tools]
+last_modified_at: 2020-02-23 06:54:57 +0000
+tags: [Windows, Tools]
 ---
 
 Are you forced to work in a Windows environment at work? Do you think Windows

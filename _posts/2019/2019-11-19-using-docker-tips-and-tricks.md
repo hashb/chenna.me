@@ -2,8 +2,8 @@
 layout: post
 title: 'Using Docker: Tips and Tricks'
 date: 2019-11-19 11:34 -0800
-last_modified_at: 2020-02-21 05:45:42 +0000
-tags: [docker]
+last_modified_at: 2020-02-23 06:54:57 +0000
+tags: [Docker]
 ---
 
 Docker jargon

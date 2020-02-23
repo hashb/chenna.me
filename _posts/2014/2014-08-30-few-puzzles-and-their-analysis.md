@@ -2,8 +2,8 @@
 layout: post
 title: Few Puzzles and Their Analysis
 date: 2014-08-30 17:55 +0530
-last_modified_at: 2019-11-28 16:34
-tags: [puzzles]
+last_modified_at: 2020-02-23 06:54:57 +0000
+tags: [Puzzles]
 mathjax: true
 ---
 

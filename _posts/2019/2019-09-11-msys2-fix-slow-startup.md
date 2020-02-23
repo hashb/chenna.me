@@ -2,7 +2,7 @@
 layout: post
 title: 🔗 MSYS2 - Fix Slow Startup
 date: 2019-09-11 15:41 -0700
-tags: [windows]
+tags: [Link, Windows]
 external-url: http://bjg.io/guide/cygwin-ad/
 ---
 
