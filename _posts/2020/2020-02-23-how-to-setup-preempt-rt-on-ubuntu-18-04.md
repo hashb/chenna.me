@@ -2,7 +2,7 @@
 layout: post
 title: How to setup PREEMPT RT on Ubuntu 18.04
 date: 2020-02-23 06:11 +0000
-last_modified_at: 2020-02-23 06:48:20 +0000
+last_modified_at: 2020-02-23 06:49:38 +0000
 tags: [How To, Realtime, Robotics]
 published: true
 ---
@@ -11,6 +11,8 @@ These are my notes on how to install install preempt_rt patch for linux kernel
 on Ubuntu 18.04. I am doing this for a robot control application where
 non-determinism can cause damage to life or property. I will be writing more
 blog posts about real time implementation for robotic applications.
+
+<!-- more -->
 
 We will be installing RT-PREEMPT kernel on ubuntu 18.04. Kernel version I am
 choosing is 5.4 since it is the latest LTS release.
