@@ -2,11 +2,11 @@
 layout: post
 title: Captain's log, stardate [-26]0820.00
 date: 2020-02-02 12:02:55 +0000
-last_modified_at: 2020-02-10 03:22:32 +0000
+last_modified_at: 2020-02-27 05:51:06 +0000
 tags: [Captain's log]
 ---
 
-This week in review:
+This week in review: Realtime scheduling.
 
 <!-- more -->
 
