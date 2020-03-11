@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0995.00
 date: 2020-03-08 12:06:08 +0000
-last_modified_at: 2020-03-11 04:31:23 +0000
+last_modified_at: 2020-03-11 17:00:00 +0000
 tags: [Captain's log]
 ---
 
@@ -23,7 +23,10 @@ Now the question is, how do I get better at writing?
 ▣
 
 ### Wed, 11 Mar 2020
-▣
+I am running into kernel panic on Linux PREEMPT-RT on version 4.19 and 5.4 when
+I try to install `vboxdrv` module. I have been trying, unsuccessfully, to use
+virtualbox on a real time linux host. Yesterday I had a breakthrough. vmware
+workstation seems to work on real time linux host. Yay!!▣
 
 ### Thu, 12 Mar 2020
 ▣
