@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 'Fix: How to sync ical subscriptions on Google Calendar to macos calendar'
+title: '🔗 How to sync ical subscriptions on Google Calendar to macos calendar'
 date: 2020-03-15 04:47 +0000
-last_modified_at: 2020-03-15 04:50:37 +0000
-tags: 
+last_modified_at: 2020-03-15 04:52:34 +0000
+tags: [How to, Productivity, Link]
 published: true
 external-link: https://apple.stackexchange.com/a/362085
 ---
