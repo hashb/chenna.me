@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]1030.00
 date: 2020-03-15 12:06:25 +0000
-last_modified_at: 2020-03-17 04:44:27 +0000
+last_modified_at: 2020-03-18 06:38:02 +0000
 tags: [Captain's log]
 ---
 
@@ -21,6 +21,7 @@ to any other part of the pipeline is futile
 ▣
 
 ### Tue, 17 Mar 2020
+Lockdown day 2: What am I doinggggg??!!!
 ▣
 
 ### Wed, 18 Mar 2020
