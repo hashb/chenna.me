@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]1030.00
 date: 2020-03-15 12:06:25 +0000
-last_modified_at: 2020-03-18 06:38:02 +0000
+last_modified_at: 2020-03-20 03:40:44 +0000
 tags: [Captain's log]
 ---
 
@@ -24,11 +24,8 @@ to any other part of the pipeline is futile
 Lockdown day 2: What am I doinggggg??!!!
 ▣
 
-### Wed, 18 Mar 2020
-▣
-
 ### Thu, 19 Mar 2020
-▣
+`libfuse` works on WSL 2!!! I have been waiting to use this for a while now.▣
 
 ### Fri, 20 Mar 2020
 ▣
