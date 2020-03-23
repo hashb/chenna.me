@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]1030.00
 date: 2020-03-15 12:06:25 +0000
-last_modified_at: 2020-03-21 02:53:10 +0000
+last_modified_at: 2020-03-23 02:04:08 +0000
 tags: [Captain's log]
 ---
 
@@ -26,6 +26,3 @@ Lockdown day 2: What am I doinggggg??!!!
 
 ### Thu, 19 Mar 2020
 `libfuse` works on WSL 2!!! I have been waiting to use this for a while now.▣
-
-### Sat, 21 Mar 2020
-▣
