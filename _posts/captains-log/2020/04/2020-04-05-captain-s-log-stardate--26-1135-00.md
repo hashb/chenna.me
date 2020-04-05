@@ -2,16 +2,13 @@
 layout: post
 title: Captain's log, stardate [-26]1135.00
 date: 2020-04-05 12:03:42 +0000
-last_modified_at: 2020-04-05 12:03:42 +0000
+last_modified_at: 2020-04-05 23:40:44 +0000
 tags: [Captain's log]
 ---
 
 This week in review:
 
 <!-- more -->
-
-### Sun, 05 Apr 2020
-▣
 
 ### Mon, 06 Apr 2020
 ▣
