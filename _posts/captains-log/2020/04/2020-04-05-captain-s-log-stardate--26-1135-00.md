@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]1135.00
 date: 2020-04-05 12:03:42 +0000
-last_modified_at: 2020-04-08 22:27:18 +0000
+last_modified_at: 2020-04-12 15:34:30 +0000
 tags: [Captain's log]
 ---
 
@@ -25,15 +25,4 @@ more consistent with my workouts after starting tracking them.
 using MyFitnessPal from UnderArmor. 
 
 ▣
-
-### Wed, 08 Apr 2020
-▣
-
-### Thu, 09 Apr 2020
-▣
-
-### Fri, 10 Apr 2020
-▣
-
-### Sat, 11 Apr 2020
-▣
+s
