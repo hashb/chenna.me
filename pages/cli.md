@@ -1,7 +1,8 @@
 ---
 layout: default
-title: The CLI Life | Chenna Kautilya
+title: The CLI Life
 permalink: /cli/
+tags: [page]
 ---
 
 # The CLI Life

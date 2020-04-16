@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Now in my life | Chenna Kautilya
+title: Now in my life
 permalink: /now/
+tags: [page]
 ---
 
 # Now

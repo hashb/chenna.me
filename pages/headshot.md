@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Head shot | Chenna Kautilya
+title: Head shot
 permalink: /headshot/
+tags: [page]
 ---
 
 <figure>
