@@ -2,11 +2,11 @@
 layout: post
 title: Captain's log, stardate [-26]1135.00
 date: 2020-04-05 12:03:42 +0000
-last_modified_at: 2020-04-12 15:49:59 +0000
+last_modified_at: 2020-04-20 07:51:59 +0000
 tags: [Captain's log]
 ---
 
-This week in review:
+This week in review: Quantified Self.
 
 <!-- more -->
 
