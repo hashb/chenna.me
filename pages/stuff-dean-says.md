@@ -1,11 +1,18 @@
 ---
 layout: page
-title: Stuff Sean Says
-permalink: /stuff-sean-says/
+title: Stuff Dean Says
+permalink: /stuff-dean-says/
 date: 2019-03-05 12:03:42 +0000
 last_modified_at: 2020-04-22 05:57:13 +0000
 tags: [page]
 ---
+
+I can neither confirm not deny the existence of a person named Dean.
+
+>Names, characters, businesses, places, events, locales, and incidents are
+>either the products of the author's imagination or used in a fictitious manner. 
+>And any resemblance to actual persons, living or dead, or actual events is
+>purely coincidental
 
 1. *Layered Complexity*: example, news papers with large headline with smaller
 subtitle, and even smaller content. This way of presenting information helps
@@ -25,3 +32,8 @@ more information, they will ask you.
 4. *Engineering tradeoff*: When an engineer designs a product, they need to decide
 what they are optimizing the design for. like cost, reliability, etc. Engineering
 is an art of balancing these design params.
+
+5. This is my observation. I've noticed that when someone is being mean to another
+person, Dean repeats back the mean persons statements in a slightly silly tone.
+This type of calling out seems to be very effective in making the mean person
+realize what they are doing without explicitly saying it.
