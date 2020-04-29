@@ -1,6 +1,7 @@
 # Site settings
 
-title: '/home/hashb'
+title: 'Chenna Kautilya \| /home/hashb'
+title_body: '/home/hashb'
 description: 'Chenna Kautilya | Robots, Machine Learning and Life'
 name: 'Chenna Kautilya''s home on the Internet'
 
@@ -50,7 +51,14 @@ jekyll_compose:
       tags:
       published: false
 
-author: Chenna Kautilya
+author: 
+  name: Chenna Kautilya
+  rss: true
+  mail: hi@chenna.me
+  twitter: kautilyach
+  github: hashb
+  youtube: ChennaKautilya
+
 
 # Social
 twitter_username: 'kautilyach'
