@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]1240.00
 date: 2020-04-26 12:04:13 +0000
-last_modified_at: 2020-04-29 06:40:35 +0000
+last_modified_at: 2020-05-02 21:58:56 +0000
 tags: [Captain's log]
 ---
 
@@ -17,18 +17,6 @@ index.
 ▣
 
 Few cool productivity tips for that cli life![^2]  
-▣
-
-### Wed, 29 Apr 2020
-▣
-
-### Thu, 30 Apr 2020
-▣
-
-### Fri, 01 May 2020
-▣
-
-### Sat, 02 May 2020
 ▣
 
 [^1]: <https://the-shooting-star.com/bhutan-happiness/>
