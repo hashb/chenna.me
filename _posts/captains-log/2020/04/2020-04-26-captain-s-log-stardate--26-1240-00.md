@@ -2,11 +2,11 @@
 layout: post
 title: Captain's log, stardate [-26]1240.00
 date: 2020-04-26 12:04:13 +0000
-last_modified_at: 2020-05-02 21:58:56 +0000
+last_modified_at: 2020-05-10 19:26:08 +0000
 tags: [Captain's log]
 ---
 
-This week in review:
+This week in review: Happiness index, cli productivity.
 
 <!-- more -->
 
