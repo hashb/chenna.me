@@ -49,7 +49,7 @@ jekyll_compose:
     posts:
       last_modified_at:
       tags:
-      published: false
+      published: true
 
 author: 
   name: Chenna Kautilya
