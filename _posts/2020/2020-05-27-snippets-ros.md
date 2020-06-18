@@ -2,7 +2,7 @@
 layout: post
 title: 'Snippets: ROS'
 date: 2020-05-27 03:24 +0000
-last_modified_at: 2020-05-27 03:33:23 +0000
+last_modified_at: 2020-06-18 19:34:12 +0000
 tags: [Productivity, Tools]
 published: true
 ---
@@ -14,6 +14,7 @@ is focused on mobile robots.
 
 <!-- more -->
 
+## ROS Transformations for Mobile Robots 
 > In a nutshell,
 > 
 > `odom` to `base_link` is the position of the robot in the inertial odometric 
@@ -29,6 +30,16 @@ is focused on mobile robots.
 > stack are responsible for publishing them.
 > copied from [^1] also checkout [^2]
 
+## Gazebo on VMWare
+Gazebo can sometimes fault when using VMware + Ubuntu with hardware acceleration.
+It is unclear why this is happening but the root cause seems to be at VMware's 
+graphics stack. You can get around this error by setting the environment variable
+`SVGA_VGPU10=0`. This tells gazebo to fallback to OpenGL 2.x [^3].
+
+```
+export SVGA_VGPU10=0
+```
 
 [^1]: <https://answers.ros.org/question/10658/transform-base_link-to-base_lasermapodom/?answer=15727#post-id-15727>
 [^2]: <https://www.ros.org/reps/rep-0105.html>
+[^3]: <https://docs.mesa3d.org/vmware-guest.html>
