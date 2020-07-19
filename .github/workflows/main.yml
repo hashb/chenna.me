@@ -15,8 +15,8 @@ jobs:
       run: ./scripts/new-post.sh
     - name: Commit files
       run: |
-        git config --local user.email "hashb@users.noreply.github.com"
-        git config --local user.name "Chenna Kautilya"
+        git config --local user.email "github.actions@chenna.me"
+        git config --local user.name "Github Actions"
         git add ./_posts/
         git commit -m ":balloon: Created new Captains log for $(./scripts/stardate $(date -u '+%Y-%m-%d'))"
     - name: Push changes
