@@ -2,31 +2,22 @@
 layout: post
 title: Captain's log, stardate [-26]2255.00
 date: 2020-11-15 12:12:02 +0000
-last_modified_at: 2020-11-15 12:12:02 +0000
+last_modified_at: 2020-11-22 05:08:27 +0000
 tags: [Captain's log]
 ---
 
-This week in review:
+This week in review: 
 
 <!-- more -->
 
-### Sun, 15 Nov 2020
-▣
-
-### Mon, 16 Nov 2020
-▣
-
-### Tue, 17 Nov 2020
-▣
-
-### Wed, 18 Nov 2020
-▣
-
-### Thu, 19 Nov 2020
-▣
-
-### Fri, 20 Nov 2020
-▣
-
 ### Sat, 21 Nov 2020
+Zero days, Dull routines and Complacency  
+Day after day, night after night  
+Sweater weather, being burrito  
+long naps, lost time  
+
+Changes in seasons, changes in mind  
+Climbing hills, watching clouds  
+Where to go, What to see  
+Time is now, Time to be  
 ▣
