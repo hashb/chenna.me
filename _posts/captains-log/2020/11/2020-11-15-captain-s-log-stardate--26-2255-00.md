@@ -2,11 +2,11 @@
 layout: post
 title: Captain's log, stardate [-26]2255.00
 date: 2020-11-15 12:12:02 +0000
-last_modified_at: 2020-11-22 05:08:27 +0000
+last_modified_at: 2020-11-22 05:12:14 +0000
 tags: [Captain's log]
 ---
 
-This week in review: 
+This week in review: An ode to lost time
 
 <!-- more -->
 
