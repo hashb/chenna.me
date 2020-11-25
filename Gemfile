@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '2.6.3'
+ruby '2.7.1'
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
