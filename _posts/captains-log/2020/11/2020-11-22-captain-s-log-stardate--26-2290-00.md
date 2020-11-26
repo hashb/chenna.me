@@ -2,22 +2,13 @@
 layout: post
 title: Captain's log, stardate [-26]2290.00
 date: 2020-11-22 12:12:59 +0000
-last_modified_at: 2020-11-22 12:12:59 +0000
+last_modified_at: 2020-11-26 05:23:09 +0000
 tags: [Captain's log]
 ---
 
 This week in review:
 
 <!-- more -->
-
-### Sun, 22 Nov 2020
-▣
-
-### Mon, 23 Nov 2020
-▣
-
-### Tue, 24 Nov 2020
-▣
 
 ### Wed, 25 Nov 2020
 ▣
