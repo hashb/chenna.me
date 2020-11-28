@@ -2,12 +2,12 @@
 layout: post
 title: Captain's log, stardate [-26]0330.00
 date: 2019-10-27 12:00 -0700
-last_modified_at: 2019-11-27 12:00 -0800
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Captain's log]
 ---
 
-Fun week! Halloween, more DevOps stuff, JSON vs XML, cool electronics and 
-Pies!! 
+Fun week! Halloween, more DevOps stuff, JSON vs XML, cool electronics and
+Pies!!
 
 <!-- more -->
 
@@ -34,6 +34,7 @@ quick.
 
 I recently read an article on why Nokia failed. It boiled down to 3 reasons
 [^4] [^5].
+
 1. Top executives did not have a long term vision
 2. Top executives did not listen to the employees
 3. Top executives resisted change
@@ -50,6 +51,7 @@ change in leadership with Satya Nadella.
 Today was full of meetings and other things
 
 Pie review:
+
 - Pecan pie tastes very good! (5 :star:)
 - Four Berry pie is too sweet and acidic. (2 :star:)  
 ▣

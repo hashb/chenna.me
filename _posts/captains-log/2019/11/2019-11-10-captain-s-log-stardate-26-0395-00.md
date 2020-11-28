@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0395.00
 date: 2019-11-10 16:27 -0800
-last_modified_at: 2019-11-27 12:00 -0800
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Captain's log]
 ---
 
@@ -11,6 +11,7 @@ This week in review: Life lessons, Geography lessons, and Hypervisors
 <!-- more -->
 
 ### Sun, 10 Nov 2019
+
 Randy Pausch Last Lecture: Achieving Your Childhood Dreams[^1]  
 ▣
 
@@ -22,6 +23,7 @@ One of the best explanations of S.O.L.I.D principles I have found[^4]
 ▣
 
 ### Tue, 12 Nov 2019
+
 Capital city of Sri Lanka is Sri Jayawardenepura Kotte. It was formerly
 Colombo (1815 - 1982). Indian geography text book writers never got this memo.  
 ▣
@@ -32,6 +34,7 @@ It works with Dropbox and Github.
 ▣
 
 ### Wed, 13 Nov 2019
+
 There are two types of Hypervisors, commonly referred to as Type-1 and Type-2
 hypervisor. Type-1 hypervisor or base metal hypervisor or native hypervisor is
 when the hypervisor is installed as a firmware at the BIOS level and virtual

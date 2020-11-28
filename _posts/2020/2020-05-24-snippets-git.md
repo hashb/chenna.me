@@ -2,7 +2,7 @@
 layout: post
 title: 'Snippets: Git'
 date: 2020-05-24 16:30 +0000
-last_modified_at: 2020-05-24 17:09:31 +0000
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Productivity, Tools]
 published: true
 ---
@@ -20,6 +20,7 @@ Here's a list of Git puns
 <!-- more -->
 
 ## Working with remote
+
 When you have a fork of a repository, you might want to sync it with one another.
 This can be done using git remotes
 

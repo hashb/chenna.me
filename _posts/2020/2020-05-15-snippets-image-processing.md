@@ -2,7 +2,7 @@
 layout: post
 title: 'Snippets: Image processing'
 date: 2020-05-15 21:06 +0000
-last_modified_at: 2020-06-03 15:00:37 +0000
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Productivity, Tools]
 ---
 
@@ -32,8 +32,8 @@ is for binary images or grayscale images
 import numpy as np
 from PIL import Image
 
-arr = np.genfromtxt('fromfile.csv', 
-                    dtype=np.uint8, 
+arr = np.genfromtxt('fromfile.csv',
+                    dtype=np.uint8,
                     delimiter=',',
                     invalid_raise=False)  # if your csv has unequal number of cols
 arr = np.nan_to_num(arr)

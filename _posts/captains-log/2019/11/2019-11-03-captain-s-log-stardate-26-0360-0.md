@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0360.00
 date: 2019-11-03 12:00 -0800
-last_modified_at: 2019-11-27 12:00 -0800
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Captain's log]
 ---
 
@@ -42,9 +42,11 @@ Life lessons: start before you think you are ready[^4]
 ### Thu, 07 Nov 2019
 
 To run something on startup, you can use crontab `@reboot` functionality.
-```
+
+```bash
 @reboot <user> /path/to/script.sh
 ```
+
 ▣
 
 Google posted a really nice article on how to comment on code reviews[^5].  
@@ -53,7 +55,7 @@ Google posted a really nice article on how to comment on code reviews[^5].
 Interesting list of tutorials by Daniel Miessler[^6]  
 ▣
 
-I have, for sometime, been trying to better understand how compilers work. I 
+I have, for sometime, been trying to better understand how compilers work. I
 plan on writing a blog post on it soon[^7] [^8] [^9].  
 ▣
 

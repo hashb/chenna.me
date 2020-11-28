@@ -26,6 +26,7 @@ for idx in 0 1 2 3 4 5 6
 do
   echo "" | tee -a $file_name
   echo "### $(date -u '+%a, %d %b %Y' --date="+$idx day")" | tee -a $file_name
+  echo "" | tee -a $file_name
   echo "▣" | tee -a $file_name
 done
 

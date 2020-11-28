@@ -2,7 +2,7 @@
 layout: post
 title: 'Snippets: ROS'
 date: 2020-05-27 03:24 +0000
-last_modified_at: 2020-06-18 19:34:12 +0000
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Productivity, Tools]
 published: true
 ---
@@ -14,29 +14,31 @@ is focused on mobile robots.
 
 <!-- more -->
 
-## ROS Transformations for Mobile Robots 
+## ROS Transformations for Mobile Robots
+
 > In a nutshell,
-> 
-> `odom` to `base_link` is the position of the robot in the inertial odometric 
+>
+> `odom` to `base_link` is the position of the robot in the inertial odometric
 > frame, as reported by some odometric sensor (like wheel  encoders)
-> 
-> `map` to `odom` is a correction introduced by localization or SLAM packages, 
+>
+> `map` to `odom` is a correction introduced by localization or SLAM packages,
 > to account for odometric errors.
 >
-> `map` to `base_link` is therefore the corrected pose of the robot in the 
+> `map` to `base_link` is therefore the corrected pose of the robot in the
 > inertial world frame.
 >
-> These are dynamic transforms, and different components of the navigation 
+> These are dynamic transforms, and different components of the navigation
 > stack are responsible for publishing them.
 > copied from [^1] also checkout [^2]
 
 ## Gazebo on VMWare
+
 Gazebo can sometimes fault when using VMware + Ubuntu with hardware acceleration.
-It is unclear why this is happening but the root cause seems to be at VMware's 
+It is unclear why this is happening but the root cause seems to be at VMware's
 graphics stack. You can get around this error by setting the environment variable
 `SVGA_VGPU10=0`. This tells gazebo to fallback to OpenGL 2.x [^3].
 
-```
+```bash
 export SVGA_VGPU10=0
 ```
 

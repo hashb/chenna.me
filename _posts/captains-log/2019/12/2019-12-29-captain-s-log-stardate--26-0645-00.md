@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0645.00
 date: 2019-12-29 12:03:10 +0000
-last_modified_at: 2020-01-07 17:22:43 -0800
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Captain's log]
 ---
 
@@ -11,11 +11,13 @@ This week in review: decade is over, tmux and vscode, fools and fanatics.
 <!-- more -->
 
 ### Tue, 31 Dec 2019
+
 End of a Decade!
 
 TODO: figure out what I did for the past 10 years.▣
 
 ### Thu, 02 Jan 2020
+
 I use tmux in my workflow and recently have had to use VS Code as part of my
 dev environment. VS Code injects couple of environment variables into the shell
 to setup WSL server that talks to the windows native code editor. Since, I was
@@ -36,6 +38,7 @@ if [[ -z "$TMUX" ]] ;then
     fi
 fi
 ```
+
 ▣
 
 <blockquote>

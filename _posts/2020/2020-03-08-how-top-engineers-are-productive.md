@@ -2,7 +2,7 @@
 layout: post
 title: 🔗 How Top Engineers Are Productive
 date: 2020-03-08 03:27 +0000
-last_modified_at: 2020-03-08 04:38:59 +0000
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Productivity, Link]
 published: true
 external-url: https://news.ycombinator.com/item?id=21870889
@@ -121,8 +121,6 @@ everyone, keep high morales and claim responsibility
   you need to get the hell out of there. Burn-out is real. Burn out on something
   cool that helps YOU, not pointless toil for some corporate overlord.
 
-
-
 ## kthejoker2
 
 I can't recommend Gary Klein's Sources of Power enough, it is stuffed with
@@ -147,6 +145,5 @@ From the book, things experts do more/better/faster/etc than novices.
 And one that's not explicitly from the book but is contained in its wisdom:
 
 * Skate where the puck is going, not where it is.
-
 
 [^1]: Martin Fowler's Refactoring 2nd edition

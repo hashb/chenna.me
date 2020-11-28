@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]0430.00
 date: 2019-11-17 12:00 -0800
-last_modified_at: 2019-11-27 12:00
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Captain's log]
 ---
 
@@ -12,13 +12,14 @@ binding, GNU Parallel!
 <!-- more -->
 
 ### Mon, 18 Nov 2019
+
 `vstest.console.exe` is a great tool to run tests from the command line. I have
 been using this to automate some of my workflows. The command line arguments
 are a little cumbersome. One option that I found useful was `/TestCaseFilter1`.
 This option can be used to run specific tests by substring search and filter.
 For example,
 
-```
+```Batchfile
 vstest.console.exe bin\Release\MyTests.dll /TestCaseFilter:"(FullyQualifiedName~ProdTest)|(FullyQualifiedName~DevTest.SALT)"
 ```
 {: .code-wrap}
@@ -43,7 +44,6 @@ type of errors.
 Real world applications that use popular algorithms[^4]  
 ▣
 
-
 ### Tue, 19 Nov 2019
 
 Tia Newhall's[^5] CS and Unix Links page contains a lot of useful
@@ -53,7 +53,7 @@ resources for working with the Unix OS.
 Early binding vs Late Binding
 
 Binding is the process of converting identifiers[^6] into addresses.
-Binding for functions occurs either during compile time or runtime. 
+Binding for functions occurs either during compile time or runtime.
 
 Early binding or compile time polymorphism is when the function call is resolved
 during compile time. This is done using overloading of functions or operators.
@@ -66,11 +66,11 @@ runtime of the program. This is done using virtual functions.
 
 GNU Parallel
 
-```
+```bash
 find . -name '*.dat' | parallel -j8 python ./process_dat.py {} \;
 ```
-▣
 
+▣
 
 [^1]: <https://docs.microsoft.com/en-us/visualstudio/test/vstest-console-options?view=vs-2019>
 [^2]: <https://blogs.msdn.microsoft.com/vikramagrawal/2012/07/23/running-selective-unit-tests-in-vs-2012-rc-using-testcasefilter/>

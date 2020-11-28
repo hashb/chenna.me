@@ -2,7 +2,7 @@
 layout: post
 title: How to setup PREEMPT RT on Ubuntu 18.04
 date: 2020-02-23 06:11 +0000
-last_modified_at: 2020-02-23 07:15:13 +0000
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [How To, Realtime, Robotics]
 published: true
 ---
@@ -28,7 +28,7 @@ sudo apt install build-essential git libssl-dev libelf-dev
 ## Download and patch
 
 Download the `linux-5.4.17` kernel from [kernel.org](http://kernel.org) and the
-rt patch 
+rt patch
 
 ```bash
 wget https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.4.19.tar.xz
@@ -78,7 +78,10 @@ Build the kernel as a debian package using make command
 
 ```bash
 $ make -j8 deb-pkg
+...
+
 $ sudo dpkg -i ../linux-headers-5.4.19-rt11_5.4.19-rt11-1_amd64.deb ../linux-image-5.4.19-rt11_5.4.19-rt11-1_amd64.deb ../linux-libc-dev_5.4.19-rt11-1_amd64.deb
+...
 ```
 
 ## Verification
@@ -98,7 +101,10 @@ Add your user to `realtime` group
 
 ```bash
 $ sudo groupadd realtime
+...
+
 $ sudo usermod -aG realtime $USER
+...
 ```
 
 add the following to `/etc/security/limits.d/99-realtime.conf`
@@ -117,10 +123,11 @@ $ sudo nano /etc/security/limits.d/99-realtime.conf
 ### CPU Scaling
 
 disable cpu scaling by setting the cpu governer to `performance` using
-cpufrequtils. 
+cpufrequtils.
 
 ```bash
 $ sudo apt install cpufrequtils
+...
 ```
 
 Check the available cpufreq governers using `cpufreq-info`, in my case they
@@ -147,9 +154,16 @@ set the cpu frequency to performance using the following
 
 ```bash
 $ sudo systemctl disable ondemand
+...
+
 $ sudo systemctl enable cpufrequtils
+...
+
 $ sudo sh -c 'echo "GOVERNOR=performance" > /etc/default/cpufrequtils'
+...
+
 $ sudo systemctl daemon-reload && sudo systemctl restart cpufrequtils
+...
 ```
 
 ### CPU Partitioning
@@ -160,5 +174,3 @@ partition 2 of my 4 CPU cores to real time and other 2 to non realtime.
 
 You can also set exclusively which CPU your program runs on by setting its
 CPU affinity.
-
-

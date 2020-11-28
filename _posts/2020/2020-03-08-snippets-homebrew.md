@@ -2,7 +2,7 @@
 layout: post
 title: 'Snippets: Homebrew'
 date: 2020-03-08 04:01 +0000
-last_modified_at: 2020-03-08 04:38:59 +0000
+last_modified_at: 2020-11-28 07:38:35 +0000
 tags: [Productivity, Tools]
 published: true
 ---
@@ -63,4 +63,3 @@ brew cleanup -s
 # remove files older than $x days
 brew cleanup --prune $x
 ```
-
