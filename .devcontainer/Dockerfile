@@ -11,11 +11,13 @@ RUN apk update && apk add \
     make \
     curl \
     build-base \
+    git-lfs \
     libc-dev \
     libffi-dev \
     zlib-dev \
     libxml2-dev \
     libgcrypt-dev \
+    gnupg \
     libxslt-dev \
     python \
     # pushing to git via ssh
