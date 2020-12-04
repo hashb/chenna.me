@@ -19,4 +19,7 @@ git diff --cached --name-status | while read a b; do
   fi
   git add $b
 done
+echo "************************************"
+echo "*            ...DONE...            *"
+echo "************************************"
 echo ""
