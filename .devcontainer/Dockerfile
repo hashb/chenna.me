@@ -36,5 +36,6 @@ RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
 
 # Set up git completion.
 RUN echo "source /usr/share/bash-completion/completions/git" >> /home/$USERNAME/.bashrc
+RUN echo "alias js='bundle exec jekyll serve'" >> /home/$USERNAME/.bashrc
 
 EXPOSE 4000

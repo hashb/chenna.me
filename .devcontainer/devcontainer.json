@@ -7,7 +7,6 @@
     // The optional 'runArgs' property can be used to specify   additional runtime arguments.
     "runArgs": [
         "-u", "jekyll",
-        "-v", "${env:HOME}${env:USERPROFILE}/.ssh:/root/.ssh-localhost:ro"
     ],
 
     // Use 'settings' to set *default* container specific   settings.json values on container create.
@@ -20,7 +19,7 @@
     "appPort": [4000],
 
     // Commands to run after the container is created.
-    "postCreateCommand": "sudo cp -r /root/.ssh-localhost ~ && sudo chown -R $(id -u):$(id -g) ~/.ssh-localhost && mv ~/.ssh-localhost ~/.ssh && chmod 700 ~/.ssh && chmod 600 ~/.ssh/*",
+    "postCreateCommand": "",
 
     // Add the IDs of extensions you want installed when the container is created in the array below.
     "extensions": [
