@@ -3,14 +3,14 @@ layout: page
 title: Stuff Dean Says
 permalink: /stuff-dean-says/
 date: 2019-03-05 12:03:42 +0000
-last_modified_at: 2020-04-22 05:57:13 +0000
+last_modified_at: 2020-12-27 07:24:41 +0000
 tags: [page]
 ---
 
 I can neither confirm not deny the existence of a person named Dean.
 
 >Names, characters, businesses, places, events, locales, and incidents are
->either the products of the author's imagination or used in a fictitious manner. 
+>either the products of the author's imagination or used in a fictitious manner.
 >And any resemblance to actual persons, living or dead, or actual events is
 >purely coincidental
 
