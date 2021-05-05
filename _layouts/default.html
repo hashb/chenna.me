@@ -37,8 +37,9 @@
     {{ content }}
   </main>
 
-  <footer id="footer">
-    <small>
+  <!-- for some reason, small tag gets closed early when I put it inside footer -->
+  <small>
+    <footer id="footer">
       <p class="copyright">Copyright &copy; Chenna Kautilya, 2013 - {{ site.time | date: '%Y' }}. Powered by <a
           href="http://jekyllrb.com">Jekyll</a>,
         <a href="https://github.com/hashb/california">California</a> theme.
@@ -47,14 +48,16 @@
         <br>
         This page was built on {{site.time}}
       </p>
+
       <!-- <img src="/assets/images/by-nc-sa.svg"
         alt="by-nc-sa;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License"
         style="display: block; margin-left: auto; width: 5%;"> -->
       <noscript>
         hello stranger with no javascript ;)
       </noscript>
-    </small>
-  </footer>
+
+    </footer>
+  </small>
 
 </body>
 
