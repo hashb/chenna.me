@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,41 +19,43 @@
 
 <body>
   <header id="header">
-    <h1><a href="/">{{ site.title_body }}</a></h1>
-    <p>{{ site.description }}</p>
+    <em><a href="/">{{ site.title_body }}</a></em>
+    <p style="margin: -1em 0 2em;">{{ site.description }}</p>
+    {% assign current = page.url | downcase | split: '/' %}
+    <nav>
+      <ul>
+        <li><a href="/" {% if current.size==0 %}data-current="current item" {% endif %}>home</a></li>
+        <li><a href="/blog/" {% if current[1]=='blog' %}data-current="current item" {% endif %}>blog</a></li>
+        <li><a href="/work/" {% if current[1]=='work' %}data-current="current item" {% endif %}>work</a></li>
+        <li><a href="/archives/" {% if current[1]=='archives' %}data-current="current item" {% endif %}>archive</a></li>
+        <li><a href="/feed.xml">rss</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <div id="page">
-    <div id="sidebar">
-      {% assign current = page.url | downcase | split: '/' %}
-      <nav>
-        <ul>
-          <li><a href="/" {% if current.size == 0 %}class='active'{% endif %}>home</a></li>
-          <li><a href="/blog/" {% if current[1] == 'blog' %}class='active'{% endif %}>blog</a></li>
-          <li><a href="/work/" {% if current[1] == 'work' %}class='active'{% endif %}>work</a></li>
-          <li><a href="/archives/" {% if current[1] == 'archives' %}class='active'{% endif %}>archive</a></li>
-          <li><a href="/feed.xml">rss</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div id="content">
-      {{ content }}
-    </div>
-  </div>
+  <main>
+    {{ content }}
+  </main>
 
   <footer id="footer">
-    <p class="copyright">Copyright &copy; Chenna Kautilya, 2013 - {{ site.time | date: '%Y' }}. Powered by <a href="http://jekyllrb.com">Jekyll</a>,
-      <a href="https://github.com/hashb/california">California</a> theme.
-    <br>
-    The opinions on this site are my own and do not represent those of my employer.
-    <br>
-    This page was built on {{site.time}}
-  </p>
-  <img src="/assets/images/by-nc-sa.svg" alt="by-nc-sa;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License" style="display: block; margin-left: auto; margin-right: auto; width: 15%;">
-  <noscript>
-    hello stranger with no javascript ;)
-  </noscript>
+    <small>
+      <p class="copyright">Copyright &copy; Chenna Kautilya, 2013 - {{ site.time | date: '%Y' }}. Powered by <a
+          href="http://jekyllrb.com">Jekyll</a>,
+        <a href="https://github.com/hashb/california">California</a> theme.
+        <br>
+        The opinions on this site are my own and do not represent those of my employer.
+        <br>
+        This page was built on {{site.time}}
+      </p>
+      <!-- <img src="/assets/images/by-nc-sa.svg"
+        alt="by-nc-sa;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License"
+        style="display: block; margin-left: auto; width: 5%;"> -->
+      <noscript>
+        hello stranger with no javascript ;)
+      </noscript>
+    </small>
   </footer>
 
 </body>
+
 </html>
