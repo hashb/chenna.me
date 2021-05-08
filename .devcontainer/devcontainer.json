@@ -6,17 +6,16 @@
     "context": "../",
     // The optional 'runArgs' property can be used to specify   additional runtime arguments.
     "runArgs": [
-        "-u", "0",
+        "-u", "node",
     ],
 
     // Use 'settings' to set *default* container specific   settings.json values on container create.
     // You can edit these settings after create using File >    Preferences > Settings > Remote.
     "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
     },
 
     // The port(s) to open from your container.
-    "appPort": [4000],
+    "appPort": [8000],
 
     // Commands to run after the container is created.
     "postCreateCommand": "",

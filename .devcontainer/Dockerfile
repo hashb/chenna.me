@@ -31,13 +31,6 @@ RUN apk add --no-cache \
     vips \
  && rm -fR /var/cache/apk/*
 
-
-# Set up user so that we can share ssh credentials.
-ENV USERNAME=gatsby
-RUN adduser -Ss /bin/bash $USERNAME
-RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
-    && chmod 0440 /etc/sudoers.d/$USERNAME
-
 # Also exposing VSCode debug ports
 # 8000      : For HTTP access for development
 # 9000      : For HTTP access for audit
