@@ -1,41 +1,54 @@
-FROM jekyll/jekyll:pages
+# Since oficial image is only for testing hosting built static files
+# see: https://github.com/gatsbyjs/gatsby-docker/issues/25#issuecomment-626197455
+# see: https://www.stoutlabs.com/blog/2019-02-05-my-docker-setup-gatsby-next/
+# And following official image is legacy
+# see: https://hub.docker.com/r/gatsbyjs/gatsby-dev-builds
+FROM node:lts-alpine
 
-COPY Gemfile /srv/jekyll/
+RUN apk add --no-cache \
+# git: gatsby new command depends on git
+    git openssh gnupg \
+# util-linux: gatsby develop calls lscpu
+# openssl, sudo: gatsby develop --https uses
+    util-linux openssl sudo \
+# node-sess version 4 uses g++ and still requires python2
+# see: https://github.com/sass/node-sass/issues/2877
+    python3 g++ \
+# gatsby-plugin-sharp depends on imagemin-mozjpeg,
+# imagemin-mozjpeg depends on mozjpeg,
+# mozjpeg requires compiling from source with autoreconf, automake, libtool, gcc, make, musl-dev, file, pkgconfig, nasm
+# see: https://pkgs.alpinelinux.org/contents?page=1&file=autoreconf
+# see: https://github.com/buffer/pylibemu/issues/24#issuecomment-492759639
+# see: https://github.com/maxmind/libmaxminddb/issues/9#issuecomment-30836272
+# see: https://stackoverflow.com/questions/28631817/no-acceptable-c-compiler-found-in-path/57419374#57419374
+# see: https://pkgs.alpinelinux.org/contents?branch=v3.3&name=file&arch=x86&repo=main
+# see: https://stackoverflow.com/questions/17089858/pkg-config-pkg-prog-pkg-config-command-not-found/17106579#17106579
+# see: https://github.com/alicevision/AliceVision/issues/593#issuecomment-457194176
+    autoconf automake libtool gcc make musl-dev file pkgconfig nasm \
+    git-bash-completion \
+# sharp depends on vips
+# see: https://github.com/lovell/sharp/issues/773
+    vips \
+ && rm -fR /var/cache/apk/*
 
-WORKDIR /srv/jekyll
-
-RUN apk update && apk add \
-    # development packages
-    ruby-dev \
-    gcc \
-    make \
-    curl \
-    build-base \
-    git-lfs \
-    libc-dev \
-    libffi-dev \
-    zlib-dev \
-    libxml2-dev \
-    libgcrypt-dev \
-    gnupg \
-    libxslt-dev \
-    python \
-    # pushing to git via ssh
-    openssh \
-    # permissions to install packages
-    sudo \  
-    # tab completion inside the container
-    git-bash-completion
-
-RUN bundle install && bundle update
 
 # Set up user so that we can share ssh credentials.
-ENV USERNAME=jekyll
+ENV USERNAME=gatsby
+RUN adduser -Ss /bin/bash $USERNAME
 RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-# Set up git completion.
-RUN echo "source /usr/share/bash-completion/completions/git" >> /home/$USERNAME/.bashrc
-RUN echo "alias js='bundle exec jekyll serve'" >> /home/$USERNAME/.bashrc
+# Also exposing VSCode debug ports
+# 8000      : For HTTP access for development
+# 9000      : For HTTP access for audit
+# see: https://www.gatsbyjs.com/tutorial/part-eight/
+EXPOSE 8000 9000
 
-EXPOSE 4000
+# We introduce yarn since it's still faster and isn't found any defintive defects.
+# In Gatsby development, gatsby-cli is required.
+# When install gatsby-cli in global, we can omit it in package.json.
+RUN yarn global add gatsby-cli && yarn cache clean
+
+USER $USERNAME
+WORKDIR /workspace
+# CMD ["gatsby", "develop", "-H", "0.0.0.0" ]

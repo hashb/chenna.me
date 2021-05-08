@@ -1,12 +1,12 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or the definition README at
 // https://github.com/microsoft/vscode-dev-containers/tree/master/containers/ubuntu-18.04-git
 {
-    "name": "Github Pages",
+    "name": "Cloudflare Pages",
     "dockerFile": "Dockerfile",
     "context": "../",
     // The optional 'runArgs' property can be used to specify   additional runtime arguments.
     "runArgs": [
-        "-u", "jekyll",
+        "-u", "0",
     ],
 
     // Use 'settings' to set *default* container specific   settings.json values on container create.
@@ -25,11 +25,6 @@
     "extensions": [
         // yaml for data files
         "redhat.vscode-yaml",
-        // liquid templating syntax highlighting
-        "sissel.shopify-liquid",
-        // jekyll
-        "ginfuru.ginfuru-vscode-jekyll-syntax",
-        "ginfuru.vscode-jekyll-snippets",
         // markdown
         "yzhang.markdown-all-in-one",
         "davidanson.vscode-markdownlint",
@@ -39,6 +34,5 @@
         // editing
         "streetsidesoftware.code-spell-checker",
         "ms-vscode.wordcount"
-
     ]
 }
