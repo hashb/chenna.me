@@ -7,7 +7,7 @@ FROM node:lts-alpine
 
 RUN apk add --no-cache \
 # git: gatsby new command depends on git
-    git openssh gnupg \
+    git git-lfs openssh gnupg \
 # util-linux: gatsby develop calls lscpu
 # openssl, sudo: gatsby develop --https uses
     util-linux openssl sudo \
