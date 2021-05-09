@@ -31,6 +31,11 @@ RUN apk add --no-cache \
     vips \
  && rm -fR /var/cache/apk/*
 
+# allow sudo without password
+ENV USERNAME=node
+RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
 # Also exposing VSCode debug ports
 # 8000      : For HTTP access for development
 # 9000      : For HTTP access for audit
