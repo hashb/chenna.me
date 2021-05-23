@@ -5,10 +5,11 @@ title: About
 
 Hi!
 
-I am Chenna Kautilya. I work as a Robotics Software Engineer at Omron Research
-Center of America (ORCA). My research interests lie in Robotics, Control,
-Trajectory Optimization, Motion Planning and Machine Learning. Watch this space
-for some exciting news.
+I am Chenna Kautilya. I work as a Software Engineer at Nimmble Robotics. I work
+at the intersection of Robotics, Machine Learning and Software Engineering.
+Previously, I worked at Omron Research Center of America (ORCA) as a Robotics
+Software Engineer. At ORCA, I worked on Motion Planning for 6-dof Robotic Arms and
+Real Time Distributed system for Robot Control.
 
 <figure>
   <picture>
