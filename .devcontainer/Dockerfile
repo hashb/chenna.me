@@ -7,7 +7,7 @@ FROM node:lts-alpine
 
 RUN apk add --no-cache \
 # git: gatsby new command depends on git
-    git git-lfs openssh gnupg \
+    git openssh gnupg \
 # util-linux: gatsby develop calls lscpu
 # openssl, sudo: gatsby develop --https uses
     util-linux openssl sudo \
@@ -31,7 +31,8 @@ RUN apk add --no-cache \
     vips \
  && rm -fR /var/cache/apk/*
 
-# allow sudo without password
+
+# Set up user so that we can share ssh credentials.
 ENV USERNAME=node
 RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
     && chmod 0440 /etc/sudoers.d/$USERNAME

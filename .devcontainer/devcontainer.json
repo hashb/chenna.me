@@ -12,10 +12,11 @@
     // Use 'settings' to set *default* container specific   settings.json values on container create.
     // You can edit these settings after create using File >    Preferences > Settings > Remote.
     "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
     },
 
     // The port(s) to open from your container.
-    "appPort": [8000],
+    "appPort": [4000],
 
     // Commands to run after the container is created.
     "postCreateCommand": "",
