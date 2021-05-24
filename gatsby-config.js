@@ -3,7 +3,7 @@ module.exports = {
     title: `Chenna Kautilya ~ /home/hashb`,
     author: {
       name: `Chenna Kautilya`,
-      summary: `builds smart robots at beautiful downtown Oakland, California`,
+      summary: `who builds smart robots at beautiful downtown Oakland, California`,
     },
     description: `Chenna Kautilya | Makes Robots Move`,
     siteUrl: `https://gatsby-dev.chenna.me/`,
