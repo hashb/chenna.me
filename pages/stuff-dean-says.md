@@ -3,16 +3,17 @@ layout: page
 title: Stuff Dean Says
 permalink: /stuff-dean-says/
 date: 2019-03-05 12:03:42 +0000
-last_modified_at: 2020-12-27 07:24:41 +0000
+last_modified_at: 2021-10-30 23:44:36 +0000
 tags: [page]
 ---
 
 I can neither confirm not deny the existence of a person named Dean.
 
->Names, characters, businesses, places, events, locales, and incidents are
->either the products of the author's imagination or used in a fictitious manner.
->And any resemblance to actual persons, living or dead, or actual events is
->purely coincidental
+>*Names, characters, businesses, places, events, locales, and incidents are*
+>*either the products of the author's imagination or used in a fictitious manner.*
+>*And any resemblance to actual persons, living or dead, or actual events is*
+>*purely coincidental*
+{:style="font-size:0.8em"}
 
 1. *Layered Complexity*: example, news papers with large headline with smaller
 subtitle, and even smaller content. This way of presenting information helps
