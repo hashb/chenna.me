@@ -3,13 +3,21 @@ layout: page
 title: Now in my life
 permalink: /now/
 date: 2019-10-05 12:03:42 +0000
-last_modified_at: 2021-05-06 22:48:40 +0000
+last_modified_at: 2021-10-30 22:30:44 +0000
 tags: [page]
 ---
 
 ## Now
 
 ### Work
+
+#### Oct 30 2021
+
+- Moved to SF little while back
+- Started working at Nimble Robotics
+
+
+# Mar 21 2021
 
 I am working at Omron Research as a Robotics Software Engineer.
 
@@ -18,4 +26,3 @@ I am working at Omron Research as a Robotics Software Engineer.
 - Robot Control
 - Motion Planning
 - Trajectory Optimization
-
