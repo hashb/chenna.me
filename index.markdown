@@ -33,7 +33,7 @@ You can reach me over [email](mailto:hi@chenna.me),
 projects are on [GitHub :octocat:](https://github.com/{{site.github_username}}) and on
 my [resume](https://resume.chenna.me/). My old
 website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
-tor 🧅 at ~~[chennahkuqdo3pen.onion](http://chennahkuqdo3pen.onion/)~~.
+tor 🧅 at [kchenna [truncated] d.onion](http://kchennaidgy3hvkhzesbde5jgob6434fucyntd34fhiadjfvjfcjzbid.onion/).
 If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).
 Here's an old [picture of me](/headshot).
 
