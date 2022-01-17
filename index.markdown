@@ -39,7 +39,7 @@ Here's an old [picture of me](/headshot).
 
 My other domains that are currently dormant:
 - [kautilya.ch](https://kautilya.ch/)
-- [koko.business](https://koko.business/)
+- [koko.business](http://koko.business/)
 - [ௐ.com](https://ௐ.com/)
 - [~~kautilya-consulting.com~~](https://kautilya-consulting.com)
 
