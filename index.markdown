@@ -37,6 +37,12 @@ tor 🧅 at [kchenna [truncated] d.onion](http://kchennaidgy3hvkhzesbde5jgob6434
 If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).
 Here's an old [picture of me](/headshot).
 
+My other domains that are currently dormant:
+- [kautilya.ch](https://kautilya.ch/)
+- [koko.business](https://koko.business/)
+- [ௐ.com](https://ௐ.com/)
+- [~~kautilya-consulting.com~~](https://kautilya-consulting.com)
+
 <!--
 English  |:|&nbsp;  Kautilya
 Telugu  |:|&nbsp;  కౌటిల్య
