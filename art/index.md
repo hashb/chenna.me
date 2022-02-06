@@ -11,3 +11,15 @@ Rules
 3. Any image is art
 
 If I keep this up for 100 days, I will buy myself a [pen plotter](https://shop.evilmadscientist.com/productsmenu/846)
+
+{% for post in site.posts %}
+{% if post.tags contains "art" %}
+  <article class="post">
+  <li>
+      <p>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      </p>
+  </li>
+  </article>
+{% endif %}
+{% endfor %}
