@@ -19,7 +19,7 @@ RUN apk update && apk add \
     libgcrypt-dev \
     gnupg \
     libxslt-dev \
-    python \
+    python3 \
     # pushing to git via ssh
     openssh \
     # permissions to install packages
