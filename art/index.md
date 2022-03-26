@@ -2,6 +2,9 @@
 layout: default
 title: Art
 tags: [page]
+layout: null
+redirect_to:
+  - https://kautilya.art
 ---
 
 Rules
