@@ -30,7 +30,7 @@ Machine Learning.
 You can reach me over [email](mailto:hi@chenna.me),
 [twitter](https://twitter.com/{{site.twitter_username}}),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
-projects are on [GitHub :octocat:](https://github.com/{{site.github_username}}) and on
+projects are on [GitHub](https://github.com/{{site.github_username}}) and on
 my [resume](https://resume.chenna.me/). My old
 website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
 tor 🧅 at [kchenna [truncated] d.onion](http://kchennaidgy3hvkhzesbde5jgob6434fucyntd34fhiadjfvjfcjzbid.onion/).
