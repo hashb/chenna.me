@@ -14,7 +14,7 @@ This week in review:
 
 |         **Title**         |    **Owns**    |
 |:-------------------------:|:--------------:|
-| Technical Project Manager | When? and Who? |
+| Technical Program Manager | When? and Who? |
 |      Product Manager      | Why? and What? |
 |    Engineering Manager    |      How?      |
 
