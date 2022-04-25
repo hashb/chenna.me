@@ -12,6 +12,12 @@ This week in review:
 
 ### Sun, 24 Apr 2022
 
+|         **Title**         |    **Owns**    |
+|:-------------------------:|:--------------:|
+| Technical Project Manager | When? and Who? |
+|      Product Manager      | Why? and What? |
+|    Engineering Manager    |      How?      |
+
 ▣
 
 ### Mon, 25 Apr 2022
