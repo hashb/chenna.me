@@ -12,6 +12,8 @@ This week in review:
 
 ### Sun, 24 Apr 2022
 
+What do different types of managers do?
+
 ```
 |         **Title**         |    **Owns**    |
 |:-------------------------:|:--------------:|
