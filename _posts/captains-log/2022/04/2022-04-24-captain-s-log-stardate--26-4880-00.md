@@ -19,27 +19,3 @@ This week in review:
 |    Engineering Manager    |      How?      |
 
 ▣
-
-### Mon, 25 Apr 2022
-
-▣
-
-### Tue, 26 Apr 2022
-
-▣
-
-### Wed, 27 Apr 2022
-
-▣
-
-### Thu, 28 Apr 2022
-
-▣
-
-### Fri, 29 Apr 2022
-
-▣
-
-### Sat, 30 Apr 2022
-
-▣
