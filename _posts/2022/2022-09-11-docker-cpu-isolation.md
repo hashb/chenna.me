@@ -43,7 +43,7 @@ to `ur_executor` cgroup
 
 
 I didn't end up using this method because it had a very high jitter. There could be some other
-settings that could reduce jitter but haven't done a deep dive.
+settings that could reduce jitter but haven't done a deep dive. [docker-realtime](https://github.com/2b-t/docker-realtime)
 
 ### References
 - <https://www.codeblueprint.co.uk/2019/10/08/isolcpus-is-deprecated-kinda.html>
