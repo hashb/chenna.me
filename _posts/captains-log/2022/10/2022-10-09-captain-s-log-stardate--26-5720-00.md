@@ -22,6 +22,11 @@ Notes Against Note-Taking Systems
 
 [Ellipsis are cute](https://mail.python.org/pipermail/python-3000/2008-January/011793.html)
 
+
+> Technical debt is phrase used by optimistic people who think the debt will eventually be paid off. 
+> More pessimistic programmer would call it software rot because at some point, 
+> the software is completely unusable and have to be torn down and start from scratch.
+
 ▣
 
 ### Mon, 10 Oct 2022
