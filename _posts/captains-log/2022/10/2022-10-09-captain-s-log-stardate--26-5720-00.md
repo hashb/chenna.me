@@ -12,6 +12,16 @@ This week in review:
 
 ### Sun, 09 Oct 2022
 
+Notes Against Note-Taking Systems
+
+> Getting lost in your knowledge management system is a fantastic way to avoid creating things
+> 
+> https://sashachapin.substack.com/p/notes-against-note-taking-systems
+
+
+
+[Ellipsis are cute](https://mail.python.org/pipermail/python-3000/2008-January/011793.html)
+
 ▣
 
 ### Mon, 10 Oct 2022
