@@ -27,6 +27,16 @@ Learning Lab for Manipulator Autonomy ([LL4MA Lab 🦙](https://robot-learning.c
 During this time, I worked on Grasp Planning using Probabilistic Modeling and
 Machine Learning.
 
+<!--
+<figure>
+  <picture>
+    <source type="image/webp" srcset="/assets/images/approximate_knowledge.webp">
+    <source type="image/jpeg" srcset="/assets/images/approximate_knowledge.jpg">
+    <img src="/assets/images/approximate_knowledge.png" alt="I have approximate knowledge of many things" class="center">
+  </picture>
+</figure>
+-->
+
 You can reach me over [email](mailto:hi@chenna.me),
 [twitter](https://twitter.com/{{site.twitter_username}}),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
