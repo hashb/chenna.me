@@ -28,5 +28,6 @@ published: true
 - ⬜ Ride the Trans Serbian railway
 - ⬜ Fly an airplane
 - ⬜ Visit Persepolis
+- ⬜ Visit all US states
 - ⬜ 
 
