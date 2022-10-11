@@ -32,6 +32,11 @@ Notes Against Note-Taking Systems
 
 ### Mon, 10 Oct 2022
 
+Consumer robots that failed: Anki, Jibo, Dash Robotics
+- [https://spectrum.ieee.org/anki-jibo-and-kuri-what-we-can-learn-from-social-robotics-failures](https://spectrum.ieee.org/anki-jibo-and-kuri-what-we-can-learn-from-social-robotics-failures)
+- [https://www.alleywatch.com/2018/06/an-analysis-of-jibo-what-went-wrong/](https://www.alleywatch.com/2018/06/an-analysis-of-jibo-what-went-wrong/)
+- [https://www.theverge.com/2020/7/23/21325644/jibo-social-robot-ntt-disruptionfunding](https://www.theverge.com/2020/7/23/21325644/jibo-social-robot-ntt-disruptionfunding)
+
 ▣
 
 ### Tue, 11 Oct 2022
