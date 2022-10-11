@@ -3,7 +3,7 @@ layout: post
 title: '🔗 Becoming a Rustacean: Part 1'
 date: 2022-10-09 21:45 +0000
 last_modified_at: 
-tags: [rust]
+tags: [rust, link]
 published: true
 external-url: https://github.com/rochacbruno/py2rs
 ---
