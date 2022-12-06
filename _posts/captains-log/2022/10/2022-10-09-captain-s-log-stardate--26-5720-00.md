@@ -38,23 +38,3 @@ Consumer robots that failed: Anki, Jibo, Dash Robotics
 - [https://www.theverge.com/2020/7/23/21325644/jibo-social-robot-ntt-disruptionfunding](https://www.theverge.com/2020/7/23/21325644/jibo-social-robot-ntt-disruptionfunding)
 
 ▣
-
-### Tue, 11 Oct 2022
-
-▣
-
-### Wed, 12 Oct 2022
-
-▣
-
-### Thu, 13 Oct 2022
-
-▣
-
-### Fri, 14 Oct 2022
-
-▣
-
-### Sat, 15 Oct 2022
-
-▣
