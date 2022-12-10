@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]0360.00
 date: 2019-11-03 12:00 -0800
 last_modified_at: 2020-11-28 07:38:35 +0000
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 We are entering troubled waters, beware! visual diff tool, C++ Templates,

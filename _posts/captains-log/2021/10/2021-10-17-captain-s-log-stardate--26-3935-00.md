@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]3935.00
 date: 2021-10-17 12:03:43 +0000
 last_modified_at: 2021-10-24 04:58:33 +0000
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 This week in review:

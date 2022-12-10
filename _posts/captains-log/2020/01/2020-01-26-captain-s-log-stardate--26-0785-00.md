@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]0785.00
 date: 2020-01-26 12:02:44 +0000
 last_modified_at: 2020-11-28 07:38:36 +0000
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 This week in review: Real time communication and safety.

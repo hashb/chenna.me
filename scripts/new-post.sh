@@ -13,7 +13,7 @@ echo "layout: post" | tee -a $file_name
 echo "title: Captain's log, stardate $(./scripts/stardate $(date -u '+%Y-%m-%d'))" | tee -a $file_name
 echo "date: $(date -u '+%Y-%m-%d %T %z')" | tee -a $file_name
 echo "last_modified_at: $(date -u '+%Y-%m-%d %T %z')" | tee -a $file_name
-echo "tags: [Captain's log]" | tee -a $file_name
+echo "tags: [Captain's log, weekly]" | tee -a $file_name
 echo "---" | tee -a $file_name
 
 echo "" | tee -a $file_name

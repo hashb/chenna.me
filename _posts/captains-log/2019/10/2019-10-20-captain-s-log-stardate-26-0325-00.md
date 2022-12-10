@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]0295.00
 date: 2019-10-20 12:00 -0700
 last_modified_at: 2019-11-27 12:00 -0800
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 I've been having trouble keeping myself motivated to work on my side

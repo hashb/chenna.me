@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]0995.00
 date: 2020-03-08 12:06:08 +0000
 last_modified_at: 2020-11-28 07:38:36 +0000
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 This week in review: on writing down ideas, kernel panics, flatten the curve,

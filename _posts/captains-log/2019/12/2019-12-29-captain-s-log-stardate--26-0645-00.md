@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]0645.00
 date: 2019-12-29 12:03:10 +0000
 last_modified_at: 2020-11-28 07:38:35 +0000
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 This week in review: decade is over, tmux and vscode, fools and fanatics.

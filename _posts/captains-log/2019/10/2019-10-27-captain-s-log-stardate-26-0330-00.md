@@ -3,7 +3,7 @@ layout: post
 title: Captain's log, stardate [-26]0330.00
 date: 2019-10-27 12:00 -0700
 last_modified_at: 2020-11-28 07:38:35 +0000
-tags: [Captain's log]
+tags: [Captain's log, weekly]
 ---
 
 Fun week! Halloween, more DevOps stuff, JSON vs XML, cool electronics and
