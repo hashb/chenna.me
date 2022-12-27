@@ -2,7 +2,7 @@
 layout: post
 title: How to fix _wait_for_tstate_lock
 date: 2022-12-14 08:19 +0000
-last_modified_at: 
+last_modified_at: 2022-12-27 23:26:28 +0000
 tags: [python, How To]
 published: true
 ---
@@ -44,3 +44,4 @@ py-spy dump -p <pid>
 ### References
 
 - https://docs.python.org/3/library/multiprocessing.html#pipes-and-queues
+

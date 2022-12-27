@@ -2,7 +2,7 @@
 layout: post
 title: 🔗 Advantages of Pattern Matching
 date: 2022-12-26 08:21 +0000
-last_modified_at: 
+last_modified_at: 2022-12-27 23:26:28 +0000
 tags: [rust]
 published: true
 external-url: https://web.archive.org/web/20201109043148/http://fsharpnews.blogspot.com/2009/08/advantages-of-pattern-matching.html
@@ -18,3 +18,4 @@ and I remembered this particular blog that I read few years ago.
 > - Pattern matching provides exhaustiveness and redundancy checking which catches many errors and is particularly useful when types evolve during development. Object orientation provides exhaustiveness checking (interface implementations must implement all members) but not redundancy checking.
 > - Non-trivial parallel pattern matches are optimized for you by the F# compiler. Method dispatch does not convey enough information to the compiler's optimizer so comparable performance can only be achieved in other mainstream languages by painstakingly optimizing the decision tree by hand, resulting in unmaintainable code.
 > - Active patterns allow you to inject custom dispatch semantics.
+
