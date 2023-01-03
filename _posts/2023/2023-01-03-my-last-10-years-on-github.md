@@ -2,7 +2,7 @@
 layout: post
 title: My last 10 years on Github
 date: 2023-01-03 04:32 +0000
-last_modified_at: 2023-01-03 05:59:57 +0000
+last_modified_at: 2023-01-03 06:00:55 +0000
 tags: 
 published: true
 ---
@@ -11,8 +11,8 @@ published: true
 
 Generate your own contribution graph at <https://github-contributions.vercel.app/>
 
-I created my github account almost 10 years go in March of 2013. I was in India for mid 2016. 
-I mainly used github for my personal website (github pages) and some Kaggle stuff. 
+I created my github account almost 10 years go in March of 2013. I was in India until mid 2016. 
+I mainly used github for my personal website (github pages) and some Kaggle stuff until this point. 
 
 August of 2016, I moved to Utah for grad school. I worked at 
 [LL4MA Lab](https://robot-learning.cs.utah.edu/people) and we mainly used Bitbucket. Because
