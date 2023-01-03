@@ -2,12 +2,14 @@
 layout: post
 title: My last 10 years on Github
 date: 2023-01-03 04:32 +0000
-last_modified_at: 2023-01-03 05:52:50 +0000
+last_modified_at: 2023-01-03 05:59:57 +0000
 tags: 
 published: true
 ---
 
 ![Last 10 years on Github]({{"/assets/images/20230102/contributions.png"|absolute_url}})
+
+Generate your own contribution graph at <https://github-contributions.vercel.app/>
 
 I created my github account almost 10 years go in March of 2013. I was in India for mid 2016. 
 I mainly used github for my personal website (github pages) and some Kaggle stuff. 
@@ -75,5 +77,3 @@ curl https://api.github.com/users/hashb
   "updated_at": "2022-12-07T22:31:35Z"
 }
 ```
-
-[^1]: Generate your own contribution graph at <https://github-contributions.vercel.app/>
