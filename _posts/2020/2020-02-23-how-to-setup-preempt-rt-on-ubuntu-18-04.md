@@ -2,7 +2,7 @@
 layout: post
 title: How to setup PREEMPT RT on Ubuntu 18.04
 date: 2020-02-23 06:11 +0000
-last_modified_at: 2023-01-08 06:35:11 +0000
+last_modified_at: 2023-01-08 06:45:34 +0000
 tags: [How To, Realtime, Robotics]
 published: true
 ---
@@ -195,4 +195,41 @@ CPU affinity.
 - [https://github.com/machines-in-motion/ubuntu_installation_scripts](https://github.com/machines-in-motion/ubuntu_installation_scripts)
 - [https://github.com/mikekaram/ether_ros](https://github.com/mikekaram/ether_ros)
 - [https://index.ros.org/doc/ros2/Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2/](https://index.ros.org/doc/ros2/Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2/)
+
+- [https://index.ros.org/doc/ros2/Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2/](https://index.ros.org/doc/ros2/Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2/)
+- [https://index.ros.org/doc/ros2/Tutorials/Intra-Process-Communication/](https://index.ros.org/doc/ros2/Tutorials/Intra-Process-Communication/)
+- [https://index.ros.org/doc/ros2/Tutorials/Allocator-Template-Tutorial/](https://index.ros.org/doc/ros2/Tutorials/Allocator-Template-Tutorial/)
+- [https://index.ros.org/doc/ros2/Tutorials/Real-Time-Programming/](https://index.ros.org/doc/ros2/Tutorials/Real-Time-Programming/)
+- [http://design.ros2.org/articles/realtime_background.html](http://design.ros2.org/articles/realtime_background.html)
+- [https://github.com/machines-in-motion/real_time_tools](https://github.com/machines-in-motion/real_time_tools)
+- [https://elinux.org/Main_Page](https://elinux.org/Main_Page)
+- [http://www.cs.utah.edu/~regehr/hourglass/](http://www.cs.utah.edu/~regehr/hourglass/)
+- [https://wiki.archlinux.org/index.php/Realtime_kernel_patchset](https://wiki.archlinux.org/index.php/Realtime_kernel_patchset)
+- [https://pdfs.semanticscholar.org/54e4/34dde5fefd1bf54c22574cac20469f48184b.pdf](https://pdfs.semanticscholar.org/54e4/34dde5fefd1bf54c22574cac20469f48184b.pdf)
+- [https://www.linuxfoundation.org/blog/2013/03/intro-to-real-time-linux-for-embedded-developers/](https://www.linuxfoundation.org/blog/2013/03/intro-to-real-time-linux-for-embedded-developers/)
+- [https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO](https://rt.wiki.kernel.org/index.php/RT_PREEMPT_HOWTO)
+- [https://hackernoon.com/real-time-linux-communications-2faabf31cf5e](https://hackernoon.com/real-time-linux-communications-2faabf31cf5e)
+- [http://www.best-of-robotics.org/wiki/images/1/18/FRI_Brics_2010_07_19.pdf](http://www.best-of-robotics.org/wiki/images/1/18/FRI_Brics_2010_07_19.pdf)
+- [https://wiki.linuxfoundation.org/realtime/rtl/blog#guest-blog-post-from-bmw-car-itreal-time-linux-continues-its-way-to-main-line-development-and-beyond](https://wiki.linuxfoundation.org/realtime/rtl/blog#guest-blog-post-from-bmw-car-itreal-time-linux-continues-its-way-to-main-line-development-and-beyond)
+- [https://rt.wiki.kernel.org/index.php/Main_Page](https://rt.wiki.kernel.org/index.php/Main_Page)
+- [https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup)
+- [https://www.kernel.org/doc/Documentation/kbuild/kconfig.txt](https://www.kernel.org/doc/Documentation/kbuild/kconfig.txt)
+- [https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/](https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/)
+- [https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/application_base](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/application_base)
+- [https://elinux.org/RT-Preempt_Tutorial](https://elinux.org/RT-Preempt_Tutorial)
+- [http://www.armadeus.org/wiki/index.php?title=Preempt-rt](http://www.armadeus.org/wiki/index.php?title=Preempt-rt)
+- [https://www.osadl.org/fileadmin/events/rtlws-2007/Sampath.pdf](https://www.osadl.org/fileadmin/events/rtlws-2007/Sampath.pdf)
+- [https://hackernoon.com/towards-a-distributed-and-real-time-framework-for-robots-469ba77d6c42](https://hackernoon.com/towards-a-distributed-and-real-time-framework-for-robots-469ba77d6c42)
+- [https://hackernoon.com/@vmayoral](https://hackernoon.com/@vmayoral)
+- [https://ennerf.github.io/2016/09/20/A-Practical-Look-at-Latency-in-Robotics-The-Importance-of-Metrics-and-Operating-Systems.html](https://ennerf.github.io/2016/09/20/A-Practical-Look-at-Latency-in-Robotics-The-Importance-of-Metrics-and-Operating-Systems.html)
+- [https://blog.cloudflare.com/how-to-achieve-low-latency/amp/](https://blog.cloudflare.com/how-to-achieve-low-latency/amp/)
+- [https://gist.github.com/ennerf/0ddc4396d15852d28e4eca4a8a923eb7](https://gist.github.com/ennerf/0ddc4396d15852d28e4eca4a8a923eb7)
+- [https://gist.github.com/ennerf/36a57d432bcff20a58efcdee10f91bd9](https://gist.github.com/ennerf/36a57d432bcff20a58efcdee10f91bd9)
+- [https://gist.github.com/ennerf/45809ef405a4a56a285b](https://gist.github.com/ennerf/45809ef405a4a56a285b)
+- [https://gist.github.com/ennerf/7d59a9765da25ed7c02117da1805551c](https://gist.github.com/ennerf/7d59a9765da25ed7c02117da1805551c)
+- [https://gist.github.com/ennerf/b349c56d320da1db89b298fd807f00e4](https://gist.github.com/ennerf/b349c56d320da1db89b298fd807f00e4)
+- [https://github.com/giltene/jHiccup](https://github.com/giltene/jHiccup)
+- [https://github.com/LatencyUtils/LatencyUtils](https://github.com/LatencyUtils/LatencyUtils)
+- [https://github.com/leandromoreira/linux-network-performance-parameters](https://github.com/leandromoreira/linux-network-performance-parameters)
+- [https://github.com/OpenEtherCATsociety/SOEM/issues/330](https://github.com/OpenEtherCATsociety/SOEM/issues/330)
 
