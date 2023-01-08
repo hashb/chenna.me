@@ -2,7 +2,7 @@
 layout: post
 title: How to setup PREEMPT RT on Ubuntu 18.04
 date: 2020-02-23 06:11 +0000
-last_modified_at: 2020-11-28 07:38:35 +0000
+last_modified_at: 2023-01-08 06:35:11 +0000
 tags: [How To, Realtime, Robotics]
 published: true
 ---
@@ -174,3 +174,25 @@ partition 2 of my 4 CPU cores to real time and other 2 to non realtime.
 
 You can also set exclusively which CPU your program runs on by setting its
 CPU affinity.
+
+
+### Additional References
+
+- [https://rt.wiki.kernel.org/index.php/HOWTO:_Build_an_RT-application](https://rt.wiki.kernel.org/index.php/HOWTO:_Build_an_RT-application)
+- [https://elinux.org/RT-Preempt_Tutorial](https://elinux.org/RT-Preempt_Tutorial)
+- [https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/](https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/)
+- [https://rt.wiki.kernel.org/index.php/Frequently_Asked_Questions](https://rt.wiki.kernel.org/index.php/Frequently_Asked_Questions)
+- [http://www.staroceans.org/kernel-and-driver/Embedded Linux System Design and Development.pdf](http://www.staroceans.org/kernel-and-driver/Embedded%20Linux%20System%20Design%20and%20Development.pdf)
+- [http://linuxrealtime.org/index.php/Main_Page](http://linuxrealtime.org/index.php/Main_Page)
+- [https://wiki.archlinux.org/index.php/Realtime_kernel_patchset](https://wiki.archlinux.org/index.php/Realtime_kernel_patchset)
+- [https://www.cs.cmu.edu/afs/cs/academic/class/15492-f07/www/pthreads.html](https://www.cs.cmu.edu/afs/cs/academic/class/15492-f07/www/pthreads.html)
+- [https://computing.llnl.gov/tutorials/pthreads/](https://computing.llnl.gov/tutorials/pthreads/)
+- [https://www.cs.auckland.ac.nz/references/unix/digital/APS33DTE/DOCU_002.HTM](https://www.cs.auckland.ac.nz/references/unix/digital/APS33DTE/DOCU_002.HTM)
+- [https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/application_base](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/application_base)
+- [https://github.com/OpenEtherCATsociety/SOEM/issues/171](https://github.com/OpenEtherCATsociety/SOEM/issues/171)
+- [https://github.com/machines-in-motion/real_time_tools/blob/master/src/timer.cpp](https://github.com/machines-in-motion/real_time_tools/blob/master/src/timer.cpp)
+
+- [https://github.com/machines-in-motion/ubuntu_installation_scripts](https://github.com/machines-in-motion/ubuntu_installation_scripts)
+- [https://github.com/mikekaram/ether_ros](https://github.com/mikekaram/ether_ros)
+- [https://index.ros.org/doc/ros2/Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2/](https://index.ros.org/doc/ros2/Tutorials/Building-Realtime-rt_preempt-kernel-for-ROS-2/)
+
