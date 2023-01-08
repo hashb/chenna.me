@@ -32,3 +32,13 @@ A SAT Solver is designed for problems like this. SAT is short for
 
 ### Sudoku as SAT Problem
 
+### References
+[http://profs.sci.univr.it/~rrizzi/classes/PLS2015/sudoku/doc/497_Olszowy_Wiktor_Sudoku.pdf](http://profs.sci.univr.it/~rrizzi/classes/PLS2015/sudoku/doc/497_Olszowy_Wiktor_Sudoku.pdf)
+- [https://towardsdatascience.com/using-integer-linear-programming-to-solve-sudoku-puzzles-15e9d2a70baa](https://towardsdatascience.com/using-integer-linear-programming-to-solve-sudoku-puzzles-15e9d2a70baa)
+- [http://yetanothermathprogrammingconsultant.blogspot.com/2019/08/finding-central-point-in-point-cloud.html](http://yetanothermathprogrammingconsultant.blogspot.com/2019/08/finding-central-point-in-point-cloud.html)
+- [http://yetanothermathprogrammingconsultant.blogspot.com/2018/08/sudoku.html](http://yetanothermathprogrammingconsultant.blogspot.com/2018/08/sudoku.html)
+- [https://yetanothermathprogrammingconsultant.blogspot.com/2016/10/mip-modeling-from-sudoku-to-kenken.html](https://yetanothermathprogrammingconsultant.blogspot.com/2016/10/mip-modeling-from-sudoku-to-kenken.html)
+- [http://yetanothermathprogrammingconsultant.blogspot.com/2019/01/presolving-killer-sudokus.html](http://yetanothermathprogrammingconsultant.blogspot.com/2019/01/presolving-killer-sudokus.html)
+- [http://yetanothermathprogrammingconsultant.blogspot.com/2019/02/the-8-queens-problem-without-binary.html](http://yetanothermathprogrammingconsultant.blogspot.com/2019/02/the-8-queens-problem-without-binary.html)
+- [http://yetanothermathprogrammingconsultant.blogspot.com/2018/11/chess-and-solution-pool.html](http://yetanothermathprogrammingconsultant.blogspot.com/2018/11/chess-and-solution-pool.html)
+- [http://yetanothermathprogrammingconsultant.blogspot.com/2019/06/assignment-scipy-vs-cplex.html](http://yetanothermathprogrammingconsultant.blogspot.com/2019/06/assignment-scipy-vs-cplex.html)
