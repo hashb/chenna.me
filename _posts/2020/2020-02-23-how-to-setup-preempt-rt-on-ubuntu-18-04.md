@@ -17,6 +17,8 @@ blog posts about real time implementation for robotic applications.
 We will be installing RT-PREEMPT kernel on ubuntu 18.04. Kernel version I am
 choosing is 5.4 since it is the latest LTS release.
 
+**NOTE**: https://ubuntu.com/blog/real-time-ubuntu-is-now-generally-available
+
 ## Install Dependencies
 
 Install compilers required for building the kernel
