@@ -47,6 +47,12 @@ tor 🧅 at [kchenna [truncated] d.onion](http://kchennaidgy3hvkhzesbde5jgob6434
 If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).
 Here's an old [picture of me](/headshot).
 
+A haiku for your time :)
+
+> *Robotic arms move,*  
+> *Fast and steady, smooth and sleek,*  
+> *Electric muscles flex.*  
+
 My other domains that are currently dormant:
 
 - [kautilya.ch](https://kautilya.ch/)
