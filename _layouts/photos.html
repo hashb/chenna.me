@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+{% for post in site.posts %}
+
+{% assign lowercaseTags = post.tags | join: ',' | downcase | split: ',' %}
+{% if lowercaseTags contains "photos" %}
+  <article class="post">
+
+    <div class="post-content">
+        {{ post.content }}
+    </div>
+
+  </article>
+
+  {% endif %}
+
+{% endfor %}
+ 

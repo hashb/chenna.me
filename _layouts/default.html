@@ -30,8 +30,8 @@
         <li><a href="/" {% if current.size==0 %}data-current="current item" {% endif %}>home</a></li>
         <li><a href="/blog/" {% if current[1]=='blog' %}data-current="current item" {% endif %}>blog</a></li>
         <li><a href="/work/" {% if current[1]=='work' %}data-current="current item" {% endif %}>work</a></li>
+        <li><a href="/photos/" {% if current[1]=='photos' %}data-current="current item" {% endif %}>photos</a></li>
         <li><a href="/archives/" {% if current[1]=='archives' %}data-current="current item" {% endif %}>archive</a></li>
-        <li><a href="/feed.xml">rss</a></li>
       </ul>
     </nav>
   </header>
@@ -50,6 +50,8 @@
         The opinions on this site are my own and do not represent those of my employer
         <br>
         This page was built from <a href="{{ site.repo_url }}/blob/master/{{ page.path }}">source</a> on {{site.time}}
+        <br>
+        Subscribe: <a href="/feed.xml">rss</a>
       </p>
 
       <!-- <img src="/assets/images/by-nc-sa.svg"
