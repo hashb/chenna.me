@@ -28,6 +28,9 @@ layout: default
 
 
 {% for tag in tags %}
+{% if tag == "captain's log" %}
+  {% continue %}
+{% endif %}
 <div class="archive-item">
   <h2 id="{{ tag | slugify }}">{{ tag }}</h2>
   <ul>
