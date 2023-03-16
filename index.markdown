@@ -61,6 +61,7 @@ My other domains that are currently dormant:
 - [koko.business](http://koko.business/)
 - [ௐ.com](https://ௐ.com/)
 - [🤖🦾.ml](https://xn--yp9hqk.ml/)
+- [0x2A.cfd](https://0x2a.cfd/)
 - [~~kautilya-consulting.com~~](https://kautilya-consulting.com)
 - [~~fridgesurfing.me~~](https://fridgesurfing.me)
 
