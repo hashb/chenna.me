@@ -5,7 +5,8 @@ layout: default
 {% for post in site.posts %}
 
 {% assign lowercaseTags = post.tags | join: ',' | downcase | split: ',' %}
-{% if lowercaseTags contains "photos" or lowercaseTags contains "art" %}
+
+  {% if lowercaseTags contains "photos" or lowercaseTags contains "art" %}
   <article class="post">
 
     <div class="post-content">
@@ -13,8 +14,6 @@ layout: default
     </div>
 
   </article>
-
   {% endif %}
 
 {% endfor %}
- 
