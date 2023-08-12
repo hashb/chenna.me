@@ -1,0 +1,321 @@
+// borrowed from https://github.com/danurbanowicz/eleventy-netlify-boilerplate
+
+:root {
+    /* Light theme */
+    --c-light-text: #333;
+    --c-light-background: #fdfdfd;
+    --c-light-secondary-background: #f4f4f4;
+    --c-light-focus: #f0f8ff;
+    --c-light-link-text: #06c;
+
+    /* Dark theme */
+    --c-dark-text: #ddd;
+    --c-dark-background: #212121;
+    --c-dark-secondary-background: #262626;
+    --c-dark-focus: #f0f8ff;
+    --c-dark-link-text: #26e;
+}
+
+:root {
+    --c-text: var(--c-light-text);
+    --c-link-text: var(--c-light-link-text);
+    --c-background: var(--c-light-background);
+    --c-secondary-background: var(--c-light-secondary-background);
+    --c-focus: var(--c-light-focus);
+}
+
+/* Override default theme with dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --c-text: var(--c-dark-text);
+        --c-link-text: var(--c-dark-link-text);
+        --c-background: var(--c-dark-background);
+        --c-secondary-background: var(--c-dark-secondary-background);
+        --c-focus: var(--c-dark-focus);
+    }
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Avenir", "Avenir Next", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--c-text);
+}
+
+body {
+    display: grid;
+    height: 100vh;
+    grid-template-rows: auto 1fr auto;
+    background-color: var(--c-background);
+}
+
+main {
+    max-width: 37.5em;
+}
+
+p,
+pre,
+code {
+    line-height: 1.5;
+}
+
+a[href],
+a[href]:visited {
+    color: var(--c-link-text);
+}
+
+a[href]:not(:hover) {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+header,
+main,
+footer {
+    padding: 1em;
+}
+
+main {
+    padding-bottom: 2em;
+}
+
+main :first-child,
+main > article :first-child {
+    margin-top: 0;
+}
+
+pre {
+    font-size: 14px;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    -moz-tab-size: 2;
+    tab-size: 2;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    padding: 1em;
+    margin: 0.5em 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+blockquote {
+    padding-left: 1em;
+    border-left: 0.55em solid var(--c-secondary-background);
+}
+
+/* Header Logo (style as h2) */
+header > em {
+    display: block;
+    font-size: 2em;
+    margin: 0.67em 0;
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Header Nav */
+header nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+header nav ul :first-child {
+    margin-left: 0;
+}
+
+header nav li {
+    display: inline-block;
+    margin: 0 0.25em;
+}
+
+header nav li a {
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+}
+
+header nav li a[href]:not(:hover) {
+    text-decoration: none;
+}
+
+header nav li a[data-current="current item"] {
+    background-color: var(--c-focus);
+}
+
+/* Posts List */
+article {
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+}
+
+main > section > article > * {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+hr {
+border: 0;
+height: 1px;
+background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+/* Post footer */
+
+div.post-footer {
+    font-size: 0.8rem;
+}
+
+div.post-footer .meta {
+    margin-top: 0.25em;
+}
+
+/* Post Tags */
+a[rel="tag"],
+a[rel="tag"]:visited {
+    display: inline-block;
+    vertical-align: text-top;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8em;
+    padding: 0 0.5em;
+    line-height: 2em;
+    height: 2em;
+    border: 1px solid var(--c-background);
+    color: var(--c-link-text);
+    border-radius: 0.25em;
+    text-decoration: none;
+    margin: 0 0.5em 0.5em 0;
+}
+
+a[rel="tag"]:hover {
+    border: 1px solid var(--c-link-text);
+    background-color: var(--c-link-text);
+    color: var(--c-light-background);
+}
+
+a[rel="tag"]:last-child {
+    margin-right: 0;
+}
+
+/* Contact Form */
+form {
+    display: grid;
+    padding: 2em 0;
+}
+
+form label {
+    display: none;
+}
+
+input,
+textarea,
+button {
+    width: 100%;
+    padding: 1em;
+    margin-bottom: 1em;
+    font-size: 1rem;
+    font-family: "Avenir", "Avenir Next", sans-serif;
+}
+
+input,
+textarea {
+    border: 1px solid black;
+}
+
+button {
+    border: 1px solid var(--c-link-text);
+    background-color: var(--c-link-text);
+    color: var(--c-background);
+    cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+    :root {
+        font-size: 1.1rem;
+    }
+}
+
+/* Custom config */
+
+/*** Archive ***/
+div.archive-item h2 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.archive-item time {
+    font: 0.85em Monaco, Monospace;
+}
+
+div.archive-item p {
+    margin: 0.3em;
+}
+
+div.archive-month {
+    margin-bottom: 1.2em;
+}
+
+/*
+ TODO: figure and related css;
+ */
+
+figcaption {
+    display: block;
+    text-align: center;
+    font-style: italic;
+}
+
+/*** Pagination ***/
+.postnavigation {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.postnavigation .left {
+    float: left;
+}
+
+.postnavigation .right {
+    float: right;
+}
+
+/*** TOC ***/
+
+ul.toc {
+    padding: 15px 15px 15px 25px;
+}
+
+ul.toc ul {
+    padding: 0 0 3px 25px;
+}
+
+.toc {
+    display: inline-block;
+    background-color: var(--c-background);
+}
+
+
+/*** table ***/
+table {
+    width: 100%;
+}
