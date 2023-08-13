@@ -17,7 +17,7 @@ Real Time Distributed system for Robot Control.
     <source type="image/jpeg" srcset="/assets/images/path_planning_01.600h.jpg">
     <img src="/assets/images/path_planning_01.600h.png" alt="Path Planning is hard" class="center">
   </picture>
-<figcaption markdown="1">Path Planning is hard [^1]
+<figcaption class="maincolumn-figure">Path Planning is hard. <br>credit: <a href="http://phdcomics.com/">Jorge Cham</a>
 </figcaption>
 </figure>
 
@@ -55,6 +55,7 @@ A haiku for your time :)
 > *Electric muscles flex.*  
 -->
 
+<!--
 My other domains that are currently dormant:
 
 - [kautilya.ch](https://kautilya.ch/)
@@ -64,6 +65,7 @@ My other domains that are currently dormant:
 - [0x2A.cfd](https://0x2a.cfd/)
 - [~~kautilya-consulting.com~~](https://kautilya-consulting.com)
 - [~~fridgesurfing.me~~](https://fridgesurfing.me)
+-->
 
 <!--
 English  |:|&nbsp;  Kautilya
