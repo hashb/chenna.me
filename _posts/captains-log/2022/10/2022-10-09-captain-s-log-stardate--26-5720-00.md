@@ -2,7 +2,7 @@
 layout: post
 title: Captain's log, stardate [-26]5720.00
 date: 2022-10-09 12:05:25 +0000
-last_modified_at: 2022-10-09 12:05:25 +0000
+last_modified_at: 2023-08-13 01:57:50 +0000
 tags: [Captain's log, weekly]
 ---
 
@@ -16,7 +16,7 @@ Notes Against Note-Taking Systems
 
 > Getting lost in your knowledge management system is a fantastic way to avoid creating things
 > 
-> https://sashachapin.substack.com/p/notes-against-note-taking-systems
+> <https://sashachapin.substack.com/p/notes-against-note-taking-systems>
 
 ---
 

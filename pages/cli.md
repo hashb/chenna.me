@@ -4,7 +4,7 @@ title: The CLI Life
 permalink: /cli/
 tags: [page]
 date: 2019-11-05 12:03:42 +0000
-last_modified_at: 2020-04-23 21:50:04 +0000
+last_modified_at: 2023-08-13 01:57:50 +0000
 published: false
 ---
 
@@ -17,6 +17,6 @@ to make my life easier.
 4. ripgrep
 5. fd
 
-[^1]: https://mayvaneday.art/cli.html
-[^2]: https://www.wezm.net/technical/2019/10/useful-command-line-tools/
-[^3]: https://boyter.org/posts/my-list-of-useful-command-line-tools/
+[^1]: <https://mayvaneday.art/cli.html>
+[^2]: <https://www.wezm.net/technical/2019/10/useful-command-line-tools/>
+[^3]: <https://boyter.org/posts/my-list-of-useful-command-line-tools/>
