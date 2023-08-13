@@ -347,9 +347,7 @@ blockquote .sidenote, blockquote .marginnote { margin-right: -79% }
                    top: 0rem; } //removed superscripting for numerical reference in sidenote
 
 p, div.table-wrapper,  .MJXc-display, .MathJax { width: 60%; }
-.post-content li {
-  max-width: 60%;
-}
+
 div.table-wrapper, table { overflow-x: auto; } //changed all overflow values to 'auto' so scroll bars appear only as needed
 
 @media screen and (max-width: 760px) { p, footer { width: 90%; }
