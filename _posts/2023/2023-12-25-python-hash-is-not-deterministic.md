@@ -2,7 +2,7 @@
 layout: post
 title: Python hash() is not deterministic
 date: 2023-12-25 03:23 +0000
-last_modified_at: 2023-12-25 04:07:31 +0000
+last_modified_at: 2023-12-25 04:09:59 +0000
 tags: [Python]
 published: true
 ---
@@ -61,3 +61,6 @@ blhtggyvbuyhspdolqxdrhoajdka
 
 - <https://docs.python.org/3/whatsnew/3.3.html>: release when hash randomization made default
 - <https://docs.python.org/3/reference/datamodel.html#object.__hash__>: hash function documentation
+- <https://stackoverflow.com/a/27522708/2695603>
+- [What You Need To Know About Hashing in Python](https://kinsta.com/blog/python-hashing/)
+- [Deterministic hashing of Python data objects](https://death.andgravity.com/stable-hashing)
