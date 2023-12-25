@@ -4,7 +4,7 @@ title: Shopping Stranger
 date: 2023-12-25 04:11 +0000
 last_modified_at: 2023-12-25 05:31:55 +0000
 tags: ["slice of life"]
-published: true
+published: false
 ---
 
 A couple of years ago, I started receiving order notification emails from a strangers
