@@ -2,8 +2,8 @@
 layout: post
 title: My last 10 years on Github
 date: 2023-01-03 04:32 +0000
-last_modified_at: 2023-08-13 00:16:44 +0000
-tags: 
+last_modified_at: 2023-12-25 05:31:55 +0000
+tags: ["slice of life"]
 published: false
 ---
 

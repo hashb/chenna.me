@@ -2,8 +2,8 @@
 layout: post
 title: Time Tracking
 date: 2022-10-11 02:01 +0000
-last_modified_at: 
-tags: [productivity, life]
+last_modified_at: 2023-12-25 05:31:55 +0000
+tags: [productivity, slice-of-life]
 published: true
 ---
 
