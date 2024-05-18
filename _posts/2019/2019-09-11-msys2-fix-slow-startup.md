@@ -16,3 +16,10 @@ gives you a good solution. I am posting the link here for reference.
 2. modify `/etc/nsswitch.conf` to use only file
 
 This prevents MSYS2 to query Active Directory for login information.
+
+```bash
+mkpasswd -l -c > /etc/passwd
+mkgroup -l -c > /etc/group
+sed -i '/^passwd:/ s/.*/passwd:         files/' /etc/nsswitch.conf
+sed -i '/^group:/ s/.*/group:          files/' /etc/nsswitch.conf
+```
