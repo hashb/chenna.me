@@ -4,6 +4,7 @@ title: Using CasADi for Trajectory Optimization
 date: 2019-06-30 00:40 -0700
 tags: [Robotics]
 mathjax: true
+published: false
 ---
 
 Using Van der Pol oscillator as a placeholder.
