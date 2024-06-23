@@ -7,7 +7,7 @@ layout: default
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   {% endif %}
 
-  <h1>{{ page.title }}</h1>
+  <h1>{% include title_emoji.html %}</h1>
   {% if page.external-url %}
   <p class="meta"><span class="postdate">Link: <a href="{{ page.external-url }}">{{ page.external-url }}</a></span></p>
   {% endif %}

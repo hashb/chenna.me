@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 🔗 Thats one way of thinking about Garbage Collection
+title: Thats one way of thinking about Garbage Collection
 date: 2020-02-22 19:11 +0000
-last_modified_at: 2021-10-30 22:47:01 +0000
-tags: [Link, Garbage Collection]
+last_modified_at: 2024-06-23 21:55:25 +0000
+tags: [Link, Tech]
 published: true
 external-url: https://groups.google.com/forum/message/raw?msg=comp.lang.ada/E9bNCvDQ12k/1tezW24ZxdAJ
 ---

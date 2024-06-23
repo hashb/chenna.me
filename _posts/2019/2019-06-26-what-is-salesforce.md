@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 🔗 What is Salesforce?
+title: What is Salesforce?
 date: 2019-06-26 10:30 -0700
 tags: [Link]
 external-url: https://tryretool.com/blog/salesforce-for-engineers/

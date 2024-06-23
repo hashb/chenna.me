@@ -40,7 +40,9 @@ layout: default
       <li>
       <p>
         <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%d %b %Y" }}</time>&nbsp;&nbsp;
-        <a href="{{ post.url | relative_url }}" title="{{ post.excerpt | strip_html | strip }}">{{ post.title }}</a>
+        <a href="{{ post.url | relative_url }}" title="{{ post.excerpt | strip_html | strip }}">
+          {% include title_emoji.html %}
+        </a>
       </p>
     </li>
      {% endif %}

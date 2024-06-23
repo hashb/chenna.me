@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 🖼️ Golden Gate
+title: Golden Gate
 date: 2022-01-02 12:34 +0000
-last_modified_at: 2024-06-23 21:15:45 +0000
+last_modified_at: 2024-06-23 21:55:25 +0000
 tags: [Photos]
 ---
 

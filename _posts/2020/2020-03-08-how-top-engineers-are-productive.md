@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 🔗 How Top Engineers Are Productive
+title: How Top Engineers Are Productive
 date: 2020-03-08 03:27 +0000
-last_modified_at: 2020-11-28 07:38:35 +0000
+last_modified_at: 2024-06-23 21:55:25 +0000
 tags: [Productivity, Link]
 published: true
 external-url: https://news.ycombinator.com/item?id=21870889

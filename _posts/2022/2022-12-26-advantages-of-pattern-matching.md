@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 🔗 Advantages of Pattern Matching
+title: Advantages of Pattern Matching
 date: 2022-12-26 08:21 +0000
-last_modified_at: 2022-12-27 23:26:28 +0000
-tags: [rust]
+last_modified_at: 2024-06-23 21:55:25 +0000
+tags: [rust, link]
 published: true
 external-url: https://web.archive.org/web/20201109043148/http://fsharpnews.blogspot.com/2009/08/advantages-of-pattern-matching.html
 ---

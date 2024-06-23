@@ -6,7 +6,9 @@ layout: default
 
   <article class="post">
 
-    <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
+    <h1><a href="{{ post.url }}">
+      {% include title_emoji.html %}
+    </a></h1>
 
     <div class="post-content">
       {% if post.content contains site.excerpt_separator %}
