@@ -14,14 +14,20 @@ Autonomous Mobile Robots.</p>
 
     {% if project.external-url %}
       <h1>
-        <a href="{{ project.external-url }}">{{ project.title }}</a>
-        <a class="anchor" href="{{ project.url }}"><i class="icon-anchor"></i></a>
+        <a href="{{ project.url }}">{{ project.title }}</a>
+        <a class="anchor" href="{{ project.external-url }}"><i class="icon-anchor">🔗</i></a>
       </h1>
     {% else %}
       <h1><a href="{{ project.url }}">{{ project.title }}</a></h1>
     {% endif %}
 
-    <div class="post-content">{{ project.content }}</div>
+    <div class="post-content">
+      {% if project.content contains site.excerpt_separator %}
+        {{ project.excerpt }}
+      {% else %}
+        {{ project.content }}
+      {% endif %}
+    </div>
 
   </article>
 
