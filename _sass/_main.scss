@@ -85,32 +85,32 @@ a:hover {
     font-weight: 400;
 }
 
-nav {
-    display: flex;
-    justify-content: flex-start;
-}
-
-nav a {
-    margin-right: 10px;
-}
-
-nav ul {
-    list-style-type: none;
+/* Header Nav */
+header nav ul {
     padding: 0;
-    margin: 0;
-    display: flex;
+    list-style: none;
 }
 
-nav ul li {
-    margin-right: 10px;
+header nav ul :first-child {
+    margin-left: 0;
 }
 
-nav li a[href]:not(:hover) {
+header nav li {
+    display: inline-block;
+    margin: 0 0.25em;
+}
+
+header nav li a {
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+}
+
+header nav li a[href]:not(:hover) {
     text-decoration: none;
 }
 
-nav li a[data-current="current item"] {
-    color: var(--c-text);
+header nav li a[data-current="current item"] {
+    background-color: var(--c-focus);
 }
 
 textarea,
@@ -203,11 +203,41 @@ code {
 }
 
 blockquote {
-    border-left: 1px solid var(--c-secondary-background);
+    border-left: 3px solid var(--c-secondary-background);
     color: var(--c-text);
     padding-left: 20px;
     font-style: italic;
 }
+
+
+/* Post Tags */
+a[rel="tag"],
+a[rel="tag"]:visited {
+    display: inline-block;
+    vertical-align: text-top;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8em;
+    padding: 0 0.5em;
+    line-height: 2em;
+    height: 2em;
+    border: 1px solid var(--c-background);
+    color: var(--c-link-text);
+    border-radius: 0.25em;
+    text-decoration: none;
+    margin: 0 0.5em 0.5em 0;
+}
+
+a[rel="tag"]:hover {
+    border: 1px solid var(--c-link-text);
+    background-color: var(--c-link-text);
+    color: var(--c-light-background);
+}
+
+a[rel="tag"]:last-child {
+    margin-right: 0;
+}
+
 
 footer {
     padding: 25px 0;
