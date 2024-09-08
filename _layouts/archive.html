@@ -13,9 +13,7 @@ layout: default
 {% for p in site.pages %}
     {% if p.tags contains 'page' %}
         <li>
-          <p>
             <a href="{{ p.url | relative_url }}" title="{{ p.title }}">{{ p.title }}</a>
-          </p>
         </li>
     {% endif %}
 {% endfor %}

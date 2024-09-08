@@ -42,7 +42,7 @@ plugins:
   - jekyll-feed
   - jekyll-redirect-from
 
-remote_theme: hashb/california
+# remote_theme: hashb/california
 incremental: false
 
 jekyll_compose:

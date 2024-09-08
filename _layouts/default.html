@@ -12,8 +12,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="preload" as="style" href="/assets/css/style.css" rel="stylesheet" />
-  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link rel="preload" as="style" href="/assets/css/neo-style.css" rel="stylesheet" />
+  <link href="/assets/css/neo-style.css" rel="stylesheet" />
+
   <!-- bing verify -->
   <meta name="msvalidate.01" content="A91A3D6480BA119D7D8EAF3E5E1E8FB1" />
   <!-- umami analytics -->
@@ -24,10 +25,10 @@
 
 <body>
   <header id="header">
-    <em><a href="/">{{ site.title_body }}</a></em>
+    <p><em><a href="/" style="font-size: 1.5em; font-style: normal;">{{ site.title_body }}</a></em></p>
     <p style="margin: -1em 0 2em;">{{ site.description }}</p>
     {% assign current = page.url | downcase | split: '/' %}
-    <nav>
+    <nav style="margin: -1em 0 2em;">
       <ul>
         <li><a href="/" {% if current.size==0 %}data-current="current item" {% endif %}>home</a></li>
         <li><a href="/blog/" {% if current[1]=='blog' %}data-current="current item" {% endif %}>blog</a></li>
