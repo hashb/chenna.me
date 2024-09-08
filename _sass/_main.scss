@@ -6,7 +6,7 @@
     /* Light theme */
     --c-light-text: #333;
     --c-light-background: #fdfdfd;
-    --c-light-secondary-background: #eee;
+    --c-light-secondary-background: #f8f8f8;
     --c-light-focus: #f0f8ff;
     --c-light-link-text: #06c;
 
@@ -48,6 +48,7 @@ body {
     overflow-wrap: break-word;
     line-height: 1.5;
     color: var(--c-text);
+    font-size: 16px;
 }
 
 h1,
@@ -187,6 +188,7 @@ code {
     color: var(--c-text);
     border-radius: 3px;
     white-space : pre-wrap !important;
+    font-size: 14px;
 }
 
 .highlight,
