@@ -84,3 +84,50 @@ social:
     - https://keybase.io/hashb
 
 port: 4000
+
+prose:
+  rooturl: '_posts'
+  siteurl: 'https://chenna.me/'
+  media: 'assets/uploads'
+  ignore:
+    - index.html
+    - _config.yml
+    - /_layouts
+    - /_includes
+    - /_plugins
+    - /_sass
+  metadata:
+    _posts:
+      - name: "layout"
+        field:
+          element: "hidden"
+          value: "post"
+      - name: "title"
+        field:
+          element: "text"
+          value: ""
+      - name: "tags"
+        field:
+          element: "multiselect"
+          label: "Tags"
+          value: ""
+      - name: "date"
+        field:
+          element: "text"
+          label: "Date (YYYY-MM-DD HH:MM:SS)"
+          value: CURRENT_DATETIME
+      - name: "last_modified_at"
+        field:
+          element: "text"
+          label: "Date (YYYY-MM-DD HH:MM:SS)"
+          value: ""
+      - name: "published"
+        field:
+          element: "checkbox"
+          label: "Published"
+          value: ""
+      - name: "external-url"
+        field:
+          element: "text"
+          label: "Link"
+          value: ""
