@@ -102,10 +102,10 @@ prose:
         field:
           element: "hidden"
           value: "post"
-      - name: "title"
-        field:
-          element: "text"
-          value: ""
+      # - name: "title"
+      #   field:
+      #     element: "text"
+      #     value: ""
       - name: "tags"
         field:
           element: "multiselect"
