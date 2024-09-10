@@ -111,6 +111,7 @@ prose:
           element: "multiselect"
           label: "Tags"
           value: ""
+          alterable: true
       - name: "date"
         field:
           element: "text"
