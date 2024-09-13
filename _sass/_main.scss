@@ -240,8 +240,11 @@ a[rel="tag"]:last-child {
 
 
 footer {
-    padding: 25px 0;
+    margin: auto;
+    padding: 20px;
     text-align: left;
+    max-width: 720px;
+    padding: 20px;
 }
 
 .helptext {
