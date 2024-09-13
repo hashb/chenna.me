@@ -182,7 +182,7 @@ img {
 }
 
 code {
-    font-family: monospace;
+    font-family: monaco, monospace;
     padding: 2px;
     background-color: var(--c-secondary-background);
     color: var(--c-text);
@@ -448,3 +448,21 @@ hr {
     float: right;
 }
 
+
+/*** Archive ***/
+div.archive-item h2 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.archive-item time {
+    font-family: monaco, monospace;
+}
+
+div.archive-item p {
+    margin: 0.3em;
+}
+
+div.archive-month {
+    margin-bottom: 1.2em;
+}
