@@ -121,7 +121,7 @@ prose:
         field:
           element: "text"
           label: "Date (YYYY-MM-DD HH:MM:SS)"
-          value: ""
+          value: CURRENT_DATETIME
       - name: "published"
         field:
           element: "checkbox"
