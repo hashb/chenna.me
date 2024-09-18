@@ -14,8 +14,8 @@ We have been writing a lot of python bindings for C++ code at work. Someone aske
 > Binder is a tool for automatic generation of Python bindings for C++11 projects using Pybind11 and Clang LibTooling libraries. That is, Binder, takes a C++ project and compiles it into objects and functions that are all usable within Python. Binder is different from prior tools in that it handles special features new in C++11.
 
 2. [litgen](https://pthom.github.io/litgen/litgen_book/00_00_intro.html)
-> litgen, also known as Literate Generator, is an automatic python bindings generator for humans who like nice code and APIs.
-> It can be used to bind C++ libraries into documented and discoverable python modules using pybind11.
+> litgen, also known as Literate Generator, is an automatic python bindings generator for humans who like nice code and APIs.  
+> It can be used to bind C++ libraries into documented and discoverable python modules using pybind11.  
 > It can also be used as C++ transformation/refactoring tool.
 
 
