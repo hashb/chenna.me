@@ -114,58 +114,6 @@ header nav li a[data-current="current item"] {
     background-color: var(--c-focus);
 }
 
-textarea,
-input:not([type="submit"]) {
-    background-color: inherit;
-    color: inherit;
-    border: 1px dashed;
-    padding: 5px;
-    font-size: 16px;
-}
-
-.full-width textarea,
-.full-width input:not([type="submit"], [type="checkbox"], [type="radio"]) {
-    width: calc(100% - 15px);
-}
-
-.nav-image {
-    height: 3.14rem;
-    border-radius: 12.5%;
-}
-
-textarea:required,
-input:required:not([type="submit"]) {
-    border: 1px solid;
-}
-
-textarea.full-screen {
-    position: fixed;
-    background-color: var(--c-background);
-    top: -2px;
-    bottom: -2px;
-    left: 0;
-    width: calc(100vw - 30px);
-    max-width: 720px;
-    border: 10px solid;
-    border-width: 10px calc(50vw - 370px);
-}
-
-@media only screen and (max-width: 750px) {
-    textarea.full-screen {
-        border-width: 10px;
-    }
-}
-
-button.floating {
-    position: fixed;
-    bottom: 20px;
-    right: 25px;
-}
-
-button#toggle-full-screen {
-    float: right;
-}
-
 content {
     line-height: 1.6;
 }
@@ -237,6 +185,11 @@ a[rel="tag"]:hover {
 
 a[rel="tag"]:last-child {
     margin-right: 0;
+}
+
+article.post {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 
