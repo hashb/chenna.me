@@ -381,7 +381,14 @@ hr {
  TODO: figure and related css;
  */
 
- figcaption {
+figure {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+figcaption {
     display: block;
     text-align: center;
     font-style: italic;
