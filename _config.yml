@@ -183,7 +183,7 @@ prose:
         field:
           element: "checkbox"
           label: "Published"
-          value: ""
+          value: true
       - name: "external-url"
         field:
           element: "text"
