@@ -1,9 +1,11 @@
 ---
 layout: post
 title: Python hash() is not deterministic
-date: 2023-12-25 03:23 +0000
-last_modified_at: 2023-12-25 04:09:59 +0000
-tags: [Python]
+date: '2023-12-25 03:23 +0000'
+last_modified_at: '2023-12-25 04:09:59 +0000'
+tags:
+  - Python
+  - TIL
 published: true
 ---
 
