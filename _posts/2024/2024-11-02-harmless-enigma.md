@@ -6,7 +6,6 @@ published: true
 title: Harmless Enigma
 tags:
   - Random
-external-url: ''
 ---
 
 > “I have come to believe that the whole world is an enigma, a harmless enigma that is made      terrible by our own mad attempt to interpret it as though it had an underlying truth.”  
