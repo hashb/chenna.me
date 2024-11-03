@@ -2,7 +2,7 @@
   {{ include.base_image_name }}
 {% endcapture %}
 
-{% assign url_prefix = "//storage.googleapis.com/i.chenna.me/photos/prod/" %}
+{% assign url_prefix = "//i.chenna.me/photos/prod/" %}
 {% assign image_path = url_prefix | append: include.base_image_name %}
 {% assign placeholder = include.placeholder %}
 
