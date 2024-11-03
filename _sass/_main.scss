@@ -2,7 +2,7 @@
  * source: https://github.com/knhash/jekyllBear/blob/master/assets/style.css
  */
 
- :root {
+:root {
     /* Light theme */
     --c-light-text: #333;
     --c-light-background: #fdfdfd;
@@ -130,13 +130,24 @@ img {
     max-width: 100%;
 }
 
+.responsive-image-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.responsive-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
 code {
     font-family: monaco, monospace;
     padding: 2px;
     background-color: var(--c-secondary-background);
     color: var(--c-text);
     border-radius: 3px;
-    white-space : pre-wrap !important;
+    white-space: pre-wrap !important;
     font-size: 14px;
 }
 
@@ -354,7 +365,7 @@ ul.discover-posts li small a {
     nav li a[data-current="current item"] {
         color: var(--c-text);
     }
-    
+
 }
 
 

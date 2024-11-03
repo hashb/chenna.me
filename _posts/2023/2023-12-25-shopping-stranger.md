@@ -2,7 +2,7 @@
 layout: post
 title: Shopping Stranger
 date: 2023-12-25 04:11 +0000
-last_modified_at: 2023-12-25 05:31:55 +0000
+last_modified_at: 2024-11-03 02:45:49 +0000
 tags: ["slice of life"]
 published: false
 ---
@@ -30,4 +30,4 @@ through their purchases was something I never thought I would find so exciting.
 
 ps: based on the color pallet and design of the baby clothes, I think it is a boy.
 
-![Screen Shot of the order containing three baby onsies](//i.chenna.me/posts/shopping-stranger-2.png){:loading="lazy"}
+![Screen Shot of the order containing three baby onsies](//storage.googleapis.com/i.chenna.me/posts/shopping-stranger-2.png){:loading="lazy"}
