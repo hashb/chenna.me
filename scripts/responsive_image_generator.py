@@ -1,22 +1,32 @@
-from PIL import Image, ImageFilter, ImageOps
-import os
+# /// script
+# requires-python: ">=3.11"
+# dependencies = [
+#   "pillow",
+#   "tyro",
+#   "thumbhash-python",
+# ]
+# ///
+
+
+from PIL import Image, ImageOps
+from pathlib import Path
 import base64
 from io import BytesIO
 import tyro
 from thumbhash import image_to_thumbhash, thumbhash_to_image
-import base64
-from io import BytesIO
 
 
-def generate_responsive_images(input_image_path):
+def generate_responsive_images(input_image_path: Path):
     # Define the sizes and suffixes
     sizes = [(320, "-small"), (640, "-medium"), (1024, "-large"), (1920, "-xlarge")]
 
-    # Extract the base filename and extension
-    base_name, ext = os.path.splitext(input_image_path)
+    # Create opt directory if it doesn't exist
+    opt_dir = input_image_path.parent / "opt"
+    opt_dir.mkdir(exist_ok=True)
 
-    # Variable to store the Base64 encoded placeholder for the largest image
-    base64_placeholder = None
+    # Extract the base filename
+    base_name = input_image_path.stem
+    ext = input_image_path.suffix
 
     width = 200
     new_height = 200
@@ -33,15 +43,16 @@ def generate_responsive_images(input_image_path):
             # Resize the image
             resized_img = img.resize((width, new_height), Image.Resampling.LANCZOS)
 
-            # Save the resized image
-            resized_image_path = f"{base_name}{suffix}{ext}"
+            # Save the resized image in opt directory
+            resized_image_path = opt_dir / f"{base_name}{suffix}{ext}"
             resized_img.save(resized_image_path)
             print(f"Saved resized image: {resized_image_path}")
 
     # thumbhash
-    thumbhash = image_to_thumbhash(input_image_path)
+    thumbhash = image_to_thumbhash(str(input_image_path))
     thumbhash_image = thumbhash_to_image(thumbhash)
-    thumbhash_image.save(f"{base_name}-thumbhash.png")
+    thumbhash_path = opt_dir / f"{base_name}-thumbhash.png"
+    thumbhash_image.save(thumbhash_path)
 
     # Convert the thumbhash image to Base64
     buffered = BytesIO()
@@ -51,9 +62,8 @@ def generate_responsive_images(input_image_path):
     )
 
     # Generate the Jekyll template insertion code
-    base_image_name = os.path.basename(base_name)
     template_code = f"""
-{{% include responsive_image.html base_image_name="{base_image_name}" alt="Your Alt Text Here" 
+{{% include responsive_image.html base_image_name="{base_name}" alt="Your Alt Text Here" 
     placeholder='{base64_placeholder}' width="{width}" height="{new_height}" %}}
 """
     print("\nJekyll template insertion code:\n")
@@ -61,11 +71,13 @@ def generate_responsive_images(input_image_path):
 
 
 def main(in_path: str):
-    if os.path.isfile(in_path):
-        generate_responsive_images(in_path)
-    elif os.path.isdir(in_path):
-        for file in os.listdir(in_path):
-            generate_responsive_images(os.path.join(in_path, file))
+    input_path = Path(in_path)
+    if input_path.is_file():
+        generate_responsive_images(input_path)
+    elif input_path.is_dir():
+        for file in input_path.iterdir():
+            if file.is_file() and file.suffix.lower() in [".jpg", ".jpeg", ".png"]:
+                generate_responsive_images(file)
 
 
 if __name__ == "__main__":
