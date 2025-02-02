@@ -2,7 +2,7 @@
   {{ include.base_image_name }}
 {% endcapture %}
 
-{% assign url_prefix = "//i.chenna.me/photos/prod/opt" %}
+{% assign url_prefix = "//i.chenna.me/photos/prod/opt/" %}
 {% assign image_path = url_prefix | append: include.base_image_name %}
 
 <img
@@ -15,6 +15,7 @@
          (max-width: 640px) 640px,
          (max-width: 1024px) 1024px,
          1920px"
+  title="{{ include.alt }}"
   alt="{{ include.alt }}"
   width="{{ include.width }}"
   height="100%"
