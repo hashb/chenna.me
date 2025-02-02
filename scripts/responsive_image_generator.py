@@ -57,14 +57,11 @@ def generate_responsive_images(input_image_path: Path):
     # Convert the thumbhash image to Base64
     buffered = BytesIO()
     thumbhash_image.save(buffered, format="PNG")
-    base64_placeholder = (
-        f"data:image/png;base64,{base64.b64encode(buffered.getvalue()).decode('utf-8')}"
-    )
 
     # Generate the Jekyll template insertion code
     template_code = f"""
 {{% include responsive_image.html base_image_name="{base_name}" alt="Your Alt Text Here" 
-    placeholder='{base64_placeholder}' width="{width}" height="{new_height}" %}}
+    width="{width}" height="{new_height}" %}}
 """
     print("\nJekyll template insertion code:\n")
     print(template_code)
