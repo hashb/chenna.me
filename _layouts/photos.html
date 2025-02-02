@@ -10,7 +10,11 @@ layout: default
   <article class="post">
 
     <div class="post-content">
+      {% if post.content contains site.excerpt_separator %}
+        {{ post.excerpt }}
+      {% else %}
         {{ post.content }}
+      {% endif %}
     </div>
 
   </article>
