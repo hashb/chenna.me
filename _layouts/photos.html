@@ -10,11 +10,13 @@ layout: default
   <article class="post">
 
     <div class="post-content">
+      <a href="{{ post.url }}">
       {% if post.content contains site.excerpt_separator %}
-        {{ post.excerpt }}
+        {{ post.excerpt -}}
       {% else %}
-        {{ post.content }}
+        {{ post.content -}}
       {% endif %}
+      </a>
     </div>
 
   </article>
