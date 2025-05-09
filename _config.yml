@@ -60,6 +60,7 @@ jekyll_compose:
 
 author: 
   name: Chenna Kautilya
+  url: https://chenna.me
   handle: hashb
   description: "Makes Robots Move | Decade of experience in Robotic Manipulation, Task and Motion Planning, and Machine Learning"
   rss: true
