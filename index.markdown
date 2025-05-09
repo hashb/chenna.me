@@ -1,6 +1,7 @@
 ---
 layout: default
 title: About
+profile_schema: true
 ---
 
 Hi!

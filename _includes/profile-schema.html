@@ -1,0 +1,32 @@
+{%- comment -%}
+  Generates JSON-LD for Google’s ProfilePage rich-result.
+  Include this file **after** {% seo %} so it complements, not conflicts.
+{%- endcomment -%}
+
+{%- assign earliest_post = site.posts | where_exp:"p","p.date" | last -%}
+{%- assign created = earliest_post.date | date: "%Y-%m-%d" -%}
+{%- assign modified = site.time        | date: "%Y-%m-%d" -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "dateCreated": "{{ created }}",
+  "dateModified": "{{ modified }}",
+
+  "mainEntity": {
+    "@type": "Person",
+    "name": "{{ site.author.name }}",
+    "alternateName": "{{ site.author.handle }}",
+    "description": "{{ site.author.description | escape }}",
+    "image": [
+      "{{ site.url }}{{ site.author.image }}",
+      "{{ site.url }}{{ site.author.image_backup }}",
+      "{{ site.url }}{{ site.author.image_192 }}",
+      "{{ site.url }}{{ site.author.image_32 }}",
+      "{{ site.url }}{{ site.author.image_16 }}"
+    ],
+    "sameAs": {{ site.social.links | jsonify }}
+  }
+}
+</script>
