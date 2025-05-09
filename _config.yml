@@ -52,6 +52,13 @@ jekyll_compose:
       tags:
       published: true
 
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/city_view_from_john_mclaren_park.JPG
+
+
 # TODO: Uncomment this when https://github.com/jekyll/jekyll-feed/pull/321 is merged
 # feed:
 #   tags:
