@@ -86,8 +86,10 @@ social:
   name: Chenna Kautilya
   links:
     - https://twitter.com/kautilyach
+    - https://x.com/kautilyach
     - https://www.linkedin.com/in/kautilyach
     - https://github.com/hashb
+    - https://gitlab.com/kautilyach
     - https://keybase.io/hashb
     - https://www.instagram.com/kautilyach
     - https://www.crunchbase.com/person/chenna-kautilya
@@ -99,6 +101,12 @@ social:
     - https://wellfound.com/u/kautilyach
     - https://www.kaggle.com/kautilyach
     - https://www.eng.utah.edu/~chenna/
+    - https://dblp.org/pid/218/5433.html
+    - https://deepai.org/profile/kautilya-chenna
+    - https://patents.justia.com/inventor/kautilya-chenna
+    - https://rubygems.org/profiles/hashb
+    - https://soundcloud.com/chenna-kautilya
+    - https://huggingface.co/0xhb
 
 port: 4000
 
