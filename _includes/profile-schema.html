@@ -3,9 +3,9 @@
   Include this file **after** {% seo %} so it complements, not conflicts.
 {%- endcomment -%}
 
-{%- assign earliest_post = site.posts | where_exp:"p","p.date" | last -%}
-{%- assign created = earliest_post.date | date: "%Y-%m-%d" -%}
-{%- assign modified = site.time        | date: "%Y-%m-%d" -%}
+{%- assign created  = site.posts.last.date | date_to_xmlschema -%}
+{%- assign modified = page.last_modified_at | default: site.time | date_to_xmlschema -%}
+
 
 <script type="application/ld+json">
 {
