@@ -12,16 +12,16 @@ tags:
 
 I ran into this post on linkedin recently. I have personally expirienced some of these problems. I am posting this as a placeholder to write down my own thoughts.
 
-> 1) The Long-Tail Problem in Robotics Is Unforgiving
-> 2) LiDARs Aren’t as Robust as You Think
-> 3) Localization: Easier Said Than Done
-> 4) Scaling Smart: Fewer Clients, More Efficiency—Customization Is a Trap
-> 5) Autonomy Is Just Step One—Integration Is What Matters
-> 6) Running a Robotics Startup Feels Like Running Multiple Companies
-> 7) Global Expansion in Robotics: The Early-Stage Trap
-> 8) The Hardest Part? Building the Right Team
+> 1) The Long-Tail Problem in Robotics Is Unforgiving  
+> 2) LiDARs Aren’t as Robust as You Think  
+> 3) Localization: Easier Said Than Done  
+> 4) Scaling Smart: Fewer Clients, More Efficiency—Customization Is a Trap  
+> 5) Autonomy Is Just Step One—Integration Is What Matters  
+> 6) Running a Robotics Startup Feels Like Running Multiple Companies  
+> 7) Global Expansion in Robotics: The Early-Stage Trap  
+> 8) The Hardest Part? Building the Right Team  
 
 another post by the same person:
-https://www.linkedin.com/pulse/art-building-robots-silicon-valley-prathamesh-khedekar-arvsc/
+<https://www.linkedin.com/pulse/art-building-robots-silicon-valley-prathamesh-khedekar-arvsc/>
 
 
