@@ -2,3 +2,5 @@ _site
 *.lock
 hashb.github.io.sublime-workspace
 .vscode/
+.jekyll-metadata
+.ruby-lsp
