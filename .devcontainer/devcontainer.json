@@ -1,38 +1,33 @@
-// For format details, see https://aka.ms/vscode-remote/devcontainer.json or the definition README at
-// https://github.com/microsoft/vscode-dev-containers/tree/master/containers/ubuntu-18.04-git
 {
     "name": "Github Pages",
-    "dockerFile": "Dockerfile",
-    "context": "../",
-    // The optional 'runArgs' property can be used to specify   additional runtime arguments.
-    "runArgs": [
-        "-u", "jekyll"
-    ],
-
-    // Use 'settings' to set *default* container specific   settings.json values on container create.
-    // You can edit these settings after create using File >    Preferences > Settings > Remote.
-    "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-    },
-
+    "image": "mcr.microsoft.com/devcontainers/jekyll",
+    // "features": {
+    //     "ghcr.io/devcontainers/features/ruby:1": {
+    //         "version": "3.3.6"
+    //     }
+    // },
     // The port(s) to open from your container.
-    "appPort": [4000],
-
+    "appPort": [
+        4000
+    ],
     // Commands to run after the container is created.
-    "postCreateCommand": "",
-
+    "postCreateCommand": "bundle exec jekyll serve --watch --incremental --baseurl ''",
     // Add the IDs of extensions you want installed when the container is created in the array below.
-    "extensions": [
-		"redhat.vscode-yaml",
-		"sissel.shopify-liquid",
-		"ginfuru.ginfuru-vscode-jekyll-syntax",
-		"ginfuru.vscode-jekyll-snippets",
-		"yzhang.markdown-all-in-one",
-		"davidanson.vscode-markdownlint",
-		"ecmel.vscode-html-css",
-		"aeschli.vscode-css-formatter",
-		"streetsidesoftware.code-spell-checker",
-		"ms-vscode.wordcount",
-		"vsls-contrib.gitdoc"
-	]
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.vscode-yaml",
+                "sissel.shopify-liquid",
+                "ginfuru.ginfuru-vscode-jekyll-syntax",
+                "ginfuru.vscode-jekyll-snippets",
+                "yzhang.markdown-all-in-one",
+                "davidanson.vscode-markdownlint",
+                "ecmel.vscode-html-css",
+                "aeschli.vscode-css-formatter",
+                "streetsidesoftware.code-spell-checker",
+                "ms-vscode.wordcount",
+                "vsls-contrib.gitdoc"
+            ]
+        }
+    }
 }

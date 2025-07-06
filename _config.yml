@@ -119,6 +119,9 @@ social:
 
 port: 4000
 
+webserver_headers:
+  "Access-Control-Allow-Origin": "*"
+
 prose:
   rooturl: '_posts'
   siteurl: 'https://chenna.me/'
