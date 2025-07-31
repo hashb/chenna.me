@@ -28,6 +28,12 @@
   <meta name="msvalidate.01" content="A91A3D6480BA119D7D8EAF3E5E1E8FB1" />
   <!-- umami analytics -->
   <script defer src="https://umami.chenna.me/script.js" data-website-id="3ec6bdf1-7533-4e02-bd34-122ab82404a5"></script>
+  <script type="speculationrules">
+    {
+      "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }],
+      "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }]
+    }
+  </script>
   <!-- RSS feed metadata -->
   {% feed_meta %}
 </head>
