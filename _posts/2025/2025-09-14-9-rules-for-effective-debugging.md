@@ -4,7 +4,7 @@ date: '2025-09-14 13:01 -0700'
 last_modified_at: '2025-09-14 13:01 -0700'
 published: true
 title: '9 rules for effective debugging '
-tags: ''
+tags: [Debugging]
 external-url: ''
 ---
 
@@ -21,6 +21,7 @@ Get a fresh view: Ask for fresh insights (just explaining the problem to a manne
 
 <!-- more -->
 
-### References
+**References**
+
 - <https://dwheeler.com/essays/debugging-agans.html>  
 - <https://debuggingrules.com>
