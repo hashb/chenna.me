@@ -50,6 +50,7 @@ body {
     line-height: 1.5;
     color: var(--c-text);
     font-size: 16px;
+    position: relative;
 }
 
 h1,
@@ -385,6 +386,28 @@ hr {
 .bottom-footer {
     padding: 50px;
     text-align: center;
+}
+
+.debug {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.debug-info {
+    position: absolute;
+    right: 100%;
+    margin-right: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 3s;
+    pointer-events: none;
+}
+
+.debug:hover .debug-info {
+    opacity: 1;
+    transition: opacity 0.1s;
+    pointer-events: auto;
 }
 
 
