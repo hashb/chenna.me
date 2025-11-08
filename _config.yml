@@ -69,7 +69,37 @@ author:
   name: Chenna Kautilya
   url: https://chenna.me
   handle: Kautilya Chenna
-  description: "Makes Robots Move | Decade of experience in Robotic Manipulation, Task and Motion Planning, and Machine Learning"
+  alternate_names:
+    - hashb
+    - 0xhb
+    - Kautilya
+    - K. Chenna
+    - Kautilya C.
+    - C. Kautilya
+    - Chenna Kautilya
+    - Chenna K.
+    - Kautilya Chenna
+  description: "Makes Robots Move | Robotics Technical Lead with a decade of experience in Robotic Manipulation, Task and Motion Planning, and Machine Learning"
+  job_title: "Robotics Technical Lead"
+  knows_about:
+    - Robotics
+    - Robot Manipulation
+    - Task and Motion Planning
+    - Trajectory Optimization
+    - Reinforcement Learning
+    - Robot Learning
+    - Physical AI
+    - Physics Simulation
+    - Computer Vision
+    - 3D Perception
+    - Machine Learning
+    - Artificial Intelligence
+    - Software Engineering
+    - Systems Programming
+    - Python
+    - Rust
+    - C/C++
+    - Linux
   rss: true
   mail: hi@chenna.me
   twitter: kautilyach
@@ -116,7 +146,7 @@ social:
     - https://soundcloud.com/chenna-kautilya
     - https://huggingface.co/0xhb
     - https://news.ycombinator.com/user?id=hashb
-    - https://about.me/chennakautilya/getstarted
+    - https://about.me/chennakautilya
 
 port: 4000
 
