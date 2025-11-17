@@ -1,6 +1,6 @@
 ---
 layout: default
-title: About Me | Chenna Kautilya | Makes Robots Move
+title: About Me
 profile_schema: true
 ---
 
