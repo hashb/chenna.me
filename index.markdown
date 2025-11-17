@@ -1,32 +1,26 @@
 ---
 layout: default
-title: About
+title: About Me | Chenna Kautilya | Makes Robots Move
 profile_schema: true
 ---
 
 Hi!
 
-I am Chenna Kautilya. I work as a Software Engineer at Nimble Robotics. I work
-at the intersection of Robotics, Machine Learning and Software Engineering.
-Previously, I worked at Omron Research Center of America (ORCA) as a Robotics
-Software Engineer. At ORCA, I worked on Motion Planning for 6-dof Robotic Arms and
-Real Time Distributed system for Robot Control.
+I'm Chenna Kautilya, and I specialize in autonomy architecture for robotics
+companies ready to move beyond the lab. My work focuses on the systems that
+allow robots to plan complex tasks, perceive dynamic environments, and
+execute reliably in production.  
 
-<figure>
-  <picture>
-    <source type="image/webp" srcset="/assets/images/path_planning_01.600h.webp">
-    <source type="image/jpeg" srcset="/assets/images/path_planning_01.600h.jpg">
-    <img src="/assets/images/path_planning_01.600h.png" alt="Path Planning is hard" class="center">
-  </picture>
-<figcaption class="maincolumn-figure">Path Planning is hard. <br>credit: <a href="http://phdcomics.com/">Jorge Cham</a>
-</figcaption>
-</figure>
+At Medra Robotics, I led the technical redesign of our autonomy stack,
+transforming it into a modular platform that could generalize across
+tasks. At Nimble Robotics and Omron Research Center, I built the
+motion intelligence and perception systems that power warehouse automation
+and industrial manipulation.
 
-I earned a master's degree in Robotics from the University of Utah.
-I worked under [Dr. Tucker Hermans](http://www.cs.utah.edu/~thermans/) at the
-Learning Lab for Manipulator Autonomy ([LL4MA Lab 🦙](https://robot-learning.cs.utah.edu/)).
-During this time, I worked on Grasp Planning using Probabilistic Modeling and
-Machine Learning.
+I bring expertise across the full stack—motion planning, control, machine learning,
+infrastructure—with a focus on what it takes to deploy robotics systems that actually
+work. I earned my Master's in Robotics from the University of Utah, researching
+probabilistic manipulation planning at the LL4MA Lab.
 
 <!--
 <figure>
