@@ -21,7 +21,7 @@ and industrial manipulation.
 I bring expertise across the full stack—motion planning, control, machine learning,
 infrastructure—with a focus on what it takes to deploy robotics systems that actually
 work. I earned my Master's in Robotics from the University of Utah, researching
-probabilistic manipulation planning at the LL4MA Lab.
+probabilistic manipulation planning at the [LL4MA Lab](https://robot-learning.cs.utah.edu).
 
 <!--
 <figure>
