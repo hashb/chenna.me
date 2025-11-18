@@ -11,9 +11,10 @@ companies ready to move beyond the lab. My work focuses on the systems that
 allow robots to plan complex tasks, perceive dynamic environments, and
 execute reliably in production.  
 
-At Medra Robotics, I led the technical redesign of our autonomy stack,
-transforming it into a modular platform that could generalize across
-tasks. At Nimble Robotics and Omron Research Center, I built the
+At [Medra Robotics](https://medra.ai/), I led the technical redesign of our
+autonomy stack, transforming it into a modular platform that could generalize
+across tasks. At [Nimble Robotics](https://www.nimble.ai/) and 
+[Omron Research Center](https://robotics.omron.com/), I built the
 motion intelligence and perception systems that power warehouse automation
 and industrial manipulation.
 
