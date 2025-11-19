@@ -24,16 +24,6 @@ reliably in production. I earned my Master's in Robotics from the University of 
 researching probabilistic manipulation planning at the
 [LL4MA Lab](https://robot-learning.cs.utah.edu).
 
-<!--
-<figure>
-  <picture>
-    <source type="image/webp" srcset="/assets/images/approximate_knowledge.webp">
-    <source type="image/jpeg" srcset="/assets/images/approximate_knowledge.jpg">
-    <img src="/assets/images/approximate_knowledge.png" alt="I have approximate knowledge of many things" class="center">
-  </picture>
-</figure>
--->
-
 You can reach me over [email](mailto:hi@chenna.me),
 [twitter](https://twitter.com/{{site.twitter_username}}),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
