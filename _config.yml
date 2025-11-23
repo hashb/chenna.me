@@ -153,6 +153,7 @@ social:
 
 port: 4000
 
+include: [".well-known"]
 webserver_headers:
   "Access-Control-Allow-Origin": "*"
 
