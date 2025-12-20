@@ -27,12 +27,14 @@ researching probabilistic manipulation planning at the
 You can reach me over [email](mailto:hi@chenna.me),
 [twitter](https://twitter.com/{{site.twitter_username}}),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}). Some of my
-projects are on [GitHub](https://github.com/{{site.github_username}}) and on
-my [resume](https://resume.chenna.me/). My old
-website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
+projects are on [GitHub](https://github.com/{{site.github_username}}).
+
+<!-- and on my [resume](https://resume.chenna.me/). -->
+
+<!-- My old website is [yubaba](http://yubaba.herokuapp.com) and you can also find me on
 tor 🧅 at [kchenna [truncated] d.onion](http://kchennaidgy3hvkhzesbde5jgob6434fucyntd34fhiadjfvjfcjzbid.onion/).
 You can send me files through [dropbox via this link](https://www.dropbox.com/request/ufFDYbK60DKb3Vsd4RMn).
-If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc). 
+If you want to send me something super secret, use my [public key](https://keybase.io/hashb/pgp_keys.asc).  -->
 <!-- Here's an old [picture of me](/headshot). -->
 
 <!-- 
