@@ -6,15 +6,11 @@ profile_schema: true
 
 Hi!
 
-I'm Chenna Kautilya, and I specialize in autonomy architecture for robotics
-companies ready to move beyond the lab. My work focuses on the systems that
-allow robots to plan complex tasks, perceive dynamic environments, and
-execute reliably in production.  
+I'm Chenna Kautilya
 
 You can reach me over [email](mailto:hi@chenna.me),
 [LinkedIn](https://www.linkedin.com/in/{{site.linkedin_username}}),
 [twitter](https://twitter.com/{{site.twitter_username}}).
-
 
 At [Medra Robotics](https://medra.ai/), I led the technical redesign of our
 autonomy stack, transforming it into a modular platform that could generalize
