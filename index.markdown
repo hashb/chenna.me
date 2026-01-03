@@ -16,7 +16,7 @@ At [Medra Robotics](https://medra.ai/), I led the technical redesign of our
 autonomy stack, transforming it into a modular platform that could generalize
 across tasks. At [Nimble Robotics](https://www.nimble.ai/) and 
 [Omron Research Center](https://robotics.omron.com/), I built the
-motion intelligence and perception systems that power warehouse automation
+motion planning and perception systems that power warehouse automation
 and industrial manipulation.
 
 I bring expertise across the full stack—motion planning, control, machine learning,
@@ -64,4 +64,6 @@ Japanese  |:|&nbsp;  コウティリア
 Persian  |:|&nbsp; کوتلیا
 -->
 
-[^1]: This picture was taken from [Jorge Cham](http://phdcomics.com/)'s work for [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) as part of the R.O.B.O.T. Comics series.
+<!--
+[^1]: This picture was taken from [Jorge Cham](http://phdcomics.com/)'s work for [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) as part of the R.O.B.O.T. Comics series. 
+-->
