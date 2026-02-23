@@ -34,6 +34,15 @@
       "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }]
     }
   </script>
+  <script defer src="assets/umami-kit.js"></script>
+  <script>
+    const kit = new UmamiTracker({
+      debug: false,
+      autoTrackAllClicks: true,
+      scrollDepthThresholds: [25, 50, 75, 90, 100],
+      heartbeatInterval: 15000
+    });
+  </script>
   <!-- RSS feed metadata -->
   {% feed_meta %}
 </head>
