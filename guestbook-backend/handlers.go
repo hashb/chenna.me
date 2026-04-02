@@ -222,22 +222,22 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 func (s *server) handleGetImage(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(r.PathValue("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "invalid id", http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "invalid id")
 		return
 	}
 
 	data, err := getEntryImage(s.db, id, "approved")
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			http.Error(w, "not found", http.StatusNotFound)
+			writeJSONError(w, http.StatusNotFound, "not found")
 			return
 		}
 		log.Printf("error getting image: %v", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "internal error")
 		return
 	}
 	if data == nil {
-		http.Error(w, "not found", http.StatusNotFound)
+		writeJSONError(w, http.StatusNotFound, "not found")
 		return
 	}
 
@@ -249,22 +249,22 @@ func (s *server) handleGetImage(w http.ResponseWriter, r *http.Request) {
 func (s *server) handleAdminGetImage(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(r.PathValue("id"), 10, 64)
 	if err != nil {
-		http.Error(w, "invalid id", http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "invalid id")
 		return
 	}
 
 	data, err := getEntryImage(s.db, id, "")
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			http.Error(w, "not found", http.StatusNotFound)
+			writeJSONError(w, http.StatusNotFound, "not found")
 			return
 		}
 		log.Printf("error getting admin image: %v", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
+		writeJSONError(w, http.StatusInternalServerError, "internal error")
 		return
 	}
 	if data == nil {
-		http.Error(w, "not found", http.StatusNotFound)
+		writeJSONError(w, http.StatusNotFound, "not found")
 		return
 	}
 
@@ -307,6 +307,7 @@ func (s *server) handleApproveEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("admin: approved entry %d from %s", id, clientIP(r))
 	writeJSON(w, http.StatusOK, map[string]string{"message": "entry approved"})
 }
 
@@ -327,6 +328,7 @@ func (s *server) handleRejectEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("admin: rejected entry %d from %s", id, clientIP(r))
 	writeJSON(w, http.StatusOK, map[string]string{"message": "entry rejected"})
 }
 
@@ -347,6 +349,7 @@ func (s *server) handleDeleteEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("admin: deleted entry %d from %s", id, clientIP(r))
 	writeJSON(w, http.StatusOK, map[string]string{"message": "entry deleted"})
 }
 
@@ -358,6 +361,7 @@ func (s *server) handlePurgeRejected(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Printf("admin: purged %d rejected entries from %s", count, clientIP(r))
 	writeJSON(w, http.StatusOK, map[string]any{
 		"message": "rejected entries purged",
 		"deleted": count,
@@ -506,8 +510,8 @@ func parsePositiveInt(raw string, defaultValue, minValue, maxValue int) int {
 
 func requestBaseURL(r *http.Request) string {
 	scheme := "http"
-	if forwardedProto := strings.TrimSpace(strings.Split(r.Header.Get("X-Forwarded-Proto"), ",")[0]); forwardedProto != "" {
-		scheme = forwardedProto
+	if forwardedProto := strings.ToLower(strings.TrimSpace(strings.Split(r.Header.Get("X-Forwarded-Proto"), ",")[0])); forwardedProto == "https" {
+		scheme = "https"
 	} else if r.TLS != nil {
 		scheme = "https"
 	}
@@ -515,11 +519,16 @@ func requestBaseURL(r *http.Request) string {
 }
 
 func writeJSON(w http.ResponseWriter, status int, value any) {
+	data, err := json.Marshal(value)
+	if err != nil {
+		log.Printf("error marshaling json response: %v", err)
+		http.Error(w, `{"error":"internal error"}`, http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	if err := json.NewEncoder(w).Encode(value); err != nil {
-		log.Printf("error writing json response: %v", err)
-	}
+	w.Write(data)
+	w.Write([]byte("\n"))
 }
 
 func writeJSONError(w http.ResponseWriter, status int, message string) {

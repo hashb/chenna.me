@@ -1,36 +1,14 @@
-const API_BASE = window.location.hostname === "localhost"
-  ? "http://localhost:8080"
-  : "https://chenna-guestbook.fly.dev";
-const TOKEN_STORAGE_KEY = "guestbookAdminToken";
-
+const API_BASE = document.querySelector('meta[name="guestbook-api"]')?.content
+  || (window.location.hostname === "localhost" ? "http://localhost:8080" : "https://chenna-guestbook.fly.dev");
+let activeToken = "";
 let previewObjectUrls = [];
 
 function buildApiURL(path) {
   return new URL(path, API_BASE).toString();
 }
 
-function readStoredToken() {
-  try {
-    return window.sessionStorage.getItem(TOKEN_STORAGE_KEY) || "";
-  } catch {
-    return "";
-  }
-}
-
-function storeToken(token) {
-  try {
-    window.sessionStorage.setItem(TOKEN_STORAGE_KEY, token);
-  } catch {
-    // Ignore storage failures and keep using the in-memory token.
-  }
-}
-
-function clearStoredToken() {
-  try {
-    window.sessionStorage.removeItem(TOKEN_STORAGE_KEY);
-  } catch {
-    // Ignore storage failures.
-  }
+function clearActiveToken() {
+  activeToken = "";
 }
 
 function clearStatus(node) {
@@ -54,6 +32,13 @@ function clearPreviewObjectUrls() {
   previewObjectUrls = [];
 }
 
+class ApiError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+}
+
 async function authorizedJSON(path, token, options = {}) {
   const response = await fetch(buildApiURL(path), {
     ...options,
@@ -65,7 +50,7 @@ async function authorizedJSON(path, token, options = {}) {
 
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(payload.error || `HTTP ${response.status}`);
+    throw new ApiError(payload.error || `HTTP ${response.status}`, response.status);
   }
   return payload;
 }
@@ -208,8 +193,8 @@ function createPendingEntry(entry, token, list, topStatus) {
       setStatus(inlineStatus, error.message || "Action failed.", "error");
       approveButton.disabled = false;
       rejectButton.disabled = false;
-      if (error.message === "unauthorized") {
-        clearStoredToken();
+      if (error.status === 401) {
+        clearActiveToken();
         setStatus(topStatus, "The saved token was rejected. Enter it again.", "error");
       }
     }
@@ -250,8 +235,8 @@ async function loadPendingEntries(token, list, panel, status) {
     console.error("Failed to load pending entries:", error);
     list.innerHTML = '<div class="gb-empty">Could not load pending entries.</div>';
     setStatus(status, error.message || "Could not load pending entries.", "error");
-    if (error.message === "unauthorized") {
-      clearStoredToken();
+    if (error.status === 401) {
+      clearActiveToken();
     }
   }
 }
@@ -268,12 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const list = document.getElementById("admin-list");
   const status = document.getElementById("admin-status");
 
-  const savedToken = readStoredToken();
-  if (savedToken) {
-    tokenInput.value = savedToken;
-    loadPendingEntries(savedToken, list, panel, status);
-  }
-
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -284,12 +263,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    storeToken(token);
+    activeToken = token;
     await loadPendingEntries(token, list, panel, status);
   });
 
   clearButton.addEventListener("click", () => {
-    clearStoredToken();
+    clearActiveToken();
     clearPreviewObjectUrls();
     tokenInput.value = "";
     panel.classList.add("hidden");

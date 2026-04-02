@@ -1,6 +1,5 @@
-const API_BASE = window.location.hostname === "localhost"
-  ? "http://localhost:8080"
-  : "https://chenna-guestbook.fly.dev";
+const API_BASE = document.querySelector('meta[name="guestbook-api"]')?.content
+  || (window.location.hostname === "localhost" ? "http://localhost:8080" : "https://chenna-guestbook.fly.dev");
 const PUBLIC_PAGE_SIZE = 24;
 
 function buildApiURL(path, params = {}) {

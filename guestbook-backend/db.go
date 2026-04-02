@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"time"
 
@@ -120,17 +119,14 @@ func countEntriesByStatus(db *sql.DB, status string) (int, error) {
 }
 
 func getEntriesByStatus(db *sql.DB, status string, limit, offset int, ascending bool) ([]Entry, error) {
-	order := "DESC"
+	var query string
 	if ascending {
-		order = "ASC"
+		query = `SELECT id, name, website, entry_type, content, image_data IS NOT NULL, status, created_at
+			FROM entries WHERE status = ? ORDER BY created_at ASC, id ASC`
+	} else {
+		query = `SELECT id, name, website, entry_type, content, image_data IS NOT NULL, status, created_at
+			FROM entries WHERE status = ? ORDER BY created_at DESC, id DESC`
 	}
-
-	query := fmt.Sprintf(`
-		SELECT id, name, website, entry_type, content, image_data IS NOT NULL, status, created_at
-		FROM entries
-		WHERE status = ?
-		ORDER BY created_at %s, id %s
-	`, order, order)
 	args := []any{status}
 	if limit > 0 {
 		query += ` LIMIT ? OFFSET ?`
@@ -155,7 +151,7 @@ func scanEntries(rows *sql.Rows) ([]Entry, error) {
 		if err != nil {
 			return nil, err
 		}
-		parsed, parseErr := time.Parse("2006-01-02 15:04:05", createdAt)
+		parsed, parseErr := time.ParseInLocation("2006-01-02 15:04:05", createdAt, time.UTC)
 		if parseErr != nil {
 			parsed, parseErr = time.Parse(time.RFC3339, createdAt)
 		}
