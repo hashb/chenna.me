@@ -95,9 +95,10 @@ function createAuthorNode(entry) {
     return link;
   }
 
-  const strong = document.createElement("strong");
-  strong.textContent = entry.name;
-  return strong;
+  const span = document.createElement("span");
+  span.className = "gb-entry-author";
+  span.textContent = entry.name;
+  return span;
 }
 
 function formatSubmittedDate(value) {

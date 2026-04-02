@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -31,7 +32,8 @@ func main() {
 	}
 	defer db.Close()
 
-	srv := newServer(db, adminToken)
+	limiter := newRateLimiter(10, time.Hour)
+	srv := newServer(db, adminToken, limiter)
 
 	handler := corsMiddleware(srv, allowedOrigins)
 
@@ -67,9 +69,10 @@ func corsMiddleware(next http.Handler, allowedOrigins []string) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
+		w.Header().Set("Vary", "Origin")
 		if originSet[origin] {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
 			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 			w.Header().Set("Access-Control-Max-Age", "86400")
 		}

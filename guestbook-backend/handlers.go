@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"crypto/subtle"
 	"database/sql"
 	"encoding/json"
 	"errors"
@@ -21,7 +23,10 @@ const (
 	maxNameRunes         = 80
 	maxWebsiteLength     = 2048
 	maxContentRunes      = 4000
+	maxJSONBodySize      = 64 << 10 // 64KB
 )
+
+var pngSignature = []byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}
 
 type entryResponse struct {
 	ID        int64     `json:"id"`
@@ -58,13 +63,15 @@ type paginationDetails struct {
 type server struct {
 	db         *sql.DB
 	adminToken string
+	limiter    *rateLimiter
 	mux        *http.ServeMux
 }
 
-func newServer(db *sql.DB, adminToken string) *server {
+func newServer(db *sql.DB, adminToken string, limiter *rateLimiter) *server {
 	s := &server{
 		db:         db,
 		adminToken: adminToken,
+		limiter:    limiter,
 		mux:        http.NewServeMux(),
 	}
 	s.routes()
@@ -80,6 +87,8 @@ func (s *server) routes() {
 	s.mux.HandleFunc("GET /api/admin/entries", s.requireAdmin(s.handleAdminGetEntries))
 	s.mux.HandleFunc("POST /api/admin/entries/{id}/approve", s.requireAdmin(s.handleApproveEntry))
 	s.mux.HandleFunc("POST /api/admin/entries/{id}/reject", s.requireAdmin(s.handleRejectEntry))
+	s.mux.HandleFunc("DELETE /api/admin/entries/{id}", s.requireAdmin(s.handleDeleteEntry))
+	s.mux.HandleFunc("POST /api/admin/purge-rejected", s.requireAdmin(s.handlePurgeRejected))
 }
 
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -114,6 +123,11 @@ func (s *server) handleGetEntries(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
+	if s.limiter != nil && !s.limiter.allow(clientIP(r)) {
+		writeJSONError(w, http.StatusTooManyRequests, "too many submissions, please try again later")
+		return
+	}
+
 	contentType := r.Header.Get("Content-Type")
 
 	var entry Entry
@@ -140,6 +154,10 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 				writeJSONError(w, http.StatusBadRequest, "image must be 5MB or smaller")
 				return
 			}
+			if !isPNG(data) {
+				writeJSONError(w, http.StatusBadRequest, "image must be a PNG file")
+				return
+			}
 			entry.ImageData = data
 		} else if !errors.Is(err, http.ErrMissingFile) {
 			writeJSONError(w, http.StatusBadRequest, "error reading image")
@@ -152,6 +170,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 			EntryType string `json:"entry_type"`
 			Content   string `json:"content"`
 		}
+		r.Body = http.MaxBytesReader(w, r.Body, maxJSONBodySize)
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			writeJSONError(w, http.StatusBadRequest, "invalid JSON")
 			return
@@ -195,7 +214,7 @@ func (s *server) handleGetImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data, err := getEntryImage(s.db, id, "approved")
-	if err == sql.ErrNoRows || data == nil {
+	if errors.Is(err, sql.ErrNoRows) || data == nil {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
@@ -218,7 +237,7 @@ func (s *server) handleAdminGetImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data, err := getEntryImage(s.db, id, "")
-	if err == sql.ErrNoRows || data == nil {
+	if errors.Is(err, sql.ErrNoRows) || data == nil {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
@@ -258,7 +277,7 @@ func (s *server) handleApproveEntry(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := approveEntry(s.db, id); err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			writeJSONError(w, http.StatusNotFound, "entry not found or not pending")
 			return
 		}
@@ -278,7 +297,7 @@ func (s *server) handleRejectEntry(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := rejectEntry(s.db, id); err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			writeJSONError(w, http.StatusNotFound, "entry not found or not pending")
 			return
 		}
@@ -288,6 +307,40 @@ func (s *server) handleRejectEntry(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, map[string]string{"message": "entry rejected"})
+}
+
+func (s *server) handleDeleteEntry(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(r.PathValue("id"), 10, 64)
+	if err != nil {
+		writeJSONError(w, http.StatusBadRequest, "invalid id")
+		return
+	}
+
+	if err := deleteEntry(s.db, id); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			writeJSONError(w, http.StatusNotFound, "entry not found")
+			return
+		}
+		log.Printf("error deleting entry: %v", err)
+		writeJSONError(w, http.StatusInternalServerError, "internal error")
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]string{"message": "entry deleted"})
+}
+
+func (s *server) handlePurgeRejected(w http.ResponseWriter, r *http.Request) {
+	count, err := purgeRejectedEntries(s.db)
+	if err != nil {
+		log.Printf("error purging rejected entries: %v", err)
+		writeJSONError(w, http.StatusInternalServerError, "internal error")
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"message": "rejected entries purged",
+		"deleted": count,
+	})
 }
 
 func (s *server) requireAdmin(next http.HandlerFunc) http.HandlerFunc {
@@ -304,7 +357,7 @@ func (s *server) requireAdmin(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		token := strings.TrimPrefix(auth, "Bearer ")
-		if token != s.adminToken {
+		if subtle.ConstantTimeCompare([]byte(token), []byte(s.adminToken)) != 1 {
 			writeJSONError(w, http.StatusUnauthorized, "unauthorized")
 			return
 		}
@@ -450,4 +503,8 @@ func writeJSON(w http.ResponseWriter, status int, value any) {
 
 func writeJSONError(w http.ResponseWriter, status int, message string) {
 	writeJSON(w, status, map[string]string{"error": message})
+}
+
+func isPNG(data []byte) bool {
+	return len(data) >= len(pngSignature) && bytes.Equal(data[:len(pngSignature)], pngSignature)
 }

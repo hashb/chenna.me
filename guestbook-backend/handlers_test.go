@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 type testEnv struct {
@@ -30,7 +31,7 @@ func newTestEnv(t *testing.T) testEnv {
 
 	return testEnv{
 		db:     db,
-		server: newServer(db, "test-token"),
+		server: newServer(db, "test-token", newRateLimiter(1000, time.Minute)),
 	}
 }
 
@@ -215,5 +216,117 @@ func TestImageRoutesHidePendingEntriesFromPublic(t *testing.T) {
 	}
 	if !bytes.Equal(publicRecorder.Body.Bytes(), imageData) {
 		t.Fatalf("expected public image bytes to match original data")
+	}
+}
+
+func TestRequireAdminRejectsInvalidTokens(t *testing.T) {
+	env := newTestEnv(t)
+
+	// No Authorization header
+	recorder := env.request(t, http.MethodGet, "/api/admin/entries", nil, nil)
+	if recorder.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 with no auth header, got %d", recorder.Code)
+	}
+
+	// Wrong token
+	recorder = env.request(t, http.MethodGet, "/api/admin/entries", nil, map[string]string{
+		"Authorization": "Bearer wrong-token",
+	})
+	if recorder.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 with wrong token, got %d", recorder.Code)
+	}
+
+	// Valid token
+	recorder = env.request(t, http.MethodGet, "/api/admin/entries", nil, map[string]string{
+		"Authorization": "Bearer test-token",
+	})
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("expected 200 with valid token, got %d: %s", recorder.Code, recorder.Body.String())
+	}
+}
+
+func TestHandleCreateEntryValidation(t *testing.T) {
+	env := newTestEnv(t)
+
+	tests := []struct {
+		name    string
+		payload string
+		wantErr string
+	}{
+		{
+			name:    "empty name",
+			payload: `{"name":"","entry_type":"message","content":"hello"}`,
+			wantErr: "name is required",
+		},
+		{
+			name:    "missing entry type",
+			payload: `{"name":"Alice","entry_type":"","content":"hello"}`,
+			wantErr: "entry_type must be",
+		},
+		{
+			name:    "message without content",
+			payload: `{"name":"Alice","entry_type":"message","content":""}`,
+			wantErr: "content is required",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			recorder := env.request(t, http.MethodPost, "/api/entries", []byte(tt.payload), map[string]string{
+				"Content-Type": "application/json",
+			})
+			if recorder.Code != http.StatusBadRequest {
+				t.Fatalf("expected 400, got %d: %s", recorder.Code, recorder.Body.String())
+			}
+			var response map[string]string
+			json.Unmarshal(recorder.Body.Bytes(), &response)
+			if !strings.Contains(response["error"], tt.wantErr) {
+				t.Fatalf("expected error containing %q, got %q", tt.wantErr, response["error"])
+			}
+		})
+	}
+}
+
+func TestDeleteAndPurgeAdminEndpoints(t *testing.T) {
+	env := newTestEnv(t)
+	adminHeaders := map[string]string{"Authorization": "Bearer test-token"}
+
+	// Create an entry
+	id, err := createEntry(env.db, &Entry{
+		Name: "ToDelete", EntryType: "message", Content: "bye",
+	})
+	if err != nil {
+		t.Fatalf("create entry: %v", err)
+	}
+
+	// Delete the entry
+	recorder := env.request(t, http.MethodDelete, fmt.Sprintf("/api/admin/entries/%d", id), nil, adminHeaders)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("expected 200 on delete, got %d: %s", recorder.Code, recorder.Body.String())
+	}
+
+	// Delete again should 404
+	recorder = env.request(t, http.MethodDelete, fmt.Sprintf("/api/admin/entries/%d", id), nil, adminHeaders)
+	if recorder.Code != http.StatusNotFound {
+		t.Fatalf("expected 404 on re-delete, got %d", recorder.Code)
+	}
+
+	// Create entries and reject them for purge test
+	for i := 0; i < 3; i++ {
+		rid, _ := createEntry(env.db, &Entry{
+			Name: fmt.Sprintf("Rejected%d", i), EntryType: "message", Content: "spam",
+		})
+		rejectEntry(env.db, rid)
+	}
+
+	recorder = env.request(t, http.MethodPost, "/api/admin/purge-rejected", nil, adminHeaders)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("expected 200 on purge, got %d: %s", recorder.Code, recorder.Body.String())
+	}
+
+	var purgeResp map[string]any
+	json.Unmarshal(recorder.Body.Bytes(), &purgeResp)
+	if purgeResp["deleted"] != float64(3) {
+		t.Fatalf("expected 3 deleted, got %v", purgeResp["deleted"])
 	}
 }

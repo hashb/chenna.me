@@ -212,3 +212,23 @@ func rejectEntry(db *sql.DB, id int64) error {
 	}
 	return nil
 }
+
+func deleteEntry(db *sql.DB, id int64) error {
+	result, err := db.Exec(`DELETE FROM entries WHERE id = ?`, id)
+	if err != nil {
+		return err
+	}
+	n, _ := result.RowsAffected()
+	if n == 0 {
+		return sql.ErrNoRows
+	}
+	return nil
+}
+
+func purgeRejectedEntries(db *sql.DB) (int64, error) {
+	result, err := db.Exec(`DELETE FROM entries WHERE status = 'rejected'`)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
+}
