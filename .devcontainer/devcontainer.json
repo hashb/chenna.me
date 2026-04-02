@@ -1,17 +1,13 @@
 {
     "name": "Github Pages",
-    "image": "mcr.microsoft.com/devcontainers/jekyll",
-    // "features": {
-    //     "ghcr.io/devcontainers/features/ruby:1": {
-    //         "version": "3.3.6"
-    //     }
-    // },
+    "image": "mcr.microsoft.com/devcontainers/jekyll:dev-3.4-bookworm",
     // The port(s) to open from your container.
     "appPort": [
         4000
     ],
-    // Commands to run after the container is created.
-    "postCreateCommand": "bundle exec jekyll serve --watch --incremental --baseurl ''",
+    // Run bundle install/update on creation; serve on every start.
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "postStartCommand": "bundle exec jekyll serve --watch --incremental --baseurl ''",
     // Add the IDs of extensions you want installed when the container is created in the array below.
     "customizations": {
         "vscode": {

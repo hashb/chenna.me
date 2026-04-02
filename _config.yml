@@ -31,9 +31,6 @@ kramdown:
 
 gfm_quirks: paragraph_end
 
-future: true
-jailed: false
-
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
@@ -42,7 +39,6 @@ plugins:
   - jekyll-feed
   - jekyll-redirect-from
 
-# remote_theme: hashb/california
 incremental: false
 
 jekyll_compose:
@@ -64,6 +60,10 @@ defaults:
 #   tags:
 #     except:
 #       - "Captain's log"
+
+# hide backend components
+exclude:
+  - guestbook-backend
 
 author: 
   name: Chenna Kautilya

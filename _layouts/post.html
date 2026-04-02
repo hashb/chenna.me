@@ -41,44 +41,56 @@ layout: default
   </div>
 </article>
 
-<script unsafe-inline integrity="sha256-H1Ahsgtjb6TlNfxgfa2BDEXjAsW3DVDFtaFyZFbyYl4=">
-  const openCommentsBtn = document.getElementById('open-comments-btn');
-  const commentsContainer = document.getElementById('comments-container');
-
-  openCommentsBtn.addEventListener('click', function() {
-    if (commentsContainer.style.display === 'none') {
-      commentsContainer.style.display = 'block';
-      openCommentsBtn.style.display = 'none';
-      loadGiscus();
-    } else {
-      commentsContainer.style.display = 'none';
-      openCommentsBtn.style.display = 'block';
-    }
-  });
-
-  function loadGiscus() {
-    var script = document.createElement('script');
-    script.src = "https://giscus.app/client.js";
-    script.setAttribute("data-repo", "hashb/chenna.me");
-    script.setAttribute("data-repo-id", "MDEwOlJlcG9zaXRvcnkxMjY2NzEzNQ==");
-    script.setAttribute("data-category", "General");
-    script.setAttribute("data-category-id", "DIC_kwDOAMFI_84B_Mgr");
-    script.setAttribute("data-mapping", "title");
-    script.setAttribute("data-reactions-enabled", "1");
-    script.setAttribute("data-emit-metadata", "0");
-    script.setAttribute("data-theme", "preferred_color_scheme");
-    script.setAttribute("crossorigin", "anonymous");
-    script.async = true;
-    document.getElementById('comments-container').appendChild(script);
-  }
-</script>
-
 <script>
-  document.getElementById('open-webmentions-btn').addEventListener('click', function () {
-    this.style.display = 'none';
-    document.getElementById('webmentions-container').style.display = 'block';
-    var s = document.createElement('script');
-    s.src = '/assets/webmentions.js';
-    document.body.appendChild(s);
-  });
+  (function () {
+    var giscusLoaded = false;
+
+    document.getElementById('open-comments-btn').addEventListener('click', function () {
+      var btn = this;
+      var container = document.getElementById('comments-container');
+      if (container.style.display === 'none') {
+        container.style.display = 'block';
+        btn.style.display = 'none';
+        if (!giscusLoaded) {
+          giscusLoaded = true;
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'hashb/chenna.me');
+          script.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMjY2NzEzNQ==');
+          script.setAttribute('data-category', 'General');
+          script.setAttribute('data-category-id', 'DIC_kwDOAMFI_84B_Mgr');
+          script.setAttribute('data-mapping', 'title');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-theme', 'preferred_color_scheme');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          container.appendChild(script);
+        }
+      } else {
+        container.style.display = 'none';
+        btn.style.display = 'block';
+      }
+    });
+
+    var wmLoaded = false;
+    document.getElementById('open-webmentions-btn').addEventListener('click', function () {
+      var btn = this;
+      var container = document.getElementById('webmentions-container');
+      if (container.style.display === 'none') {
+        container.style.display = 'block';
+        btn.style.display = 'none';
+        if (!wmLoaded) {
+          wmLoaded = true;
+          container.innerHTML = '<p>Loading webmentions&hellip;</p>';
+          var s = document.createElement('script');
+          s.src = '/assets/webmentions.js';
+          document.body.appendChild(s);
+        }
+      } else {
+        container.style.display = 'none';
+        btn.style.display = 'block';
+      }
+    });
+  }());
 </script>
