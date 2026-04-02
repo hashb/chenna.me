@@ -32,6 +32,13 @@ layout: default
     <button id="open-comments-btn">Open Comments</button>
     <div id="comments-container" style="display: none;"></div>
   </div>
+
+  <div class="post-webmentions">
+    <button id="open-webmentions-btn">Open Webmentions</button>
+    <div id="webmentions-container" style="display: none;"
+         data-page-url="{{ page.url | prepend: site.url }}"
+         data-token="kafUIc2SQX03BkZzQgsb1g"></div>
+  </div>
 </article>
 
 <script unsafe-inline integrity="sha256-H1Ahsgtjb6TlNfxgfa2BDEXjAsW3DVDFtaFyZFbyYl4=">
@@ -64,4 +71,14 @@ layout: default
     script.async = true;
     document.getElementById('comments-container').appendChild(script);
   }
+</script>
+
+<script>
+  document.getElementById('open-webmentions-btn').addEventListener('click', function () {
+    this.style.display = 'none';
+    document.getElementById('webmentions-container').style.display = 'block';
+    var s = document.createElement('script');
+    s.src = '/assets/webmentions.js';
+    document.body.appendChild(s);
+  });
 </script>

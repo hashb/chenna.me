@@ -438,3 +438,37 @@ div.archive-item p {
 div.archive-month {
     margin-bottom: 1.2em;
 }
+
+/*** Webmentions ***/
+.post-webmentions {
+    margin-top: 1em;
+}
+
+.wm-likes,
+.wm-reposts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 1em;
+
+    img {
+        border-radius: 50%;
+        vertical-align: middle;
+    }
+}
+
+.wm-replies {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1em;
+
+    li {
+        margin-bottom: 1em;
+    }
+
+    img {
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+}
