@@ -1,0 +1,12 @@
+<!-- IndieWeb h-card: machine-readable identity card for microformat parsers -->
+<div class="h-card" hidden>
+  <a class="u-url u-uid" href="{{ site.url }}">{{ site.url }}</a>
+  <span class="p-name">{{ site.author.name }}</span>
+  <img class="u-photo" src="{{ site.url }}{{ site.author.image }}" alt="{{ site.author.name }}">
+  <span class="p-note">{{ site.author.description }}</span>
+  <a class="u-email" href="mailto:{{ site.author.mail }}">{{ site.author.mail }}</a>
+  <span class="p-job-title">{{ site.author.job_title }}</span>
+  <a class="u-url" rel="me" href="https://github.com/{{ site.author.github }}">GitHub</a>
+  <a class="u-url" rel="me" href="https://twitter.com/{{ site.author.twitter }}">Twitter/X</a>
+  <a class="u-url" rel="me" href="https://www.linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a>
+</div>

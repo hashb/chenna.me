@@ -1,30 +1,31 @@
 ---
 layout: default
 ---
-<article class="post">
+<article class="post h-entry">
 
   {% if page.mathjax %}
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   {% endif %}
 
-  <h1>{% include title_emoji.html %}</h1>
+  <h1 class="p-name">{% include title_emoji.html %}</h1>
+  <a class="u-url" href="{{ page.url | prepend: site.url }}" hidden>permalink</a>
   {% if page.external-url %}
   <p class="meta"><span class="postdate">Link: <a href="{{ page.external-url }}">{{ page.external-url }}</a></span></p>
   {% endif %}
 
   {% include toc.html html=content class="toc" %}
-  <div class="post-content">{{ content }}</div>
+  <div class="e-content post-content">{{ content }}</div>
 
   <div class="post-footer">
     <address>By
-      <a href="https://twitter.com/{{ site.author['twitter'] }}">{{ site.author["name"] }}</a>
+      <a class="p-author h-card" href="{{ site.url }}">{{ site.author["name"] }}</a>
     </address>
-    <p class="meta">Posted on <span class="postdate"><time datetime="{{ page.date | date_to_xmlschema }}"
+    <p class="meta">Posted on <span class="postdate"><time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}"
           itemprop="datePublished">{{ page.date | date: "%b %d, %Y" }}</time>{% if page.last_modified_at %}
-        (Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">{{
+        (Updated: <time class="dt-updated" datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">{{
           page.last_modified_at | date: "%b %d, %Y" }}</time>){% endif %}</span>
     </p>
-    <p>{% for tag in page.tags %}<a href="/tags/#{{ tag | slugify }}" rel="tag">{{ tag }}</a>{% endfor %}</p>
+    <p>{% for tag in page.tags %}<a class="p-category" href="/tags/#{{ tag | slugify }}" rel="tag">{{ tag }}</a>{% endfor %}</p>
   </div>
 
   <div class="post-comments">

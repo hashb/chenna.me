@@ -45,6 +45,11 @@
   </script>
   <!-- RSS feed metadata -->
   {% feed_meta %}
+  <!-- IndieWeb rel="me" identity -->
+  <link rel="me" href="https://github.com/{{ site.author.github }}">
+  <link rel="me" href="https://twitter.com/{{ site.author.twitter }}">
+  <link rel="me" href="https://www.linkedin.com/in/{{ site.linkedin_username }}">
+  <link rel="me" href="mailto:{{ site.author.mail }}">
 </head>
 
 <body>
@@ -64,6 +69,7 @@
   </header>
 
   <main>
+    {% if page.profile_schema %}{% include h-card.html %}{% endif %}
     {{ content }}
   </main>
 
