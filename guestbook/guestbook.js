@@ -1,4 +1,6 @@
-const API_BASE = "https://chenna-guestbook.fly.dev";
+const API_BASE = window.location.hostname === "localhost"
+  ? "http://localhost:8080"
+  : "https://chenna-guestbook.fly.dev";
 const PUBLIC_PAGE_SIZE = 24;
 
 function buildApiURL(path, params = {}) {
@@ -43,7 +45,7 @@ function createAuthorNode(entry) {
     const link = document.createElement("a");
     link.href = entry.website;
     link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    link.rel = "ugc nofollow noopener noreferrer";
     link.textContent = entry.name;
     return link;
   }

@@ -23,7 +23,7 @@
   // History
   let history = [ctx.getImageData(0, 0, ACTUAL, ACTUAL)];
   let historyIndex = 0;
-  const MAX_HISTORY = 50;
+  const MAX_HISTORY = 20;
 
   function saveState() {
     historyIndex++;
@@ -55,10 +55,14 @@
   function updateUndoRedo() {
     const undoBtn = document.getElementById("btn-undo");
     const redoBtn = document.getElementById("btn-redo");
-    if (undoBtn) undoBtn.style.opacity = historyIndex > 0 ? "1" : "0.35";
-    if (redoBtn)
-      redoBtn.style.opacity =
-        historyIndex < history.length - 1 ? "1" : "0.35";
+    if (undoBtn) {
+      undoBtn.disabled = historyIndex <= 0;
+      undoBtn.style.opacity = historyIndex > 0 ? "1" : "0.35";
+    }
+    if (redoBtn) {
+      redoBtn.disabled = historyIndex >= history.length - 1;
+      redoBtn.style.opacity = historyIndex < history.length - 1 ? "1" : "0.35";
+    }
   }
 
   // ── Drawing ─────────────────────────────────────────────────

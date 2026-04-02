@@ -38,7 +38,15 @@ func main() {
 	handler := corsMiddleware(srv, allowedOrigins)
 
 	log.Printf("starting server on :%s", port)
-	if err := http.ListenAndServe(":"+port, handler); err != nil {
+	httpSrv := &http.Server{
+		Addr:              ":" + port,
+		Handler:           handler,
+		ReadHeaderTimeout: 10 * time.Second,
+		ReadTimeout:       30 * time.Second,
+		WriteTimeout:      60 * time.Second,
+		IdleTimeout:       120 * time.Second,
+	}
+	if err := httpSrv.ListenAndServe(); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
 }

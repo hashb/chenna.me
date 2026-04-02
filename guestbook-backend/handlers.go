@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"image/png"
 	"io"
 	"log"
 	"net/http"
@@ -133,6 +134,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	var entry Entry
 
 	if strings.HasPrefix(contentType, "multipart/form-data") {
+		r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
 		if err := r.ParseMultipartForm(10 << 20); err != nil { // 10MB max
 			writeJSONError(w, http.StatusBadRequest, "request too large")
 			return
@@ -158,6 +160,15 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 				writeJSONError(w, http.StatusBadRequest, "image must be a PNG file")
 				return
 			}
+			cfg, pngErr := png.DecodeConfig(bytes.NewReader(data))
+			if pngErr != nil {
+				writeJSONError(w, http.StatusBadRequest, "image must be a valid PNG file")
+				return
+			}
+			if cfg.Width*cfg.Height > 2_000_000 {
+				writeJSONError(w, http.StatusBadRequest, "image dimensions too large")
+				return
+			}
 			entry.ImageData = data
 		} else if !errors.Is(err, http.ErrMissingFile) {
 			writeJSONError(w, http.StatusBadRequest, "error reading image")
@@ -171,7 +182,9 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 			Content   string `json:"content"`
 		}
 		r.Body = http.MaxBytesReader(w, r.Body, maxJSONBodySize)
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		decoder := json.NewDecoder(r.Body)
+		decoder.DisallowUnknownFields()
+		if err := decoder.Decode(&req); err != nil {
 			writeJSONError(w, http.StatusBadRequest, "invalid JSON")
 			return
 		}
@@ -214,13 +227,17 @@ func (s *server) handleGetImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data, err := getEntryImage(s.db, id, "approved")
-	if errors.Is(err, sql.ErrNoRows) || data == nil {
-		http.Error(w, "not found", http.StatusNotFound)
-		return
-	}
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
 		log.Printf("error getting image: %v", err)
 		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
+	}
+	if data == nil {
+		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
 
@@ -237,18 +254,22 @@ func (s *server) handleAdminGetImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data, err := getEntryImage(s.db, id, "")
-	if errors.Is(err, sql.ErrNoRows) || data == nil {
-		http.Error(w, "not found", http.StatusNotFound)
-		return
-	}
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
 		log.Printf("error getting admin image: %v", err)
 		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
+	if data == nil {
+		http.Error(w, "not found", http.StatusNotFound)
+		return
+	}
 
 	w.Header().Set("Content-Type", "image/png")
-	w.Header().Set("Cache-Control", "private, max-age=0")
+	w.Header().Set("Cache-Control", "private, no-store")
 	w.Write(data)
 }
 

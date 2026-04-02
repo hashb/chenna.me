@@ -73,11 +73,8 @@ func (rl *rateLimiter) cleanup() {
 }
 
 func clientIP(r *http.Request) string {
-	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-		if i := strings.Index(xff, ","); i > 0 {
-			return strings.TrimSpace(xff[:i])
-		}
-		return strings.TrimSpace(xff)
+	if flyIP := r.Header.Get("Fly-Client-IP"); flyIP != "" {
+		return strings.TrimSpace(flyIP)
 	}
 	host := r.RemoteAddr
 	if i := strings.LastIndex(host, ":"); i > 0 {

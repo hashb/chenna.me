@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -43,6 +44,9 @@ func initDB(dbPath string) (*sql.DB, error) {
 		return nil, err
 	}
 
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(1)
+
 	_, err = db.Exec(`
 		PRAGMA journal_mode=WAL;
 		PRAGMA busy_timeout=5000;
@@ -59,6 +63,7 @@ func initDB(dbPath string) (*sql.DB, error) {
 		);
 
 		CREATE INDEX IF NOT EXISTS idx_entries_status ON entries(status);
+		CREATE INDEX IF NOT EXISTS idx_entries_status_created ON entries(status, created_at DESC, id DESC);
 	`)
 	if err != nil {
 		return nil, err
@@ -124,8 +129,8 @@ func getEntriesByStatus(db *sql.DB, status string, limit, offset int, ascending 
 		SELECT id, name, website, entry_type, content, image_data IS NOT NULL, status, created_at
 		FROM entries
 		WHERE status = ?
-		ORDER BY created_at %s
-	`, order)
+		ORDER BY created_at %s, id %s
+	`, order, order)
 	args := []any{status}
 	if limit > 0 {
 		query += ` LIMIT ? OFFSET ?`
@@ -150,7 +155,14 @@ func scanEntries(rows *sql.Rows) ([]Entry, error) {
 		if err != nil {
 			return nil, err
 		}
-		e.CreatedAt, _ = time.Parse("2006-01-02 15:04:05", createdAt)
+		parsed, parseErr := time.Parse("2006-01-02 15:04:05", createdAt)
+		if parseErr != nil {
+			parsed, parseErr = time.Parse(time.RFC3339, createdAt)
+		}
+		if parseErr != nil {
+			log.Printf("warning: failed to parse created_at %q for entry %d: %v", createdAt, e.ID, parseErr)
+		}
+		e.CreatedAt = parsed
 		entries = append(entries, e)
 	}
 	if entries == nil {
