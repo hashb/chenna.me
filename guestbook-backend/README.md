@@ -59,7 +59,7 @@ Requires Go 1.23+.
 
 ```sh
 # Run locally
-ADMIN_TOKEN=secret DB_PATH=./guestbook.db go run .
+ALLOWED_ORIGINS="http://localhost:4001" ADMIN_TOKEN=secret DB_PATH=./guestbook.db go run .
 
 # Run tests
 go test -v ./...
@@ -72,4 +72,5 @@ Deployed to Fly.io with a persistent volume for the SQLite database.
 ```sh
 fly deploy
 fly secrets set ADMIN_TOKEN=<token>
+fly secrets set ALLOWED_ORIGINS="https://chenna.me,http://localhost:4001"
 ```
