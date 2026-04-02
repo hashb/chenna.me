@@ -1,0 +1,86 @@
+---
+layout: default
+title: Sign the Guestbook
+permalink: /guestbook/sign/
+---
+
+<h1>Sign the Guestbook</h1>
+
+<p>Draw something or leave a short note. Submissions are reviewed before they appear.</p>
+
+<form id="sign-form">
+  <div class="gb-toggle">
+    <input type="radio" name="mode" id="mode-draw" value="draw" checked>
+    <label for="mode-draw">Draw a picture</label>
+    <input type="radio" name="mode" id="mode-text" value="message">
+    <label for="mode-text">Type a message</label>
+  </div>
+
+  <div id="draw-section">
+    <div class="gb-toolbar">
+      <button type="button" id="btn-pen" title="Pencil" aria-label="Pencil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 512 512" fill="currentColor"><path d="M36.4 360.9L13.4 439 1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1L73 498.6l78.1-23c12.4-3.6 23.7-9.9 33.4-18.4c1.4-1.2 2.7-2.5 4-3.8L492.7 149.3c21.9-21.9 24.6-55.6 8.2-80.5c-2.3-3.5-5.1-6.9-8.2-10L453.3 19.3c-25-25-65.5-25-90.5 0L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4zm46 13.5c1.7-5.6 4.5-10.8 8.4-15.2c.6-.6 1.1-1.2 1.7-1.8L321 129 383 191 154.6 419.5c-4.7 4.7-10.6 8.2-17 10.1l-23.4 6.9L59.4 452.6l16.1-54.8 6.9-23.4z"/></svg>
+      </button>
+      <button type="button" id="btn-eraser" title="Eraser" aria-label="Eraser">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 576 512" fill="currentColor"><path d="M97 319c-9.4 9.4-9.4 24.6 0 33.9l72 72c4.5 4.5 10.6 7 17 7H294.1c6.4 0 12.5-2.5 17-7l65-65L216 200 97 319zM285.1 63c28.1-28.1 73.7-28.1 101.8 0L513 189.1c28.1 28.1 28.1 73.7 0 101.8L371.9 432H520c13.3 0 24 10.7 24 24s-10.7 24-24 24H296v0c-.6 0-1.3 0-1.9 0H185.9c-19.1 0-37.4-7.6-50.9-21.1l-72-72c-28.1-28.1-28.1-73.7 0-101.8L285.1 63z"/></svg>
+      </button>
+      <span class="gb-toolbar-sep"></span>
+      <button type="button" id="btn-small" title="Small brush" aria-label="Small brush">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
+      </button>
+      <button type="button" id="btn-medium" title="Medium brush" aria-label="Medium brush">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="currentColor"/></svg>
+      </button>
+      <button type="button" id="btn-large" title="Large brush" aria-label="Large brush">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></svg>
+      </button>
+      <span class="gb-toolbar-sep"></span>
+      <button type="button" id="btn-undo" title="Undo" aria-label="Undo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 512 512" fill="currentColor"><path d="M48.5 224H40c-13.3 0-24-10.7-24-24V72c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2L98.6 96.6c87.6-86.5 228.7-86.2 315.8 1c87.5 87.5 87.5 229.3 0 316.8s-229.3 87.5-316.8 0c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c62.5 62.5 163.8 62.5 226.3 0s62.5-163.8 0-226.3c-62.2-62.2-162.7-62.5-225.3-1L185 183c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8H48.5z"/></svg>
+      </button>
+      <button type="button" id="btn-redo" title="Redo" aria-label="Redo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 512 512" fill="currentColor"><path d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z"/></svg>
+      </button>
+    </div>
+
+    <div class="gb-canvas-wrap">
+      <canvas id="draw-canvas"></canvas>
+    </div>
+  </div>
+
+  <div id="message-section" class="gb-message-area hidden">
+    <textarea id="message" placeholder="Write your message here..." maxlength="4000" spellcheck="false"></textarea>
+  </div>
+
+  <div class="gb-field">
+    <label for="name">Your name</label>
+    <input type="text" id="name" name="name" required autocomplete="name" maxlength="80">
+  </div>
+
+  <div class="gb-field">
+    <label for="website">Your website (optional)</label>
+    <input type="text" id="website" name="website" placeholder="https://" maxlength="2048" autocapitalize="none" spellcheck="false">
+  </div>
+
+  <div class="gb-field">
+    <label for="spam">Spam bot blocker</label>
+    <small>Please enter the word "guestbook" below, lovely human.</small>
+    <input type="text" id="spam" name="spam" required pattern="[Gg][Uu][Ee][Ss][Tt][Bb][Oo][Oo][Kk]" title="Please type the word 'guestbook'" autocapitalize="none">
+  </div>
+
+  <div id="form-status" class="gb-status hidden" aria-live="polite"></div>
+
+  <button type="submit" class="gb-submit-btn">Submit</button>
+  <a href="/guestbook/" style="display:inline-block; margin-top:0.75rem; font-size:0.85rem;">Cancel</a>
+</form>
+
+<div id="success" class="gb-success hidden">
+  <h2>Thank you!</h2>
+  <p>Your entry has been submitted for review. It will appear once approved.</p>
+  <a class="gb-sign-btn" href="/guestbook/">Back to guestbook</a>
+</div>
+
+<div id="cursor-circle" class="gb-cursor"></div>
+
+<script src="/guestbook/canvas.js"></script>
+<script src="/guestbook/guestbook.js"></script>

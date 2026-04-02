@@ -1,0 +1,30 @@
+# fly.toml app configuration file generated for chenna-guestbook on 2026-04-03T04:01:54+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'chenna-guestbook'
+primary_region = 'sjc'
+
+[build]
+
+[env]
+  DB_PATH = '/data/guestbook.db'
+  PORT = '8080'
+
+[[mounts]]
+  source = 'guestbook_data'
+  destination = '/data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256

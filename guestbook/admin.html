@@ -1,0 +1,33 @@
+---
+layout: default
+title: Guestbook Moderation
+permalink: /guestbook/admin/
+sitemap: false
+---
+
+<h1>Guestbook Moderation</h1>
+
+<p>Enter the guestbook admin token to review pending entries. The token is only kept for this browser session.</p>
+
+<form id="admin-auth-form" class="gb-admin-auth">
+  <div class="gb-field">
+    <label for="admin-token">Admin token</label>
+    <input type="password" id="admin-token" name="admin-token" autocomplete="current-password" required>
+  </div>
+
+  <div class="gb-admin-controls">
+    <button type="submit" class="gb-submit-btn">Load pending entries</button>
+    <button type="button" id="clear-token" class="gb-secondary-btn">Forget token</button>
+  </div>
+</form>
+
+<div id="admin-status" class="gb-status hidden" aria-live="polite"></div>
+
+<section id="admin-panel" class="hidden">
+  <p class="gb-admin-hint">Pending entries are shown oldest first.</p>
+  <div id="admin-list" class="gb-admin-list">
+    <div class="gb-loading">Enter a token to load pending entries.</div>
+  </div>
+</section>
+
+<script src="/guestbook/admin.js"></script>
