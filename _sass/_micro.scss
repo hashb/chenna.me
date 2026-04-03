@@ -24,11 +24,14 @@
 .micro-meta {
   font-size: 0.85em;
   color: var(--meta-color, #888);
-  margin-top: 0.5em;
+  line-height: 1.6;
 
   .micro-author {
-    display: inline;
     font-style: normal;
+
+    &::after {
+      content: " · ";
+    }
   }
 
   .micro-timestamp {
@@ -37,16 +40,6 @@
 
     &:hover {
       text-decoration: underline;
-    }
-  }
-
-  .micro-tags {
-    &::before {
-      content: " · ";
-    }
-
-    a {
-      color: var(--meta-color, #888);
     }
   }
 }

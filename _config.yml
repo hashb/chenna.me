@@ -10,6 +10,7 @@ url: 'https://chenna.me'  # the base hostname & protocol for your site
 repo_url: 'https://github.com/hashb/chenna.me'
 
 timezone: UTC
+future: true
 
 paginate: 4
 paginate_path: '/blog/page:num/'
@@ -23,7 +24,7 @@ collections:
     permalink: '/work/:year/:month/:title/'
   micros:
     output: true
-    permalink: '/micro/:year/:month/:slug/'
+    permalink: '/micro/:year/:month/:day/:hour:minute:second/'
 
 markdown: kramdown
 kramdown:

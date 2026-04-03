@@ -170,9 +170,9 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	}
 
 	// Build front matter
-	slug := postDate.Format("02-150405")
-	filename := fmt.Sprintf("_micros/%d/%s-%s.md", postDate.Year(), postDate.Format("2006-01"), slug)
-	postURL := fmt.Sprintf("%s/micro/%s/%s/", j.siteURL, postDate.Format("2006/01"), slug)
+	// URL is derived entirely from the date via permalink: /micro/:year/:month/:day/:hour:minute:second/
+	filename := fmt.Sprintf("_micros/%d/%s.md", postDate.Year(), postDate.Format("2006-01-02-150405"))
+	postURL := fmt.Sprintf("%s/micro/%s/", j.siteURL, postDate.Format("2006/01/02/150405"))
 
 	frontMatter := buildFrontMatter(postDate, categories, published)
 	fullContent := frontMatter + "\n" + body.String()
@@ -496,46 +496,44 @@ func rebuildPost(fm map[string]any, content string) string {
 }
 
 // urlToFilename converts a post URL to a file path in the repo.
-// URL format: https://chenna.me/micro/2026/04/02-143000/
-// File format: _micros/2026/2026-04-02-143000.md
+// URL format: https://chenna.me/micro/2026/04/03/143000/
+// File format: _micros/2026/2026-04-03-143000.md
 func (j *jekyllMicropub) urlToFilename(postURL string) (string, error) {
-	// Strip site URL prefix and trailing slash
 	path := strings.TrimPrefix(postURL, j.siteURL)
 	path = strings.TrimPrefix(path, "/micro/")
 	path = strings.TrimSuffix(path, "/")
 
-	// Expected: "2026/04/02-143000"
+	// Expected: "2026/04/03/143000"
 	parts := strings.Split(path, "/")
-	if len(parts) != 3 {
+	if len(parts) != 4 {
 		return "", fmt.Errorf("%w: invalid post URL format: %s", micropub.ErrBadRequest, postURL)
 	}
 
-	year, month, slug := parts[0], parts[1], parts[2]
-	filename := fmt.Sprintf("_micros/%s/%s-%s-%s.md", year, year, month, slug)
+	year, month, day, time := parts[0], parts[1], parts[2], parts[3]
+	filename := fmt.Sprintf("_micros/%s/%s-%s-%s-%s.md", year, year, month, day, time)
 	return filename, nil
 }
 
 // filenameToURL converts a file path to a post URL.
-// File format: _micros/2026/2026-04-02-143000.md
-// URL format: https://chenna.me/micro/2026/04/02-143000/
+// File format: _micros/2026/2026-04-03-143000.md
+// URL format: https://chenna.me/micro/2026/04/03/143000/
 func (j *jekyllMicropub) filenameToURL(filename string) string {
-	// Strip prefix and extension
 	name := strings.TrimPrefix(filename, "_micros/")
 	name = strings.TrimSuffix(name, ".md")
 
-	// Expected: "2026/2026-04-02-143000"
+	// Expected: "2026/2026-04-03-143000"
 	parts := strings.Split(name, "/")
 	if len(parts) != 2 {
 		return j.siteURL + "/micro/"
 	}
 
-	// Parse "2026-04-02-143000" → year=2026, month=04, slug=02-143000
-	dateParts := strings.SplitN(parts[1], "-", 3)
-	if len(dateParts) != 3 {
+	// Parse "2026-04-03-143000" → year, month, day, time
+	dateParts := strings.SplitN(parts[1], "-", 4)
+	if len(dateParts) != 4 {
 		return j.siteURL + "/micro/"
 	}
 
-	return fmt.Sprintf("%s/micro/%s/%s/%s/", j.siteURL, dateParts[0], dateParts[1], dateParts[2])
+	return fmt.Sprintf("%s/micro/%s/%s/%s/%s/", j.siteURL, dateParts[0], dateParts[1], dateParts[2], dateParts[3])
 }
 
 // postToMf2 converts a Jekyll post file to microformats2 properties.
