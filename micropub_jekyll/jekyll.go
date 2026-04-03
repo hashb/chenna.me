@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"sort"
@@ -26,6 +27,12 @@ type jekyllMicropub struct {
 	imageBaseURL  string
 	siteURL       string
 	tokenEndpoint string
+}
+
+type tokenVerificationResponse struct {
+	Me       string `json:"me"`
+	Scope    string `json:"scope"`
+	ClientID string `json:"client_id"`
 }
 
 // HasScope verifies the bearer token against the IndieAuth token endpoint.
@@ -55,38 +62,33 @@ func (j *jekyllMicropub) HasScope(r *http.Request, scope string) bool {
 		return false
 	}
 
-	var tokenResp struct {
-		Me       string `json:"me"`
-		Scope    string `json:"scope"`
-		ClientID string `json:"client_id"`
-	}
-
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Printf("error reading token response: %v", err)
 		return false
 	}
 
-	// Try JSON first, fall back to form-encoded
-	if err := json.Unmarshal(body, &tokenResp); err != nil {
-		// Some token endpoints return form-encoded
-		for _, pair := range strings.Split(string(body), "&") {
-			kv := strings.SplitN(pair, "=", 2)
-			if len(kv) != 2 {
-				continue
-			}
-			switch kv[0] {
-			case "me":
-				tokenResp.Me = kv[1]
-			case "scope":
-				tokenResp.Scope = kv[1]
-			}
-		}
+	tokenResp, err := parseTokenVerificationResponse(body)
+	if err != nil {
+		log.Printf("error parsing token response: %v", err)
+		return false
 	}
 
-	// Verify the "me" URL matches our site
-	if !strings.HasPrefix(tokenResp.Me, j.siteURL) {
-		log.Printf("token 'me' mismatch: got %q, want prefix %q", tokenResp.Me, j.siteURL)
+	meURL, err := normalizeComparableURL(tokenResp.Me)
+	if err != nil {
+		log.Printf("error normalizing token 'me' URL %q: %v", tokenResp.Me, err)
+		return false
+	}
+
+	siteURL, err := normalizeComparableURL(j.siteURL)
+	if err != nil {
+		log.Printf("error normalizing site URL %q: %v", j.siteURL, err)
+		return false
+	}
+
+	// Verify the "me" URL matches our configured site URL.
+	if meURL != siteURL {
+		log.Printf("token 'me' mismatch: got %q, want %q", meURL, siteURL)
 		return false
 	}
 
@@ -124,13 +126,8 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	categories := extractStringSlice(req.Properties, "category")
 	photoAlts := extractStringSlice(req.Commands, "photo-alt")
 
-	// Determine published status
-	published := true
-	if statuses := extractStringSlice(req.Commands, "post-status"); len(statuses) > 0 {
-		if statuses[0] == "draft" {
-			published = false
-		}
-	}
+	// Determine published status.
+	published := requestedPublishedStatus(req)
 
 	// Use provided date or now
 	postDate := now
@@ -156,7 +153,7 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 		}
 
 		// If the photo URL matches our CDN, use responsive_image include
-		if strings.Contains(photo, j.imageBaseURL) {
+		if isManagedPhotoURL(photo, j.imageBaseURL) {
 			baseName := extractBaseName(photo, j.imageBaseURL)
 			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%q alt=%q width=\"1920\" height=\"auto\" %%}\n", baseName, alt))
 		} else {
@@ -225,7 +222,10 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 	if deleteMap, ok := req.Updates.Delete.(map[string]any); ok {
 		if vals, ok := deleteMap["category"]; ok {
 			existing, _ := fm["tags"].([]string)
-			toRemove := toStringSlice(vals.([]any))
+			toRemove, err := extractStringValues(vals)
+			if err != nil {
+				return "", err
+			}
 			fm["tags"] = removeStrings(existing, toRemove)
 		}
 	} else if deleteSlice, ok := req.Updates.Delete.([]any); ok {
@@ -380,17 +380,27 @@ func toStringSlice(vals []any) []string {
 }
 
 func extractBaseName(photoURL, baseURL string) string {
-	// Remove the base URL prefix to get the image name
-	name := strings.TrimPrefix(photoURL, "https:"+baseURL+"/")
-	name = strings.TrimPrefix(name, "http:"+baseURL+"/")
-	name = strings.TrimPrefix(name, baseURL+"/")
-	// Remove size suffix if present
-	for _, suffix := range []string{"-small", "-medium", "-large", "-xlarge"} {
-		name = strings.TrimSuffix(name, suffix+".jpg")
-		name = strings.TrimSuffix(name, suffix+".jpeg")
-		name = strings.TrimSuffix(name, suffix+".png")
+	name, ok := managedPhotoRelativePath(photoURL, baseURL)
+	if !ok {
+		return "micro/"
 	}
-	// Include the micro/ prefix for responsive_image include
+
+	decodedName, err := url.PathUnescape(name)
+	if err == nil {
+		name = decodedName
+	}
+
+	if ext := filepath.Ext(name); ext != "" {
+		switch strings.ToLower(ext) {
+		case ".jpg", ".jpeg", ".png":
+			name = name[:len(name)-len(ext)]
+		}
+	}
+
+	for _, suffix := range []string{"-small", "-medium", "-large", "-xlarge"} {
+		name = strings.TrimSuffix(name, suffix)
+	}
+
 	return "micro/" + name
 }
 
@@ -468,7 +478,6 @@ func parseFrontMatter(data string) (map[string]any, string) {
 func rebuildPost(fm map[string]any, content string) string {
 	date, _ := fm["date"].(string)
 	tags, _ := fm["tags"].([]string)
-	published, _ := fm["published"].(bool)
 
 	layout, ok := fm["layout"].(string)
 	if !ok {
@@ -485,14 +494,144 @@ func rebuildPost(fm map[string]any, content string) string {
 	for _, tag := range tags {
 		b.WriteString(fmt.Sprintf("  - %s\n", tag))
 	}
-	if published {
-		b.WriteString("published: true\n")
-	} else {
-		b.WriteString("published: false\n")
+	if publishedValue, ok := fm["published"]; ok {
+		published, ok := publishedValue.(bool)
+		if ok {
+			if published {
+				b.WriteString("published: true\n")
+			} else {
+				b.WriteString("published: false\n")
+			}
+		}
 	}
 	b.WriteString("---\n\n")
 	b.WriteString(content)
 	return b.String()
+}
+
+func parseTokenVerificationResponse(body []byte) (tokenVerificationResponse, error) {
+	trimmedBody := strings.TrimSpace(string(body))
+	if trimmedBody == "" {
+		return tokenVerificationResponse{}, fmt.Errorf("empty token response")
+	}
+
+	var tokenResp tokenVerificationResponse
+	if err := json.Unmarshal(body, &tokenResp); err == nil {
+		if tokenResp.Me != "" || tokenResp.Scope != "" || tokenResp.ClientID != "" {
+			return tokenResp, nil
+		}
+	}
+
+	values, err := url.ParseQuery(trimmedBody)
+	if err != nil {
+		return tokenVerificationResponse{}, err
+	}
+
+	return tokenVerificationResponse{
+		Me:       values.Get("me"),
+		Scope:    values.Get("scope"),
+		ClientID: values.Get("client_id"),
+	}, nil
+}
+
+func normalizeComparableURL(raw string) (string, error) {
+	parsed, err := parseComparableURL(raw)
+	if err != nil {
+		return "", err
+	}
+	return parsed.String(), nil
+}
+
+func parseComparableURL(raw string) (*url.URL, error) {
+	raw = strings.TrimSpace(raw)
+	if strings.HasPrefix(raw, "//") {
+		raw = "https:" + raw
+	}
+
+	parsed, err := url.Parse(raw)
+	if err != nil {
+		return nil, err
+	}
+	if parsed.Scheme == "" || parsed.Host == "" {
+		return nil, fmt.Errorf("invalid URL %q", raw)
+	}
+
+	parsed.Scheme = strings.ToLower(parsed.Scheme)
+	parsed.Host = strings.ToLower(parsed.Host)
+	parsed.Fragment = ""
+	parsed.RawFragment = ""
+	parsed.RawQuery = ""
+	parsed.ForceQuery = false
+	if parsed.Path == "/" {
+		parsed.Path = ""
+	} else {
+		parsed.Path = strings.TrimSuffix(parsed.Path, "/")
+	}
+
+	return parsed, nil
+}
+
+func requestedPublishedStatus(req *micropub.Request) bool {
+	statuses := extractStringSlice(req.Properties, "post-status")
+	if len(statuses) == 0 {
+		statuses = extractStringSlice(req.Commands, "post-status")
+	}
+	if len(statuses) == 0 {
+		return true
+	}
+	return statuses[0] != "draft"
+}
+
+func isManagedPhotoURL(photoURL, baseURL string) bool {
+	_, ok := managedPhotoRelativePath(photoURL, baseURL)
+	return ok
+}
+
+func managedPhotoRelativePath(photoURL, baseURL string) (string, bool) {
+	photo, err := parseComparableURL(photoURL)
+	if err != nil {
+		return "", false
+	}
+	base, err := parseComparableURL(baseURL)
+	if err != nil {
+		return "", false
+	}
+
+	if photo.Host != base.Host {
+		return "", false
+	}
+
+	photoPath := strings.TrimSuffix(photo.EscapedPath(), "/")
+	basePath := strings.TrimSuffix(base.EscapedPath(), "/")
+	if basePath == "" {
+		basePath = "/"
+	}
+	if !strings.HasPrefix(photoPath, basePath+"/") {
+		return "", false
+	}
+
+	return strings.TrimPrefix(photoPath, basePath+"/"), true
+}
+
+func extractStringValues(value any) ([]string, error) {
+	switch typedValue := value.(type) {
+	case string:
+		return []string{typedValue}, nil
+	case []string:
+		return append([]string(nil), typedValue...), nil
+	case []any:
+		result := make([]string, 0, len(typedValue))
+		for _, item := range typedValue {
+			stringValue, ok := item.(string)
+			if !ok {
+				return nil, fmt.Errorf("%w: expected string values in update delete request", micropub.ErrBadRequest)
+			}
+			result = append(result, stringValue)
+		}
+		return result, nil
+	default:
+		return nil, fmt.Errorf("%w: invalid update delete value type %T", micropub.ErrBadRequest, value)
+	}
 }
 
 // urlToFilename converts a post URL to a file path in the repo.

@@ -6,9 +6,12 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"cloud.google.com/go/storage"
@@ -22,6 +25,7 @@ func main() {
 	}
 
 	port := getenv("PORT", "8080")
+	bindAddr := getenv("BIND_ADDR", "127.0.0.1")
 	repoPath := getenv("REPO_PATH", "/data/chenna.me")
 	gcsBucket := getenv("GCS_BUCKET", "")
 	gcsPrefix := getenv("GCS_PREFIX", "photos/prod/opt/micro")
@@ -29,6 +33,8 @@ func main() {
 	siteURL := getenv("SITE_URL", "https://chenna.me")
 	tokenEndpoint := getenv("TOKEN_ENDPOINT", "https://tokens.indieauth.com/token")
 	allowedOrigins := parseOrigins(getenv("ALLOWED_ORIGINS", ""))
+	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 
 	repo, err := newGitRepo(repoPath)
 	if err != nil {
@@ -36,12 +42,13 @@ func main() {
 	}
 
 	var gcsClient *gcsUploader
+	var storageClient *storage.Client
 	if gcsBucket != "" {
 		client, err := storage.NewClient(context.Background())
 		if err != nil {
 			log.Fatalf("failed to create GCS client: %v", err)
 		}
-		defer client.Close()
+		storageClient = client
 		gcsClient = &gcsUploader{
 			client: client,
 			bucket: gcsBucket,
@@ -67,9 +74,7 @@ func main() {
 			return []string{"published", "draft"}
 		}),
 	))
-	mux.Handle("/media", micropub.NewMediaHandler(
-		impl.uploadMedia, impl.hasScope,
-	))
+	mux.Handle("/media", newMediaHandler(impl))
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(`{"status":"ok"}` + "\n"))
@@ -77,17 +82,46 @@ func main() {
 
 	handler := corsMiddleware(mux, allowedOrigins)
 
-	log.Printf("starting micropub server on :%s", port)
+	listenAddr := net.JoinHostPort(bindAddr, port)
+	log.Printf("starting micropub server on %s", listenAddr)
 	srv := &http.Server{
-		Addr:              ":" + port,
+		Addr:              listenAddr,
 		Handler:           handler,
 		ReadHeaderTimeout: 10 * time.Second,
 		ReadTimeout:       30 * time.Second,
 		WriteTimeout:      120 * time.Second,
 		IdleTimeout:       120 * time.Second,
 	}
-	if err := srv.ListenAndServe(); err != nil {
-		log.Fatalf("server error: %v", err)
+
+	serverErr := make(chan error, 1)
+	go func() {
+		serverErr <- srv.ListenAndServe()
+	}()
+
+	select {
+	case err := <-serverErr:
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("server error: %v", err)
+		}
+	case <-serverCtx.Done():
+		log.Printf("shutdown signal received, stopping server")
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+		if err := srv.Shutdown(shutdownCtx); err != nil {
+			log.Printf("graceful shutdown failed: %v", err)
+			if closeErr := srv.Close(); closeErr != nil {
+				log.Printf("forced server close failed: %v", closeErr)
+			}
+		}
+		if err := <-serverErr; err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Printf("server returned during shutdown: %v", err)
+		}
+	}
+
+	if storageClient != nil {
+		if err := storageClient.Close(); err != nil {
+			log.Printf("failed to close GCS client: %v", err)
+		}
 	}
 }
 
