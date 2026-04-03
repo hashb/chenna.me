@@ -6,6 +6,7 @@
   background: var(--c-secondary-background);
   border-radius: 4px;
   display: block;
+  margin-bottom: 1em;
   background-size: cover;
   background-position: center;
 
@@ -65,6 +66,7 @@
   .photo-thumb {
     width: 100%;
     border-radius: 6px;
+    margin-bottom: 0;
   }
 
   // Multi-image posts: only show the first image as the grid thumbnail
