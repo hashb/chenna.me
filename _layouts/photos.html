@@ -3,11 +3,15 @@ layout: default
 ---
 
 <div class="photos-grid">
-{% for post in site.posts %}
+{% assign all_photo_posts = site.posts | concat: site.micros | sort: "date" | reverse %}
+{% assign seen_urls = "" %}
 
-{% assign lowercaseTags = post.tags | join: ',' | downcase | split: ',' %}
+{% for post in all_photo_posts %}
+  {% assign lowercaseTags = post.tags | join: ',' | downcase | split: ',' %}
 
   {% if lowercaseTags contains "photos" or lowercaseTags contains "art" %}
+    {% unless seen_urls contains post.url %}
+      {% assign seen_urls = seen_urls | append: post.url | append: "|" %}
   <article class="post">
 
     <div class="post-content">
@@ -21,6 +25,7 @@ layout: default
     </div>
 
   </article>
+    {% endunless %}
   {% endif %}
 
 {% endfor %}

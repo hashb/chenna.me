@@ -2,12 +2,14 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"image"
 	"image/jpeg"
 	"io"
 
 	"github.com/disintegration/imaging"
+	"go.n16f.net/thumbhash"
 )
 
 // imageVariant describes a responsive image variant.
@@ -25,9 +27,10 @@ var variants = []imageVariant{
 
 // resizeResult holds the resized image bytes for each variant.
 type resizeResult struct {
-	Variants map[string][]byte // suffix -> JPEG bytes
-	Width    int               // original width
-	Height   int               // original height
+	Variants  map[string][]byte // suffix -> JPEG bytes
+	Width     int               // original width
+	Height    int               // original height
+	ThumbHash string            // base64-encoded ThumbHash for blur-up placeholder
 }
 
 // processImage reads an image, auto-orients it, and produces responsive variants.
@@ -52,6 +55,11 @@ func processImage(r io.Reader) (*resizeResult, error) {
 		Width:    origWidth,
 		Height:   origHeight,
 	}
+
+	// Generate ThumbHash from a ≤100px thumbnail for blur-up placeholder
+	thumb := imaging.Fit(src, 100, 100, imaging.Lanczos)
+	hashBytes := thumbhash.EncodeImage(thumb)
+	result.ThumbHash = base64.StdEncoding.EncodeToString(hashBytes)
 
 	for _, v := range variants {
 		var resized image.Image

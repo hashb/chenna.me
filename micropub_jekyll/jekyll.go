@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	"go.hacdias.com/indielib/indieauth"
@@ -23,12 +24,13 @@ var defaultCategories = []string{
 }
 
 type jekyllMicropub struct {
-	repo          *gitRepo
-	gcs           *gcsUploader
-	imageBaseURL  string
-	siteURL       string
-	endpointURL   string
-	tokenEndpoint string
+	repo           *gitRepo
+	gcs            *gcsUploader
+	imageBaseURL   string
+	siteURL        string
+	endpointURL    string
+	tokenEndpoint  string
+	thumbhashCache sync.Map // cdnURL -> base64 ThumbHash string
 }
 
 type tokenVerificationResponse struct {
@@ -152,10 +154,19 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 		// If the photo URL matches our CDN, use responsive_image include
 		if isManagedPhotoURL(photo.URL, j.imageBaseURL) {
 			baseName := extractBaseName(photo.URL, j.imageBaseURL)
-			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%q alt=%q width=\"1920\" height=\"auto\" %%}\n", baseName, photo.Alt))
+			th := ""
+			if v, ok := j.thumbhashCache.Load(photo.URL); ok {
+				th = v.(string)
+			}
+			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%q alt=%q width=\"1920\" height=\"auto\" thumbhash=%q %%}\n", baseName, photo.Alt, th))
 		} else {
 			body.WriteString(fmt.Sprintf("\n<img src=%q alt=%q style=\"max-width: 100%%; height: auto;\">\n", photo.URL, photo.Alt))
 		}
+	}
+
+	// Auto-add "photos" tag when the post contains images
+	if len(photos) > 0 && !containsStringFold(categories, "photos") {
+		categories = append(categories, "photos")
 	}
 
 	// Add default "micro" tag if no categories specified
@@ -708,6 +719,15 @@ func postToMf2(data, url string) map[string]any {
 		"type":       []string{"h-entry"},
 		"properties": props,
 	}
+}
+
+func containsStringFold(slice []string, s string) bool {
+	for _, v := range slice {
+		if strings.EqualFold(v, s) {
+			return true
+		}
+	}
+	return false
 }
 
 func removeStrings(from, remove []string) []string {

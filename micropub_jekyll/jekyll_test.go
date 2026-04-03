@@ -215,8 +215,11 @@ func TestCreateIncludesObjectValuedPhotoInPostBody(t *testing.T) {
 	if !strings.Contains(body, "hello") {
 		t.Fatalf("post body missing content:\n%s", body)
 	}
-	if !strings.Contains(body, `{% include responsive_image.html base_image_name="micro/2026-04-03-080000-1" alt="Sunrise over the bay" width="1920" height="auto" %}`) {
+	if !strings.Contains(body, `{% include responsive_image.html base_image_name="micro/2026-04-03-080000-1" alt="Sunrise over the bay" width="1920" height="auto" thumbhash="" %}`) {
 		t.Fatalf("post body missing responsive image include:\n%s", body)
+	}
+	if !strings.Contains(body, "- photos") {
+		t.Fatalf("post body missing photos tag:\n%s", body)
 	}
 }
 

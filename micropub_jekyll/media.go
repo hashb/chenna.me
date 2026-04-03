@@ -67,6 +67,12 @@ func (j *jekyllMicropub) uploadMedia(ctx context.Context, file multipart.File, h
 
 	// Return a concrete uploaded object so the Location header is dereferenceable.
 	cdnURL := mediaObjectURL(j.imageBaseURL, baseName)
+
+	// Cache the ThumbHash keyed by the CDN URL so Create() can embed it.
+	if result.ThumbHash != "" {
+		j.thumbhashCache.Store(cdnURL, result.ThumbHash)
+	}
+
 	log.Printf("media uploaded: %s -> %s", header.Filename, cdnURL)
 	return cdnURL, nil
 }

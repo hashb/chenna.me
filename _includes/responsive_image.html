@@ -1,6 +1,6 @@
 {% assign image_path = "//i.chenna.me/photos/prod/opt/" | append: include.base_image_name %}
 
-<div class="photo-thumb">
+<div class="photo-thumb"{% if include.thumbhash and include.thumbhash != "" %} data-thumbhash="{{ include.thumbhash }}"{% endif %}>
   <img
     src="{{ image_path }}-small.jpg"
     srcset="{{ image_path }}-small.jpg 320w,

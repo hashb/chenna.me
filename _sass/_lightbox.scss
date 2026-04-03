@@ -6,6 +6,17 @@
   background: var(--c-secondary-background);
   border-radius: 4px;
   display: block;
+  background-size: cover;
+  background-position: center;
+
+  // ThumbHash blur-up: fade out the placeholder background once the image loads
+  &.thumbhash-active {
+    background-image: var(--thumbhash-url); // set inline by JS
+  }
+  &.thumbhash-done {
+    background-image: none;
+    transition: background-image 0.4s ease;
+  }
 
   .responsive-image {
     width: 100%;
