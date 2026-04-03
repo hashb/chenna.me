@@ -62,6 +62,7 @@ defaults:
       type: "micros"
     values:
       layout: micro
+      title: "Micro"
 
 
 # TODO: Uncomment this when https://github.com/jekyll/jekyll-feed/pull/321 is merged
