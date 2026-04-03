@@ -4,6 +4,8 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -141,6 +143,80 @@ func TestMediaObjectURLReturnsConcreteAsset(t *testing.T) {
 	want := "https://i.chenna.me/photos/prod/opt/micro/2026-04-03-143000-1-xlarge.jpg"
 	if got != want {
 		t.Fatalf("mediaObjectURL = %q, want %q", got, want)
+	}
+}
+
+func TestExtractPhotosSupportsObjectValues(t *testing.T) {
+	t.Parallel()
+
+	photos := extractPhotos(map[string][]any{
+		"photo": {
+			map[string]any{
+				"value": "https://i.chenna.me/photos/prod/opt/micro/2026-04-03-080000-1-xlarge.jpg",
+				"alt":   "Sunrise over the bay",
+			},
+			"https://example.com/external.jpg",
+		},
+	}, map[string][]any{})
+
+	if len(photos) != 2 {
+		t.Fatalf("len(photos) = %d, want 2", len(photos))
+	}
+	if photos[0].URL != "https://i.chenna.me/photos/prod/opt/micro/2026-04-03-080000-1-xlarge.jpg" || photos[0].Alt != "Sunrise over the bay" {
+		t.Fatalf("photos[0] = %#v", photos[0])
+	}
+	if photos[1].URL != "https://example.com/external.jpg" || photos[1].Alt != "" {
+		t.Fatalf("photos[1] = %#v", photos[1])
+	}
+}
+
+func TestCreateIncludesObjectValuedPhotoInPostBody(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	impl := &jekyllMicropub{
+		repo:         repo,
+		imageBaseURL: "//i.chenna.me/photos/prod/opt/micro",
+		siteURL:      "https://chenna.me",
+	}
+
+	req := &micropub.Request{
+		Properties: map[string][]any{
+			"content":   {"hello"},
+			"published": {"2026-04-03T08:00:00Z"},
+			"photo": {
+				map[string]any{
+					"value": "https://i.chenna.me/photos/prod/opt/micro/2026-04-03-080000-1-xlarge.jpg",
+					"alt":   "Sunrise over the bay",
+				},
+			},
+		},
+		Commands: map[string][]any{},
+	}
+
+	location, err := impl.Create(req)
+	if err != nil {
+		t.Fatalf("Create: %v", err)
+	}
+	if location != "https://chenna.me/micro/2026/04/03/080000/" {
+		t.Fatalf("location = %q, want %q", location, "https://chenna.me/micro/2026/04/03/080000/")
+	}
+
+	data, err := os.ReadFile(filepath.Join(repoPaths.localDir, "_micros/2026/2026-04-03-080000.md"))
+	if err != nil {
+		t.Fatalf("os.ReadFile: %v", err)
+	}
+
+	body := string(data)
+	if !strings.Contains(body, "hello") {
+		t.Fatalf("post body missing content:\n%s", body)
+	}
+	if !strings.Contains(body, `{% include responsive_image.html base_image_name="micro/2026-04-03-080000-1" alt="Sunrise over the bay" width="1920" height="auto" %}`) {
+		t.Fatalf("post body missing responsive image include:\n%s", body)
 	}
 }
 

@@ -125,9 +125,8 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	now := time.Now().UTC()
 
 	content := extractContent(req.Properties)
-	photos := extractStringSlice(req.Properties, "photo")
+	photos := extractPhotos(req.Properties, req.Commands)
 	categories := extractStringSlice(req.Properties, "category")
-	photoAlts := extractStringSlice(req.Commands, "photo-alt")
 
 	// Determine published status.
 	published := requestedPublishedStatus(req)
@@ -149,18 +148,13 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	}
 
 	// Append photos that aren't already inline in HTML content
-	for i, photo := range photos {
-		alt := ""
-		if i < len(photoAlts) {
-			alt = photoAlts[i]
-		}
-
+	for _, photo := range photos {
 		// If the photo URL matches our CDN, use responsive_image include
-		if isManagedPhotoURL(photo, j.imageBaseURL) {
-			baseName := extractBaseName(photo, j.imageBaseURL)
-			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%q alt=%q width=\"1920\" height=\"auto\" %%}\n", baseName, alt))
+		if isManagedPhotoURL(photo.URL, j.imageBaseURL) {
+			baseName := extractBaseName(photo.URL, j.imageBaseURL)
+			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%q alt=%q width=\"1920\" height=\"auto\" %%}\n", baseName, photo.Alt))
 		} else {
-			body.WriteString(fmt.Sprintf("\n<img src=%q alt=%q style=\"max-width: 100%%; height: auto;\">\n", photo, alt))
+			body.WriteString(fmt.Sprintf("\n<img src=%q alt=%q style=\"max-width: 100%%; height: auto;\">\n", photo.URL, photo.Alt))
 		}
 	}
 
@@ -381,6 +375,49 @@ func extractStringSlice(props map[string][]any, key string) []string {
 		return nil
 	}
 	return toStringSlice(vals)
+}
+
+type photoReference struct {
+	URL string
+	Alt string
+}
+
+func extractPhotos(props, commands map[string][]any) []photoReference {
+	vals, ok := props["photo"]
+	if !ok {
+		return nil
+	}
+
+	commandAlts := extractStringSlice(commands, "photo-alt")
+	photos := make([]photoReference, 0, len(vals))
+	for index, value := range vals {
+		photo := photoReference{}
+
+		switch entry := value.(type) {
+		case string:
+			photo.URL = entry
+		case map[string]any:
+			if urlValue, ok := entry["value"].(string); ok {
+				photo.URL = urlValue
+			} else if urlValue, ok := entry["url"].(string); ok {
+				photo.URL = urlValue
+			}
+			if altValue, ok := entry["alt"].(string); ok {
+				photo.Alt = altValue
+			}
+		}
+
+		if photo.URL == "" {
+			continue
+		}
+		if photo.Alt == "" && index < len(commandAlts) {
+			photo.Alt = commandAlts[index]
+		}
+
+		photos = append(photos, photo)
+	}
+
+	return photos
 }
 
 func toStringSlice(vals []any) []string {
