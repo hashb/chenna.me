@@ -42,24 +42,32 @@ A Go-based [Micropub](https://micropub.spec.indieweb.org/) server that creates J
 
 ## Development
 
+1. Copy `.env.example` to `.env` and fill in the values.
+2. Build and run the service locally:
+
 ```sh
+cp .env.example .env
 go build -o micropub-jekyll .
-REPO_PATH=/path/to/chenna.me GCS_BUCKET=my-bucket ./micropub-jekyll
+./micropub-jekyll
 ```
 
-## Docker
-
-```sh
-docker build -t micropub-jekyll .
-docker run -p 8080:8080 \
-  -v /path/to/repo:/data/chenna.me \
-  -v /path/to/sa-key.json:/data/sa-key.json \
-  -e REPO_PATH=/data/chenna.me \
-  -e GCS_BUCKET=my-bucket \
-  -e GOOGLE_APPLICATION_CREDENTIALS=/data/sa-key.json \
-  micropub-jekyll
-```
+The binary automatically loads `.env` from the current working directory. Existing shell environment variables still take precedence.
 
 ## Deployment
 
-Runs on a GCloud instance, exposed over Tailscale. The Jekyll site discovers the server via `<link rel="micropub">` in the HTML `<head>`.
+Deployments are now `.env`-driven and managed with `systemd` instead of Docker.
+
+```sh
+cp .env.example .env
+$EDITOR .env
+./deploy.sh
+```
+
+What `deploy.sh` does:
+
+- builds the Go binary
+- installs it to `/usr/local/bin/micropub-jekyll`
+- creates or updates a `systemd` unit
+- restarts the service and shows its status/logs
+
+> The script is intended for the GCloud/Linux host where this service runs. The Jekyll site discovers the server via `<link rel="micropub">` in the HTML `<head>`.

@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"context"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,6 +16,11 @@ import (
 )
 
 func main() {
+	envFile := getenv("ENV_FILE", ".env")
+	if err := loadEnvFile(envFile); err != nil && !errors.Is(err, os.ErrNotExist) {
+		log.Fatalf("failed to load env file %q: %v", envFile, err)
+	}
+
 	port := getenv("PORT", "8080")
 	repoPath := getenv("REPO_PATH", "/data/chenna.me")
 	gcsBucket := getenv("GCS_BUCKET", "")
@@ -81,6 +89,50 @@ func main() {
 	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
+}
+
+func loadEnvFile(path string) error {
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for lineNo := 1; scanner.Scan(); lineNo++ {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		if strings.HasPrefix(line, "export ") {
+			line = strings.TrimSpace(strings.TrimPrefix(line, "export "))
+		}
+
+		key, value, found := strings.Cut(line, "=")
+		if !found {
+			return fmt.Errorf("invalid env line %d: %q", lineNo, line)
+		}
+
+		key = strings.TrimSpace(key)
+		value = strings.TrimSpace(value)
+		if key == "" {
+			return fmt.Errorf("invalid env line %d: missing key", lineNo)
+		}
+
+		if len(value) >= 2 {
+			if (value[0] == '\'' && value[len(value)-1] == '\'') || (value[0] == '"' && value[len(value)-1] == '"') {
+				value = value[1 : len(value)-1]
+			}
+		}
+
+		if _, exists := os.LookupEnv(key); !exists {
+			if err := os.Setenv(key, value); err != nil {
+				return fmt.Errorf("set %s from env file: %w", key, err)
+			}
+		}
+	}
+
+	return scanner.Err()
 }
 
 func getenv(key, fallback string) string {
