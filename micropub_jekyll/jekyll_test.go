@@ -114,8 +114,14 @@ func TestRebuildPostPreservesMissingPublishedField(t *testing.T) {
 		"hello, world",
 	}, "\n")
 
-	fm, content := parseFrontMatter(input)
-	output := rebuildPost(fm, content)
+	fm, content, err := parseFrontMatter(input)
+	if err != nil {
+		t.Fatalf("parseFrontMatter: %v", err)
+	}
+	output, err := rebuildPost(fm, content)
+	if err != nil {
+		t.Fatalf("rebuildPost: %v", err)
+	}
 	if strings.Contains(output, "published:") {
 		t.Fatalf("rebuildPost added a published field to a post that did not have one:\n%s", output)
 	}
@@ -124,6 +130,24 @@ func TestRebuildPostPreservesMissingPublishedField(t *testing.T) {
 	props := mf2["properties"].(map[string]any)
 	if _, ok := props["post-status"]; ok {
 		t.Fatal("postToMf2 marked a post as draft when no published field existed")
+	}
+}
+
+func TestParseFrontMatterRejectsInvalidYAML(t *testing.T) {
+	t.Parallel()
+
+	input := strings.Join([]string{
+		"---",
+		"layout: micro",
+		"tags: [micro",
+		"---",
+		"",
+		"hello, world",
+	}, "\n")
+
+	_, _, err := parseFrontMatter(input)
+	if err == nil {
+		t.Fatal("parseFrontMatter succeeded for invalid YAML front matter")
 	}
 }
 

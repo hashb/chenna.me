@@ -40,6 +40,8 @@ A Go-based [Micropub](https://micropub.spec.indieweb.org/) server that creates J
 ## Built with
 
 - [indielib](https://github.com/hacdias/indielib) — Micropub/IndieAuth protocol handling
+- [godotenv](https://github.com/joho/godotenv) — `.env` loading
+- [frontmatter](https://github.com/adrg/frontmatter) + [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) — Jekyll front matter parsing and serialization
 - [imaging](https://github.com/disintegration/imaging) — Image resizing
 - [cloud.google.com/go/storage](https://pkg.go.dev/cloud.google.com/go/storage) — GCS client
 

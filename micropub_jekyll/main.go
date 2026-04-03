@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bufio"
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -15,7 +13,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/storage"
-	"go.hacdias.com/indielib/micropub"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -66,20 +64,8 @@ func main() {
 		tokenEndpoint: tokenEndpoint,
 	}
 
-	const maxMicropubBodySize = 2 << 20 // 2 MB
 	mux := http.NewServeMux()
-	mux.Handle("/micropub", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPost {
-			r.Body = http.MaxBytesReader(w, r.Body, maxMicropubBodySize)
-		}
-		micropub.NewHandler(impl,
-			micropub.WithMediaEndpoint(siteURL+"/media"),
-			micropub.WithGetCategories(impl.getCategories),
-			micropub.WithGetPostStatuses(func() []string {
-				return []string{"published", "draft"}
-			}),
-		).ServeHTTP(w, r)
-	}))
+	mux.Handle("/micropub", newMicropubHandler(impl))
 	mux.Handle("/media", newMediaHandler(impl))
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -132,47 +118,7 @@ func main() {
 }
 
 func loadEnvFile(path string) error {
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for lineNo := 1; scanner.Scan(); lineNo++ {
-		line := strings.TrimSpace(scanner.Text())
-		if line == "" || strings.HasPrefix(line, "#") {
-			continue
-		}
-		if strings.HasPrefix(line, "export ") {
-			line = strings.TrimSpace(strings.TrimPrefix(line, "export "))
-		}
-
-		key, value, found := strings.Cut(line, "=")
-		if !found {
-			return fmt.Errorf("invalid env line %d: %q", lineNo, line)
-		}
-
-		key = strings.TrimSpace(key)
-		value = strings.TrimSpace(value)
-		if key == "" {
-			return fmt.Errorf("invalid env line %d: missing key", lineNo)
-		}
-
-		if len(value) >= 2 {
-			if (value[0] == '\'' && value[len(value)-1] == '\'') || (value[0] == '"' && value[len(value)-1] == '"') {
-				value = value[1 : len(value)-1]
-			}
-		}
-
-		if _, exists := os.LookupEnv(key); !exists {
-			if err := os.Setenv(key, value); err != nil {
-				return fmt.Errorf("set %s from env file: %w", key, err)
-			}
-		}
-	}
-
-	return scanner.Err()
+	return godotenv.Load(path)
 }
 
 func getenv(key, fallback string) string {

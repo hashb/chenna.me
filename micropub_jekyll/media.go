@@ -20,6 +20,8 @@ const mediaURLSuffix = "-xlarge.jpg"
 const mediaUploadTimeout = 30 * time.Second
 
 func newMediaHandler(impl *jekyllMicropub) http.Handler {
+	handler := micropub.NewMediaHandler(impl.uploadMediaWithoutRequestContext, impl.hasScope)
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			w.Header().Set("Allow", http.MethodPost)
@@ -27,36 +29,15 @@ func newMediaHandler(impl *jekyllMicropub) http.Handler {
 			return
 		}
 
-		if !impl.hasScope(r, "media") {
-			http.Error(w, "insufficient scope", http.StatusForbidden)
-			return
-		}
-
-		r.Body = http.MaxBytesReader(w, r.Body, micropub.DefaultMaxMediaSize)
-		if err := r.ParseMultipartForm(0); err != nil {
-			http.Error(w, "invalid media upload", http.StatusBadRequest)
-			return
-		}
+		handler.ServeHTTP(w, r)
 		if r.MultipartForm != nil {
-			defer r.MultipartForm.RemoveAll()
+			_ = r.MultipartForm.RemoveAll()
 		}
-
-		file, header, err := r.FormFile("file")
-		if err != nil {
-			http.Error(w, "missing media file", http.StatusBadRequest)
-			return
-		}
-		defer file.Close()
-
-		location, err := impl.uploadMedia(r.Context(), file, header)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Location", location)
-		w.WriteHeader(http.StatusCreated)
 	})
+}
+
+func (j *jekyllMicropub) uploadMediaWithoutRequestContext(file multipart.File, header *multipart.FileHeader) (string, error) {
+	return j.uploadMedia(context.Background(), file, header)
 }
 
 // uploadMedia handles media uploads: resize and push to GCS.

@@ -175,7 +175,10 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	filename := fmt.Sprintf("_micros/%d/%s.md", postDate.Year(), postDate.Format("2006-01-02-150405"))
 	postURL := fmt.Sprintf("%s/micro/%s/", j.siteURL, postDate.Format("2006/01/02/150405"))
 
-	frontMatter := buildFrontMatter(postDate, categories, published)
+	frontMatter, err := buildFrontMatter(postDate, categories, published)
+	if err != nil {
+		return "", fmt.Errorf("build front matter: %w", err)
+	}
 	fullContent := frontMatter + "\n" + body.String()
 
 	commitMsg := fmt.Sprintf("micropub: create micro-post %s", postDate.Format("2006-01-02T150405"))
@@ -199,7 +202,10 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 		return "", micropub.ErrNotFound
 	}
 
-	fm, content := parseFrontMatter(string(data))
+	fm, content, err := parseFrontMatter(string(data))
+	if err != nil {
+		return "", fmt.Errorf("parse post: %w", err)
+	}
 
 	// Apply replacements
 	if req.Updates.Replace != nil {
@@ -207,42 +213,44 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 			content = fmt.Sprintf("%v", vals[0])
 		}
 		if vals, ok := req.Updates.Replace["category"]; ok {
-			fm["tags"] = toStringSlice(vals)
+			fm.Tags = toStringSlice(vals)
 		}
 		if vals, ok := req.Updates.Replace["post-status"]; ok && len(vals) > 0 {
-			fm["published"] = fmt.Sprintf("%v", vals[0]) != "draft"
+			published := fmt.Sprintf("%v", vals[0]) != "draft"
+			fm.Published = &published
 		}
 	}
 
 	// Apply additions
 	if req.Updates.Add != nil {
 		if vals, ok := req.Updates.Add["category"]; ok {
-			existing, _ := fm["tags"].([]string)
-			fm["tags"] = append(existing, toStringSlice(vals)...)
+			fm.Tags = append(fm.Tags, toStringSlice(vals)...)
 		}
 	}
 
 	// Apply deletions
 	if deleteMap, ok := req.Updates.Delete.(map[string]any); ok {
 		if vals, ok := deleteMap["category"]; ok {
-			existing, _ := fm["tags"].([]string)
 			toRemove, err := extractStringValues(vals)
 			if err != nil {
 				return "", err
 			}
-			fm["tags"] = removeStrings(existing, toRemove)
+			fm.Tags = removeStrings(fm.Tags, toRemove)
 		}
 	} else if deleteSlice, ok := req.Updates.Delete.([]any); ok {
 		for _, key := range deleteSlice {
 			if k, ok := key.(string); ok {
 				if k == "category" {
-					fm["tags"] = []string{}
+					fm.Tags = nil
 				}
 			}
 		}
 	}
 
-	fullContent := rebuildPost(fm, content)
+	fullContent, err := rebuildPost(fm, content)
+	if err != nil {
+		return "", fmt.Errorf("rebuild post: %w", err)
+	}
 	commitMsg := fmt.Sprintf("micropub: update micro-post %s", filepath.Base(filename))
 	if err := j.repo.updateAndPush(filename, fullContent, commitMsg); err != nil {
 		return "", fmt.Errorf("failed to update post: %w", err)
@@ -409,131 +417,6 @@ func extractBaseName(photoURL, baseURL string) string {
 	}
 
 	return "micro/" + name
-}
-
-func buildFrontMatter(date time.Time, tags []string, published bool) string {
-	var b strings.Builder
-	b.WriteString("---\n")
-	b.WriteString("layout: micro\n")
-	b.WriteString(fmt.Sprintf("date: %s\n", date.Format("2006-01-02 15:04:05 -0700")))
-	b.WriteString("tags:\n")
-	for _, tag := range tags {
-		b.WriteString(fmt.Sprintf("  - %s\n", tag))
-	}
-	if published {
-		b.WriteString("published: true\n")
-	} else {
-		b.WriteString("published: false\n")
-	}
-	b.WriteString("---\n")
-	return b.String()
-}
-
-// parseFrontMatter splits a Jekyll post into front matter map and content body.
-func parseFrontMatter(data string) (map[string]any, string) {
-	fm := map[string]any{}
-
-	if !strings.HasPrefix(data, "---\n") {
-		return fm, data
-	}
-
-	end := strings.Index(data[4:], "\n---")
-	if end == -1 {
-		return fm, data
-	}
-
-	// Ensure the closing delimiter is either "\n---\n" or "\n---" at EOF.
-	closingStart := end + 4        // position of '\n' before '---'
-	closingEnd := closingStart + 4 // position after '---'
-	if closingEnd < len(data) && data[closingEnd] != '\n' {
-		return fm, data
-	}
-
-	fmText := data[4 : end+4]
-	var content string
-	if closingEnd < len(data) {
-		content = strings.TrimPrefix(data[closingEnd:], "\n")
-	}
-
-	// Simple YAML parsing for our known fields
-	for _, line := range strings.Split(fmText, "\n") {
-		line = strings.TrimSpace(line)
-		if line == "" || strings.HasPrefix(line, "-") {
-			continue
-		}
-		parts := strings.SplitN(line, ":", 2)
-		if len(parts) != 2 {
-			continue
-		}
-		key := strings.TrimSpace(parts[0])
-		val := strings.TrimSpace(parts[1])
-
-		switch key {
-		case "layout":
-			fm["layout"] = val
-		case "date":
-			fm["date"] = val
-		case "published":
-			fm["published"] = val == "true"
-		case "tags":
-			// Tags are on subsequent lines starting with "  - "
-			var tags []string
-			lines := strings.Split(fmText, "\n")
-			for li, tl := range lines {
-				if strings.TrimSpace(tl) == "tags:" || strings.HasPrefix(tl, "tags:") {
-					for _, tagLine := range lines[li+1:] {
-						trimmed := strings.TrimSpace(tagLine)
-						if strings.HasPrefix(trimmed, "- ") {
-							tags = append(tags, strings.TrimPrefix(trimmed, "- "))
-						} else {
-							break
-						}
-					}
-					break
-				}
-			}
-			fm["tags"] = tags
-		}
-	}
-
-	return fm, content
-}
-
-// rebuildPost reconstructs a Jekyll post from front matter and content.
-func rebuildPost(fm map[string]any, content string) string {
-	date, _ := fm["date"].(string)
-	tags, _ := fm["tags"].([]string)
-
-	layout, ok := fm["layout"].(string)
-	if !ok {
-		layout = "micro"
-	}
-
-	var b strings.Builder
-	b.WriteString("---\n")
-	b.WriteString(fmt.Sprintf("layout: %s\n", layout))
-	if date != "" {
-		b.WriteString(fmt.Sprintf("date: %s\n", date))
-	}
-	if len(tags) > 0 {
-		b.WriteString("tags:\n")
-		for _, tag := range tags {
-			b.WriteString(fmt.Sprintf("  - %s\n", tag))
-		}
-	}
-	if publishedValue, ok := fm["published"]; ok {
-		published, ok := publishedValue.(bool)
-		if ok {
-			if published {
-				b.WriteString("published: true\n")
-			} else {
-				b.WriteString("published: false\n")
-			}
-		}
-	}
-	b.WriteString("---\n\n")
-	b.WriteString(content)
-	return b.String()
 }
 
 func parseTokenVerificationResponse(body []byte) (tokenVerificationResponse, error) {
@@ -704,7 +587,12 @@ func (j *jekyllMicropub) filenameToURL(filename string) string {
 
 // postToMf2 converts a Jekyll post file to microformats2 properties.
 func postToMf2(data, url string) map[string]any {
-	fm, content := parseFrontMatter(data)
+	fm, content, err := parseFrontMatter(data)
+	if err != nil {
+		log.Printf("error parsing front matter for %s: %v", url, err)
+		fm = jekyllFrontMatter{}
+		content = data
+	}
 
 	props := map[string]any{
 		"url": []any{url},
@@ -714,19 +602,19 @@ func postToMf2(data, url string) map[string]any {
 		props["content"] = []any{content}
 	}
 
-	if date, ok := fm["date"].(string); ok {
-		props["published"] = []any{date}
+	if fm.Date != "" {
+		props["published"] = []any{fm.Date}
 	}
 
-	if tags, ok := fm["tags"].([]string); ok && len(tags) > 0 {
-		cats := make([]any, len(tags))
-		for i, t := range tags {
+	if len(fm.Tags) > 0 {
+		cats := make([]any, len(fm.Tags))
+		for i, t := range fm.Tags {
 			cats[i] = t
 		}
 		props["category"] = cats
 	}
 
-	if published, ok := fm["published"].(bool); ok && !published {
+	if fm.Published != nil && !*fm.Published {
 		props["post-status"] = []any{"draft"}
 	}
 
