@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"go.hacdias.com/indielib/indieauth"
 	"go.hacdias.com/indielib/micropub"
 )
 
@@ -41,69 +42,67 @@ const maxTokenResponseSize = 1 << 20 // 1 MB
 
 // HasScope verifies the bearer token against the IndieAuth token endpoint.
 func (j *jekyllMicropub) HasScope(r *http.Request, scope string) bool {
+	tokenResp, err := j.verifyToken(r)
+	if err != nil {
+		log.Printf("token verification failed: %v", err)
+		return false
+	}
+
+	if tokenResponseHasScope(tokenResp, scope) {
+		return true
+	}
+
+	log.Printf("scope %q not found in %q", scope, tokenResp.Scope)
+	return false
+}
+
+func (j *jekyllMicropub) verifyToken(r *http.Request) (tokenVerificationResponse, error) {
 	token := extractBearerToken(r)
 	if token == "" {
-		return false
+		return tokenVerificationResponse{}, fmt.Errorf("missing bearer token")
 	}
 
 	req, err := http.NewRequestWithContext(r.Context(), http.MethodGet, j.tokenEndpoint, nil)
 	if err != nil {
-		log.Printf("error creating token verification request: %v", err)
-		return false
+		return tokenVerificationResponse{}, fmt.Errorf("create token verification request: %w", err)
 	}
 	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := tokenHTTPClient.Do(req)
 	if err != nil {
-		log.Printf("error verifying token: %v", err)
-		return false
+		return tokenVerificationResponse{}, fmt.Errorf("verify token: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		log.Printf("token verification failed: status %d", resp.StatusCode)
-		return false
+		return tokenVerificationResponse{}, fmt.Errorf("token endpoint returned status %d", resp.StatusCode)
 	}
 
 	body, err := io.ReadAll(io.LimitReader(resp.Body, maxTokenResponseSize))
 	if err != nil {
-		log.Printf("error reading token response: %v", err)
-		return false
+		return tokenVerificationResponse{}, fmt.Errorf("read token response: %w", err)
 	}
 
 	tokenResp, err := parseTokenVerificationResponse(body)
 	if err != nil {
-		log.Printf("error parsing token response: %v", err)
-		return false
+		return tokenVerificationResponse{}, fmt.Errorf("parse token response: %w", err)
 	}
 
-	meURL, err := normalizeComparableURL(tokenResp.Me)
-	if err != nil {
-		log.Printf("error normalizing token 'me' URL %q: %v", tokenResp.Me, err)
-		return false
+	if err := verifyProfileURLMatch(tokenResp.Me, j.siteURL); err != nil {
+		return tokenVerificationResponse{}, err
 	}
 
-	siteURL, err := normalizeComparableURL(j.siteURL)
-	if err != nil {
-		log.Printf("error normalizing site URL %q: %v", j.siteURL, err)
-		return false
-	}
+	return tokenResp, nil
+}
 
-	// Verify the "me" URL matches our configured site URL.
-	if meURL != siteURL {
-		log.Printf("token 'me' mismatch: got %q, want %q", meURL, siteURL)
-		return false
-	}
-
-	// Check scope
+func tokenResponseHasScope(tokenResp tokenVerificationResponse, scope string) bool {
 	for _, s := range strings.Fields(tokenResp.Scope) {
 		if s == scope {
 			return true
 		}
 	}
 
-	// "create" scope implies "media" scope
 	if scope == "media" {
 		for _, s := range strings.Fields(tokenResp.Scope) {
 			if s == "create" {
@@ -112,7 +111,6 @@ func (j *jekyllMicropub) HasScope(r *http.Request, scope string) bool {
 		}
 	}
 
-	log.Printf("scope %q not found in %q", scope, tokenResp.Scope)
 	return false
 }
 
@@ -444,19 +442,45 @@ func parseTokenVerificationResponse(body []byte) (tokenVerificationResponse, err
 	}, nil
 }
 
-func normalizeComparableURL(raw string) (string, error) {
-	parsed, err := parseComparableURL(raw)
+func verifyProfileURLMatch(actual, expected string) error {
+	actualURL, err := normalizeProfileURL(actual)
+	if err != nil {
+		return fmt.Errorf("normalize token 'me' URL %q: %w", actual, err)
+	}
+
+	expectedURL, err := normalizeProfileURL(expected)
+	if err != nil {
+		return fmt.Errorf("normalize site URL %q: %w", expected, err)
+	}
+
+	if actualURL != expectedURL {
+		return fmt.Errorf("token 'me' mismatch: got %q, want %q", actualURL, expectedURL)
+	}
+
+	return nil
+}
+
+func normalizeProfileURL(raw string) (string, error) {
+	canonical := canonicalizeURL(raw)
+	if err := indieauth.IsValidProfileURL(canonical); err != nil {
+		return "", err
+	}
+
+	parsed, err := url.Parse(canonical)
 	if err != nil {
 		return "", err
 	}
+
+	parsed.Scheme = strings.ToLower(parsed.Scheme)
+	parsed.Host = strings.ToLower(parsed.Host)
+	parsed.Fragment = ""
+	parsed.RawFragment = ""
+
 	return parsed.String(), nil
 }
 
 func parseComparableURL(raw string) (*url.URL, error) {
-	raw = strings.TrimSpace(raw)
-	if strings.HasPrefix(raw, "//") {
-		raw = "https:" + raw
-	}
+	raw = canonicalizeURL(raw)
 
 	parsed, err := url.Parse(raw)
 	if err != nil {
@@ -479,6 +503,30 @@ func parseComparableURL(raw string) (*url.URL, error) {
 	}
 
 	return parsed, nil
+}
+
+func canonicalizeURL(raw string) string {
+	raw = strings.TrimSpace(raw)
+	if strings.HasPrefix(raw, "//") {
+		raw = "https:" + raw
+	}
+
+	parsed, err := url.Parse(raw)
+	if err != nil {
+		return raw
+	}
+
+	if parsed.Scheme == "" {
+		return raw
+	}
+
+	parsed.Scheme = strings.ToLower(parsed.Scheme)
+	raw = parsed.String()
+	if parsed.Scheme == "http" || parsed.Scheme == "https" {
+		return indieauth.CanonicalizeURL(raw)
+	}
+
+	return raw
 }
 
 func requestedPublishedStatus(req *micropub.Request) bool {

@@ -57,6 +57,50 @@ func TestHasScopeRejectsSpoofedMePrefix(t *testing.T) {
 	}
 }
 
+func TestHasScopeRejectsMismatchedQueryInMeURL(t *testing.T) {
+	t.Parallel()
+
+	tokenServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"me":"https://chenna.me/?via=attacker","scope":"create media"}`))
+	}))
+	defer tokenServer.Close()
+
+	impl := &jekyllMicropub{
+		siteURL:       "https://chenna.me",
+		tokenEndpoint: tokenServer.URL,
+	}
+
+	req := httptest.NewRequest(http.MethodPost, "/micropub", nil)
+	req.Header.Set("Authorization", "Bearer test-token")
+
+	if impl.HasScope(req, "create") {
+		t.Fatal("HasScope accepted a token me URL with a mismatched query string")
+	}
+}
+
+func TestHasScopeRejectsFragmentedMeURL(t *testing.T) {
+	t.Parallel()
+
+	tokenServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"me":"https://chenna.me/#me","scope":"create media"}`))
+	}))
+	defer tokenServer.Close()
+
+	impl := &jekyllMicropub{
+		siteURL:       "https://chenna.me",
+		tokenEndpoint: tokenServer.URL,
+	}
+
+	req := httptest.NewRequest(http.MethodPost, "/micropub", nil)
+	req.Header.Set("Authorization", "Bearer test-token")
+
+	if impl.HasScope(req, "create") {
+		t.Fatal("HasScope accepted a token me URL with a fragment")
+	}
+}
+
 func TestRequestedPublishedStatusReadsCreateProperty(t *testing.T) {
 	t.Parallel()
 

@@ -61,4 +61,6 @@ require (
 	google.golang.org/grpc v1.79.3 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
+	willnorris.com/go/microformats v1.2.1-0.20260218044424-22f0c2eff25b // indirect
+	willnorris.com/go/webmention v0.0.0-20250531043116-33a44c5fb605 // indirect
 )

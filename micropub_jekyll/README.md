@@ -26,7 +26,7 @@ A Go-based [Micropub](https://micropub.spec.indieweb.org/) server that creates J
 |---|---|---|---|
 | `BIND_ADDR` | No | HTTP listen address | `127.0.0.1` |
 | `PORT` | No | HTTP listen port | `8080` |
-| `REPO_PATH` | Yes | Path to local Jekyll repo clone | `/data/chenna.me` |
+| `REPO_PATH` | Yes | Path to a clean local Jekyll repo clone tracking an upstream branch | `/data/chenna.me` |
 | `GCS_BUCKET` | Yes | Google Cloud Storage bucket name | — |
 | `GCS_PREFIX` | No | Object prefix in bucket | `photos/prod/opt/micro` |
 | `IMAGE_BASE_URL` | No | CDN base URL for images | `//i.chenna.me/photos/prod/opt/micro` |
@@ -57,6 +57,8 @@ go build -o micropub-jekyll .
 ```
 
 The binary automatically loads `.env` from the current working directory. Existing shell environment variables still take precedence.
+
+`REPO_PATH` should point at a dedicated checkout with a configured upstream branch. The service now fast-forwards that checkout and refuses local divergence instead of resetting it away.
 
 ## Deployment
 

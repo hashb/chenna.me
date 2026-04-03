@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -48,41 +49,70 @@ func (g *gitRepo) gitOutput(args ...string) (string, error) {
 	return strings.TrimSpace(string(output)), nil
 }
 
-func (g *gitRepo) currentBranch() (string, error) {
-	branch, err := g.gitOutput("rev-parse", "--abbrev-ref", "HEAD")
+func (g *gitRepo) currentHead() (string, error) {
+	head, err := g.gitOutput("rev-parse", "HEAD")
 	if err != nil {
-		return "", fmt.Errorf("git rev-parse --abbrev-ref HEAD: %w", err)
+		return "", fmt.Errorf("git rev-parse HEAD: %w", err)
 	}
-	if branch == "" || branch == "HEAD" {
-		return "", fmt.Errorf("repository is not on a branch")
+	if head == "" {
+		return "", fmt.Errorf("repository has no HEAD commit")
 	}
-	return branch, nil
+	return head, nil
 }
 
-func (g *gitRepo) syncToRemote() error {
-	branch, err := g.currentBranch()
+func (g *gitRepo) ensureCleanWorktree() error {
+	status, err := g.gitOutput("status", "--porcelain", "--untracked-files=all")
 	if err != nil {
-		return err
+		return fmt.Errorf("git status --porcelain --untracked-files=all: %w", err)
 	}
-	if err := g.git("fetch", "--prune", "origin"); err != nil {
-		return fmt.Errorf("git fetch --prune origin: %w", err)
-	}
-	if err := g.git("reset", "--hard", "origin/"+branch); err != nil {
-		return fmt.Errorf("git reset --hard origin/%s: %w", branch, err)
-	}
-	if err := g.git("clean", "-fd"); err != nil {
-		return fmt.Errorf("git clean -fd: %w", err)
+	if status != "" {
+		return fmt.Errorf("repository has local changes")
 	}
 	return nil
 }
 
-func (g *gitRepo) rollbackToRemote(pathspec string) error {
-	rollbackErr := g.syncToRemote()
+func (g *gitRepo) ensureNotAheadOfUpstream() error {
+	counts, err := g.gitOutput("rev-list", "--left-right", "--count", "HEAD...@{upstream}")
+	if err != nil {
+		return fmt.Errorf("git rev-list --left-right --count HEAD...@{upstream}: %w", err)
+	}
+
+	fields := strings.Fields(counts)
+	if len(fields) != 2 {
+		return fmt.Errorf("unexpected upstream distance output %q", counts)
+	}
+
+	ahead, err := strconv.Atoi(fields[0])
+	if err != nil {
+		return fmt.Errorf("parse ahead commit count %q: %w", fields[0], err)
+	}
+	if ahead > 0 {
+		return fmt.Errorf("repository is ahead of upstream by %d commit(s)", ahead)
+	}
+
+	return nil
+}
+
+func (g *gitRepo) syncToRemote() error {
+	if err := g.ensureCleanWorktree(); err != nil {
+		return err
+	}
+	if err := g.ensureNotAheadOfUpstream(); err != nil {
+		return err
+	}
+	if err := g.git("pull", "--ff-only", "--no-rebase"); err != nil {
+		return fmt.Errorf("git pull --ff-only --no-rebase: %w", err)
+	}
+	return nil
+}
+
+func (g *gitRepo) rollbackToHead(head, pathspec string) error {
+	resetErr := g.git("reset", "--hard", head)
 	if pathspec == "" {
-		return rollbackErr
+		return resetErr
 	}
 	cleanErr := g.git("clean", "-fd", "--", pathspec)
-	return errors.Join(rollbackErr, cleanErr)
+	return errors.Join(resetErr, cleanErr)
 }
 
 func wrapWithRollback(primaryErr, rollbackErr error) error {
@@ -94,6 +124,23 @@ func wrapWithRollback(primaryErr, rollbackErr error) error {
 
 // writeAndPush writes a file to the repo, commits, and pushes.
 func (g *gitRepo) writeAndPush(filename, content, message string) error {
+	return g.mutateAndPush(filename, message, func(fullPath string) error {
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			return fmt.Errorf("mkdir: %w", err)
+		}
+		if err := os.WriteFile(fullPath, []byte(content), 0o644); err != nil {
+			return fmt.Errorf("write file: %w", err)
+		}
+		return nil
+	}, func() error {
+		if err := g.git("add", "--", filename); err != nil {
+			return fmt.Errorf("git add: %w", err)
+		}
+		return nil
+	})
+}
+
+func (g *gitRepo) mutateAndPush(pathspec, message string, mutate func(fullPath string) error, stage func() error) error {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
@@ -101,22 +148,24 @@ func (g *gitRepo) writeAndPush(filename, content, message string) error {
 		return fmt.Errorf("sync repo: %w", err)
 	}
 
-	fullPath := filepath.Join(g.path, filename)
-	if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
-		return fmt.Errorf("mkdir: %w", err)
-	}
-	if err := os.WriteFile(fullPath, []byte(content), 0o644); err != nil {
-		return wrapWithRollback(fmt.Errorf("write file: %w", err), g.rollbackToRemote(filename))
+	rollbackHead, err := g.currentHead()
+	if err != nil {
+		return err
 	}
 
-	if err := g.git("add", filename); err != nil {
-		return wrapWithRollback(fmt.Errorf("git add: %w", err), g.rollbackToRemote(filename))
+	fullPath := filepath.Join(g.path, pathspec)
+	if err := mutate(fullPath); err != nil {
+		return wrapWithRollback(err, g.rollbackToHead(rollbackHead, pathspec))
+	}
+
+	if err := stage(); err != nil {
+		return wrapWithRollback(err, g.rollbackToHead(rollbackHead, pathspec))
 	}
 	if err := g.git("commit", "-m", message); err != nil {
-		return wrapWithRollback(fmt.Errorf("git commit: %w", err), g.rollbackToRemote(filename))
+		return wrapWithRollback(fmt.Errorf("git commit: %w", err), g.rollbackToHead(rollbackHead, pathspec))
 	}
 	if err := g.git("push"); err != nil {
-		return wrapWithRollback(fmt.Errorf("git push: %w", err), g.rollbackToRemote(filename))
+		return wrapWithRollback(fmt.Errorf("git push: %w", err), g.rollbackToHead(rollbackHead, pathspec))
 	}
 	return nil
 }
@@ -128,23 +177,14 @@ func (g *gitRepo) updateAndPush(filename, content, message string) error {
 
 // deleteAndPush removes a file, commits, and pushes.
 func (g *gitRepo) deleteAndPush(filename, message string) error {
-	g.mu.Lock()
-	defer g.mu.Unlock()
-
-	if err := g.syncToRemote(); err != nil {
-		return fmt.Errorf("sync repo: %w", err)
-	}
-
-	if err := g.git("rm", filename); err != nil {
-		return wrapWithRollback(fmt.Errorf("git rm: %w", err), g.rollbackToRemote(filename))
-	}
-	if err := g.git("commit", "-m", message); err != nil {
-		return wrapWithRollback(fmt.Errorf("git commit: %w", err), g.rollbackToRemote(filename))
-	}
-	if err := g.git("push"); err != nil {
-		return wrapWithRollback(fmt.Errorf("git push: %w", err), g.rollbackToRemote(filename))
-	}
-	return nil
+	return g.mutateAndPush(filename, message, func(string) error {
+		return nil
+	}, func() error {
+		if err := g.git("rm", "--", filename); err != nil {
+			return fmt.Errorf("git rm: %w", err)
+		}
+		return nil
+	})
 }
 
 // readFile reads a file from the repo.

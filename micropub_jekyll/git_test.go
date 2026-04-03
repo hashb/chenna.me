@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestSyncToRemoteResetsLocalDivergence(t *testing.T) {
+func TestSyncToRemoteRejectsRepoAheadOfUpstream(t *testing.T) {
 	repoPaths := newTempGitRepo(t)
 
 	localOnlyPath := filepath.Join(repoPaths.localDir, "local-only.txt")
@@ -24,12 +24,54 @@ func TestSyncToRemoteResetsLocalDivergence(t *testing.T) {
 		t.Fatalf("newGitRepo: %v", err)
 	}
 
+	err = repo.syncToRemote()
+	if err == nil {
+		t.Fatal("syncToRemote succeeded even though the repository was ahead of upstream")
+	}
+	if !strings.Contains(err.Error(), "ahead of upstream") {
+		t.Fatalf("syncToRemote error = %v, want ahead-of-upstream failure", err)
+	}
+
+	if _, err := os.Stat(localOnlyPath); err != nil {
+		t.Fatalf("local-only file missing after rejected syncToRemote: %v", err)
+	}
+	if got := runGit(t, repoPaths.localDir, "status", "--porcelain"); got != "" {
+		t.Fatalf("git status --porcelain = %q, want empty", got)
+	}
+	if got := runGit(t, repoPaths.localDir, "rev-list", "--left-right", "--count", "HEAD...origin/main"); got != "1\t0" {
+		t.Fatalf("git rev-list --left-right --count HEAD...origin/main = %q, want %q", got, "1\t0")
+	}
+}
+
+func TestSyncToRemoteFastForwardsRemoteChanges(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	peerDir := filepath.Join(t.TempDir(), "peer")
+	runGit(t, filepath.Dir(peerDir), "clone", repoPaths.remoteDir, peerDir)
+
+	seedPath := filepath.Join(peerDir, "README.md")
+	if err := os.WriteFile(seedPath, []byte("updated\n"), 0o644); err != nil {
+		t.Fatalf("write peer update: %v", err)
+	}
+	runGit(t, peerDir, "add", "README.md")
+	runGit(t, peerDir, "commit", "-m", "update remote")
+	runGit(t, peerDir, "push", "origin", "main")
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
 	if err := repo.syncToRemote(); err != nil {
 		t.Fatalf("syncToRemote: %v", err)
 	}
 
-	if _, err := os.Stat(localOnlyPath); !errors.Is(err, os.ErrNotExist) {
-		t.Fatalf("local-only file still exists after syncToRemote: %v", err)
+	content, err := os.ReadFile(filepath.Join(repoPaths.localDir, "README.md"))
+	if err != nil {
+		t.Fatalf("read local README: %v", err)
+	}
+	if string(content) != "updated\n" {
+		t.Fatalf("README.md = %q, want %q", string(content), "updated\n")
 	}
 	if got := runGit(t, repoPaths.localDir, "status", "--porcelain"); got != "" {
 		t.Fatalf("git status --porcelain = %q, want empty", got)
@@ -41,7 +83,7 @@ func TestSyncToRemoteResetsLocalDivergence(t *testing.T) {
 	}
 }
 
-func TestWriteAndPushRollsBackToRemoteOnPushFailure(t *testing.T) {
+func TestWriteAndPushRollsBackToPreviousHeadOnPushFailure(t *testing.T) {
 	repoPaths := newTempGitRepo(t)
 
 	hookPath := filepath.Join(repoPaths.remoteDir, "hooks", "pre-receive")
@@ -54,6 +96,7 @@ func TestWriteAndPushRollsBackToRemoteOnPushFailure(t *testing.T) {
 	if err != nil {
 		t.Fatalf("newGitRepo: %v", err)
 	}
+	startingHead := runGit(t, repoPaths.localDir, "rev-parse", "HEAD")
 
 	filename := "_micros/2026/2026-04-03-143000.md"
 	err = repo.writeAndPush(filename, "hello\n", "micropub: create micro-post test")
@@ -69,9 +112,8 @@ func TestWriteAndPushRollsBackToRemoteOnPushFailure(t *testing.T) {
 		t.Fatalf("git status --porcelain = %q, want empty", got)
 	}
 	head := runGit(t, repoPaths.localDir, "rev-parse", "HEAD")
-	originHead := runGit(t, repoPaths.localDir, "rev-parse", "origin/main")
-	if head != originHead {
-		t.Fatalf("HEAD = %q, want %q", head, originHead)
+	if head != startingHead {
+		t.Fatalf("HEAD = %q, want %q", head, startingHead)
 	}
 }
 
