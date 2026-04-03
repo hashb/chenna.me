@@ -64,6 +64,7 @@ defaults:
 # hide backend components
 exclude:
   - guestbook-backend
+  - micropub_jekyll
 
 author: 
   name: Chenna Kautilya
