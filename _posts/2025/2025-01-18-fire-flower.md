@@ -6,4 +6,4 @@ last_modified_at: 2025-02-02 07:43:24 +0000
 tags: [Photos]
 ---
 
-{% include responsive_image.html base_image_name="DSCF1108-EDIT" alt="Fire Flower" width="1920" height="2575" %}
+{% include responsive_image.html base_image_name="DSCF1108-EDIT" alt="Fire Flower" width="1920" height="2575" thumbhash="xvcFDQCvm6uKWKeHZ4lmd0RQFjA3" %}

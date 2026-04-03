@@ -6,4 +6,4 @@ last_modified_at: 2025-02-02 07:25:09 +0000
 tags: [Photos]
 ---
 
-{% include responsive_image.html base_image_name="airplane_wing_over_landscape" alt="Salt Pools" width="1920" height="2575" %}
+{% include responsive_image.html base_image_name="airplane_wing_over_landscape" alt="Salt Pools" width="1920" height="2575" thumbhash="IucFJQZTd7SIB3gWhaWIx4eAmAh4" %}
