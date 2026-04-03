@@ -83,8 +83,8 @@ func (s *server) routes() {
 	s.mux.HandleFunc("GET /health", s.handleHealth)
 	s.mux.HandleFunc("GET /api/entries", s.handleGetEntries)
 	s.mux.HandleFunc("POST /api/entries", s.handleCreateEntry)
-	s.mux.HandleFunc("GET /api/entries/{id}/image", s.handleGetImage)
-	s.mux.HandleFunc("GET /api/admin/entries/{id}/image", s.requireAdmin(s.handleAdminGetImage))
+	s.mux.HandleFunc("GET /api/entries/{id}/image.png", s.handleGetImage)
+	s.mux.HandleFunc("GET /api/admin/entries/{id}/image.png", s.requireAdmin(s.handleAdminGetImage))
 	s.mux.HandleFunc("GET /api/admin/entries", s.requireAdmin(s.handleAdminGetEntries))
 	s.mux.HandleFunc("POST /api/admin/entries/{id}/approve", s.requireAdmin(s.handleApproveEntry))
 	s.mux.HandleFunc("POST /api/admin/entries/{id}/reject", s.requireAdmin(s.handleRejectEntry))
@@ -114,7 +114,7 @@ func (s *server) handleGetEntries(w http.ResponseWriter, r *http.Request) {
 	baseURL := requestBaseURL(r)
 	responses := make([]entryResponse, 0, len(pageData.Entries))
 	for _, entry := range pageData.Entries {
-		responses = append(responses, buildEntryResponse(entry, baseURL, fmt.Sprintf("/api/entries/%d/image", entry.ID), false))
+		responses = append(responses, buildEntryResponse(entry, baseURL, fmt.Sprintf("/api/entries/%d/image.png", entry.ID), false))
 	}
 
 	writeJSON(w, http.StatusOK, entryListResponse{
@@ -284,7 +284,7 @@ func (s *server) handleAdminGetEntries(w http.ResponseWriter, r *http.Request) {
 	baseURL := requestBaseURL(r)
 	responses := make([]entryResponse, 0, len(entries))
 	for _, entry := range entries {
-		responses = append(responses, buildEntryResponse(entry, baseURL, fmt.Sprintf("/api/admin/entries/%d/image", entry.ID), true))
+		responses = append(responses, buildEntryResponse(entry, baseURL, fmt.Sprintf("/api/admin/entries/%d/image.png", entry.ID), true))
 	}
 
 	writeJSON(w, http.StatusOK, pendingEntryListResponse{Entries: responses})

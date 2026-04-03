@@ -1,5 +1,5 @@
 const API_BASE = document.querySelector('meta[name="guestbook-api"]')?.content
-  || (window.location.hostname === "localhost" ? "http://localhost:8080" : "https://chenna-guestbook.fly.dev");
+  || (window.location.hostname === "localhost" ? "http://localhost:8080" : "https://guestbook.chenna.me");
 let activeToken = "";
 let previewObjectUrls = [];
 

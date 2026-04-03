@@ -1,6 +1,6 @@
 const API_BASE = document.querySelector('meta[name="guestbook-api"]')?.content
-  || (window.location.hostname === "localhost" ? "http://localhost:8080" : "https://chenna-guestbook.fly.dev");
-const PUBLIC_PAGE_SIZE = 24;
+  || (window.location.hostname === "localhost" ? "http://localhost:8080" : "https://guestbook.chenna.me");
+const PUBLIC_PAGE_SIZE = 16;
 
 function buildApiURL(path, params = {}) {
   const url = new URL(path, API_BASE);
@@ -55,6 +55,12 @@ function createAuthorNode(entry) {
   return span;
 }
 
+function formatDate(value) {
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
 function createGuestbookEntry(entry) {
   const article = document.createElement("article");
   article.className = `gb-entry gb-entry--${entry.entry_type}`;
@@ -74,9 +80,22 @@ function createGuestbookEntry(entry) {
     contentNode = message;
   }
 
-  const meta = document.createElement("p");
+  const meta = document.createElement("div");
   meta.className = "gb-entry-meta";
-  meta.appendChild(createAuthorNode(entry));
+
+  const authorNode = createAuthorNode(entry);
+  meta.appendChild(authorNode);
+
+  if (entry.created_at) {
+    const date = formatDate(entry.created_at);
+    if (date) {
+      const dateEl = document.createElement("time");
+      dateEl.className = "gb-entry-date";
+      dateEl.dateTime = entry.created_at;
+      dateEl.textContent = date;
+      meta.appendChild(dateEl);
+    }
+  }
 
   article.appendChild(contentNode);
   article.appendChild(meta);

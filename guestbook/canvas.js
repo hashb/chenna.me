@@ -2,9 +2,9 @@
   const canvas = document.getElementById("draw-canvas");
   if (!canvas) return;
 
-  const ctx = canvas.getContext("2d");
-  const LOGICAL = 384;
-  const ACTUAL = 768;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  const LOGICAL = 500;
+  const ACTUAL = 1000;
 
   canvas.width = ACTUAL;
   canvas.height = ACTUAL;

@@ -156,7 +156,7 @@ func TestHandleGetEntriesReturnsPaginatedResponses(t *testing.T) {
 	if response.Entries[0].ID != drawingID {
 		t.Fatalf("expected newest drawing entry on page 1, got %d", response.Entries[0].ID)
 	}
-	if !strings.HasSuffix(response.Entries[0].ImageURL, fmt.Sprintf("/api/entries/%d/image", drawingID)) {
+	if !strings.HasSuffix(response.Entries[0].ImageURL, fmt.Sprintf("/api/entries/%d/image.png", drawingID)) {
 		t.Fatalf("expected public image url for drawing, got %q", response.Entries[0].ImageURL)
 	}
 	if response.Pagination.TotalEntries != 2 || response.Pagination.TotalPages != 2 {
@@ -191,12 +191,12 @@ func TestImageRoutesHidePendingEntriesFromPublic(t *testing.T) {
 		t.Fatalf("create drawing entry: %v", err)
 	}
 
-	publicRecorder := env.request(t, http.MethodGet, fmt.Sprintf("/api/entries/%d/image", entryID), nil, nil)
+	publicRecorder := env.request(t, http.MethodGet, fmt.Sprintf("/api/entries/%d/image.png", entryID), nil, nil)
 	if publicRecorder.Code != http.StatusNotFound {
 		t.Fatalf("expected pending public image to be hidden, got %d", publicRecorder.Code)
 	}
 
-	adminRecorder := env.request(t, http.MethodGet, fmt.Sprintf("/api/admin/entries/%d/image", entryID), nil, map[string]string{
+	adminRecorder := env.request(t, http.MethodGet, fmt.Sprintf("/api/admin/entries/%d/image.png", entryID), nil, map[string]string{
 		"Authorization": "Bearer test-token",
 	})
 	if adminRecorder.Code != http.StatusOK {
@@ -210,7 +210,7 @@ func TestImageRoutesHidePendingEntriesFromPublic(t *testing.T) {
 		t.Fatalf("approve drawing entry: %v", err)
 	}
 
-	publicRecorder = env.request(t, http.MethodGet, fmt.Sprintf("/api/entries/%d/image", entryID), nil, nil)
+	publicRecorder = env.request(t, http.MethodGet, fmt.Sprintf("/api/entries/%d/image.png", entryID), nil, nil)
 	if publicRecorder.Code != http.StatusOK {
 		t.Fatalf("expected approved public image, got %d: %s", publicRecorder.Code, publicRecorder.Body.String())
 	}
