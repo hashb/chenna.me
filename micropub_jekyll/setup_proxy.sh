@@ -127,6 +127,11 @@ fi
 UPSTREAM_HOST="${UPSTREAM_HOST:-$default_upstream_host}"
 UPSTREAM_PORT="${UPSTREAM_PORT:-${PORT:-8080}}"
 SERVER_NAME="${SERVER_NAME:-}"
+if [[ -z "$SERVER_NAME" && -n "${ENDPOINT_URL:-}" ]]; then
+  SERVER_NAME="${ENDPOINT_URL#http://}"
+  SERVER_NAME="${SERVER_NAME#https://}"
+  SERVER_NAME="${SERVER_NAME%%/*}"
+fi
 if [[ -z "$SERVER_NAME" && -n "${SITE_URL:-}" ]]; then
   SERVER_NAME="${SITE_URL#http://}"
   SERVER_NAME="${SERVER_NAME#https://}"
@@ -134,7 +139,7 @@ if [[ -z "$SERVER_NAME" && -n "${SITE_URL:-}" ]]; then
 fi
 
 if [[ -z "$SERVER_NAME" ]]; then
-  echo "error: set SERVER_NAME or SITE_URL before running setup_proxy.sh" >&2
+  echo "error: set SERVER_NAME, ENDPOINT_URL, or SITE_URL before running setup_proxy.sh" >&2
   exit 1
 fi
 

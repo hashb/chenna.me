@@ -27,6 +27,7 @@ type jekyllMicropub struct {
 	gcs           *gcsUploader
 	imageBaseURL  string
 	siteURL       string
+	endpointURL   string
 	tokenEndpoint string
 }
 

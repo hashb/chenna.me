@@ -29,6 +29,7 @@ func main() {
 	gcsPrefix := getenv("GCS_PREFIX", "photos/prod/opt/micro")
 	imageBaseURL := getenv("IMAGE_BASE_URL", "//i.chenna.me/photos/prod/opt/micro")
 	siteURL := getenv("SITE_URL", "https://chenna.me")
+	endpointURL := getenv("ENDPOINT_URL", siteURL)
 	tokenEndpoint := getenv("TOKEN_ENDPOINT", "https://tokens.indieauth.com/token")
 	allowedOrigins := parseOrigins(getenv("ALLOWED_ORIGINS", ""))
 	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
@@ -61,6 +62,7 @@ func main() {
 		gcs:           gcsClient,
 		imageBaseURL:  imageBaseURL,
 		siteURL:       siteURL,
+		endpointURL:   endpointURL,
 		tokenEndpoint: tokenEndpoint,
 	}
 

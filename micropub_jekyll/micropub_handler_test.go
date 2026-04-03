@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"io"
 	"mime/multipart"
@@ -119,5 +120,32 @@ func TestRewriteMultipartCreateRequestRejectsUnsupportedFileProperty(t *testing.
 	})
 	if !errors.Is(err, micropub.ErrBadRequest) {
 		t.Fatalf("rewriteMultipartCreateRequest error = %v, want ErrBadRequest", err)
+	}
+}
+
+func TestMicropubConfigUsesEndpointURLForMediaEndpoint(t *testing.T) {
+	t.Parallel()
+
+	impl := &jekyllMicropub{
+		siteURL:     "https://chenna.me",
+		endpointURL: "https://micropub.chenna.me",
+	}
+
+	req := httptest.NewRequest(http.MethodGet, "/micropub?q=config", nil)
+	rec := httptest.NewRecorder()
+
+	newMicropubHandler(impl).ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want %d", rec.Code, http.StatusOK)
+	}
+
+	var payload map[string]any
+	if err := json.Unmarshal(rec.Body.Bytes(), &payload); err != nil {
+		t.Fatalf("json.Unmarshal: %v", err)
+	}
+
+	if got := payload["media-endpoint"]; got != "https://micropub.chenna.me/media" {
+		t.Fatalf("media-endpoint = %#v, want %q", got, "https://micropub.chenna.me/media")
 	}
 }

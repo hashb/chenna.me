@@ -30,7 +30,8 @@ A Go-based [Micropub](https://micropub.spec.indieweb.org/) server that creates J
 | `GCS_BUCKET` | Yes | Google Cloud Storage bucket name | — |
 | `GCS_PREFIX` | No | Object prefix in bucket | `photos/prod/opt/micro` |
 | `IMAGE_BASE_URL` | No | CDN base URL for images | `//i.chenna.me/photos/prod/opt/micro` |
-| `SITE_URL` | No | Site URL for IndieAuth | `https://chenna.me` |
+| `SITE_URL` | No | Canonical site/profile URL used for IndieAuth `me` validation and published post URLs | `https://chenna.me` |
+| `ENDPOINT_URL` | No | Public base URL of this Micropub service and media endpoint; defaults to `SITE_URL` | `https://chenna.me` |
 | `TOKEN_ENDPOINT` | No | IndieAuth token endpoint | `https://tokens.indieauth.com/token` |
 | `ALLOWED_ORIGINS` | No | CORS origins (comma-separated) | `https://chenna.me,http://localhost:4000` |
 | `GOOGLE_APPLICATION_CREDENTIALS` | Yes | GCS service account key path | — |
@@ -60,6 +61,8 @@ The binary automatically loads `.env` from the current working directory. Existi
 
 `REPO_PATH` should point at a dedicated checkout with a configured upstream branch. The service now fast-forwards that checkout and refuses local divergence instead of resetting it away.
 
+If the Micropub service is hosted on a different public URL than the site itself, keep `SITE_URL` set to the canonical site URL and set `ENDPOINT_URL` to the Micropub host. For example, `SITE_URL=https://chenna.me` and `ENDPOINT_URL=https://micropub.chenna.me`.
+
 ## Deployment
 
 Deployments are now `.env`-driven and managed with `systemd` instead of Docker.
@@ -82,7 +85,7 @@ What `setup_proxy.sh` does:
 
 - installs nginx if it is missing
 - writes or updates an nginx reverse-proxy config
-- proxies `SERVER_NAME` or `SITE_URL` to the Micropub app on `BIND_ADDR:PORT`
+- proxies `SERVER_NAME`, `ENDPOINT_URL`, or `SITE_URL` to the Micropub app on `BIND_ADDR:PORT`
 - optionally enables origin-side HTTPS when `ORIGIN_CERT_PATH` and `ORIGIN_KEY_PATH` are set
 
 Both scripts are intended to be safe to rerun. They overwrite generated config only when content changes and validate the nginx config before reloading it.

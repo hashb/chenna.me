@@ -20,7 +20,7 @@ type mediaUploadFunc func(ctx context.Context, file multipart.File, header *mult
 
 func newMicropubHandler(impl *jekyllMicropub) http.Handler {
 	handler := micropub.NewHandler(impl,
-		micropub.WithMediaEndpoint(impl.siteURL+"/media"),
+		micropub.WithMediaEndpoint(impl.endpointURL+"/media"),
 		micropub.WithGetCategories(impl.getCategories),
 		micropub.WithGetPostStatuses(func() []string {
 			return []string{"published", "draft"}
