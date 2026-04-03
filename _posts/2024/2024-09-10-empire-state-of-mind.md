@@ -8,5 +8,4 @@ tags:
   - Photos
 ---
 
-{% include responsive_image.html base_image_name="a_tall_building_with_a_spire" alt="Empire state of mind" 
-    width="1920" height="2880" %}
+{% include responsive_image.html base_image_name="a_tall_building_with_a_spire" alt="Empire state of mind" width="1920" height="2880" %}

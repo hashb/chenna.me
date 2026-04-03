@@ -2,6 +2,7 @@
 layout: default
 ---
 
+<div class="photos-grid">
 {% for post in site.posts %}
 
 {% assign lowercaseTags = post.tags | join: ',' | downcase | split: ',' %}
@@ -23,3 +24,4 @@ layout: default
   {% endif %}
 
 {% endfor %}
+</div>
