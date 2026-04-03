@@ -64,7 +64,13 @@ popd >/dev/null
 
 echo "==> Installing binary to $INSTALL_PATH"
 run_as_root install -d "$(dirname "$INSTALL_PATH")"
-run_as_root install -m 0755 "$BUILD_OUTPUT" "$INSTALL_PATH"
+binary_changed=0
+if ! [[ -f "$INSTALL_PATH" ]] || ! cmp -s "$BUILD_OUTPUT" "$INSTALL_PATH"; then
+  run_as_root install -m 0755 "$BUILD_OUTPUT" "$INSTALL_PATH"
+  binary_changed=1
+else
+  echo "    binary unchanged, skipping install"
+fi
 
 echo "==> Writing systemd unit to $UNIT_PATH"
 unit_tmp="$(mktemp)"
@@ -103,7 +109,11 @@ if [[ $unit_changed -eq 1 ]]; then
   run_as_root systemctl daemon-reload
 fi
 run_as_root systemctl enable "$SERVICE_NAME" >/dev/null
-run_as_root systemctl restart "$SERVICE_NAME"
+if [[ $binary_changed -eq 1 || $unit_changed -eq 1 ]]; then
+  run_as_root systemctl restart "$SERVICE_NAME"
+else
+  echo "    nothing changed, skipping restart"
+fi
 
 if [[ "$SETUP_PROXY" == "1" ]]; then
   echo "==> Running proxy setup via $PROXY_SETUP_SCRIPT"

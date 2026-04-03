@@ -70,6 +70,9 @@ func (g *gitRepo) syncToRemote() error {
 	if err := g.git("reset", "--hard", "origin/"+branch); err != nil {
 		return fmt.Errorf("git reset --hard origin/%s: %w", branch, err)
 	}
+	if err := g.git("clean", "-fd"); err != nil {
+		return fmt.Errorf("git clean -fd: %w", err)
+	}
 	return nil
 }
 

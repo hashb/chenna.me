@@ -66,14 +66,20 @@ func main() {
 		tokenEndpoint: tokenEndpoint,
 	}
 
+	const maxMicropubBodySize = 2 << 20 // 2 MB
 	mux := http.NewServeMux()
-	mux.Handle("/micropub", micropub.NewHandler(impl,
-		micropub.WithMediaEndpoint(siteURL+"/media"),
-		micropub.WithGetCategories(impl.getCategories),
-		micropub.WithGetPostStatuses(func() []string {
-			return []string{"published", "draft"}
-		}),
-	))
+	mux.Handle("/micropub", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			r.Body = http.MaxBytesReader(w, r.Body, maxMicropubBodySize)
+		}
+		micropub.NewHandler(impl,
+			micropub.WithMediaEndpoint(siteURL+"/media"),
+			micropub.WithGetCategories(impl.getCategories),
+			micropub.WithGetPostStatuses(func() []string {
+				return []string{"published", "draft"}
+			}),
+		).ServeHTTP(w, r)
+	}))
 	mux.Handle("/media", newMediaHandler(impl))
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")

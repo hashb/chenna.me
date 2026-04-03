@@ -35,6 +35,10 @@ type tokenVerificationResponse struct {
 	ClientID string `json:"client_id"`
 }
 
+var tokenHTTPClient = &http.Client{Timeout: 10 * time.Second}
+
+const maxTokenResponseSize = 1 << 20 // 1 MB
+
 // HasScope verifies the bearer token against the IndieAuth token endpoint.
 func (j *jekyllMicropub) HasScope(r *http.Request, scope string) bool {
 	token := extractBearerToken(r)
@@ -50,7 +54,7 @@ func (j *jekyllMicropub) HasScope(r *http.Request, scope string) bool {
 	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Accept", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := tokenHTTPClient.Do(req)
 	if err != nil {
 		log.Printf("error verifying token: %v", err)
 		return false
@@ -62,7 +66,7 @@ func (j *jekyllMicropub) HasScope(r *http.Request, scope string) bool {
 		return false
 	}
 
-	body, err := io.ReadAll(resp.Body)
+	body, err := io.ReadAll(io.LimitReader(resp.Body, maxTokenResponseSize))
 	if err != nil {
 		log.Printf("error reading token response: %v", err)
 		return false
@@ -308,7 +312,10 @@ func (j *jekyllMicropub) SourceMany(limit, offset int) ([]map[string]any, error)
 
 	items := make([]map[string]any, 0, len(files))
 	for _, f := range files {
-		rel, _ := filepath.Rel(j.repo.path, f)
+		rel, err := filepath.Rel(j.repo.path, f)
+		if err != nil {
+			continue
+		}
 		data, err := os.ReadFile(f)
 		if err != nil {
 			continue
@@ -430,13 +437,23 @@ func parseFrontMatter(data string) (map[string]any, string) {
 		return fm, data
 	}
 
-	end := strings.Index(data[4:], "\n---\n")
+	end := strings.Index(data[4:], "\n---")
 	if end == -1 {
 		return fm, data
 	}
 
+	// Ensure the closing delimiter is either "\n---\n" or "\n---" at EOF.
+	closingStart := end + 4        // position of '\n' before '---'
+	closingEnd := closingStart + 4 // position after '---'
+	if closingEnd < len(data) && data[closingEnd] != '\n' {
+		return fm, data
+	}
+
 	fmText := data[4 : end+4]
-	content := strings.TrimPrefix(data[end+8:], "\n")
+	var content string
+	if closingEnd < len(data) {
+		content = strings.TrimPrefix(data[closingEnd:], "\n")
+	}
 
 	// Simple YAML parsing for our known fields
 	for _, line := range strings.Split(fmText, "\n") {
@@ -461,10 +478,18 @@ func parseFrontMatter(data string) (map[string]any, string) {
 		case "tags":
 			// Tags are on subsequent lines starting with "  - "
 			var tags []string
-			for _, tl := range strings.Split(fmText, "\n") {
-				tl = strings.TrimSpace(tl)
-				if strings.HasPrefix(tl, "- ") {
-					tags = append(tags, strings.TrimPrefix(tl, "- "))
+			lines := strings.Split(fmText, "\n")
+			for li, tl := range lines {
+				if strings.TrimSpace(tl) == "tags:" || strings.HasPrefix(tl, "tags:") {
+					for _, tagLine := range lines[li+1:] {
+						trimmed := strings.TrimSpace(tagLine)
+						if strings.HasPrefix(trimmed, "- ") {
+							tags = append(tags, strings.TrimPrefix(trimmed, "- "))
+						} else {
+							break
+						}
+					}
+					break
 				}
 			}
 			fm["tags"] = tags
@@ -490,9 +515,11 @@ func rebuildPost(fm map[string]any, content string) string {
 	if date != "" {
 		b.WriteString(fmt.Sprintf("date: %s\n", date))
 	}
-	b.WriteString("tags:\n")
-	for _, tag := range tags {
-		b.WriteString(fmt.Sprintf("  - %s\n", tag))
+	if len(tags) > 0 {
+		b.WriteString("tags:\n")
+		for _, tag := range tags {
+			b.WriteString(fmt.Sprintf("  - %s\n", tag))
+		}
 	}
 	if publishedValue, ok := fm["published"]; ok {
 		published, ok := publishedValue.(bool)

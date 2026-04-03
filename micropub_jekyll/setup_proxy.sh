@@ -24,10 +24,26 @@ load_env_file() {
     return
   fi
 
-  set -a
-  # shellcheck disable=SC1090
-  source "$ENV_FILE"
-  set +a
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line##[[:space:]]}"
+    line="${line%%[[:space:]]}"
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    [[ "$line" == export\ * ]] && line="${line#export }"
+    line="${line##[[:space:]]}"
+    local key="${line%%=*}"
+    local val="${line#*=}"
+    key="${key%%[[:space:]]}"
+    val="${val##[[:space:]]}"
+    [[ -z "$key" ]] && continue
+    # Strip matching quotes
+    if [[ ${#val} -ge 2 && ( ("${val:0:1}" == "'" && "${val: -1}" == "'") || ("${val:0:1}" == '"' && "${val: -1}" == '"') ) ]]; then
+      val="${val:1:${#val}-2}"
+    fi
+    # Only set if not already in the environment
+    if [[ -z "${!key+x}" ]]; then
+      export "$key=$val"
+    fi
+  done <"$ENV_FILE"
 }
 
 install_nginx() {
@@ -143,6 +159,7 @@ fi
 
 echo "==> Writing nginx config to $NGINX_CONF_PATH"
 nginx_tmp="$(mktemp)"
+trap 'rm -f "$nginx_tmp"' EXIT
 cat >"$nginx_tmp" <<EOF
 # Managed by setup_proxy.sh for $APP_NAME.
 map \$http_x_forwarded_proto \$micropub_x_forwarded_proto {
@@ -215,7 +232,6 @@ config_changed=0
 if install_nginx_config "$nginx_tmp" "$NGINX_CONF_PATH"; then
   config_changed=1
 fi
-rm -f "$nginx_tmp"
 
 if [[ $config_changed -eq 1 ]]; then
   echo "==> Applying nginx changes"
