@@ -21,6 +21,9 @@ collections:
   projects:
     output: true
     permalink: '/work/:year/:month/:title/'
+  micros:
+    output: true
+    permalink: '/micro/:year/:month/:slug/'
 
 markdown: kramdown
 kramdown:
@@ -53,6 +56,11 @@ defaults:
       path: ""
     values:
       image: /assets/images/city_view_from_john_mclaren_park.JPG
+  - scope:
+      path: ""
+      type: "micros"
+    values:
+      layout: micro
 
 
 # TODO: Uncomment this when https://github.com/jekyll/jekyll-feed/pull/321 is merged

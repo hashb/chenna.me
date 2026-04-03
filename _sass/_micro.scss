@@ -1,0 +1,52 @@
+.micro-entry,
+.micro-post {
+  padding: 1em 0;
+  border-bottom: 1px solid var(--border-color, #eee);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.micro-content {
+  p {
+    margin: 0.5em 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 0.5em 0;
+  }
+}
+
+.micro-meta {
+  font-size: 0.85em;
+  color: var(--meta-color, #888);
+  margin-top: 0.5em;
+
+  .micro-author {
+    display: inline;
+    font-style: normal;
+  }
+
+  .micro-timestamp {
+    color: var(--meta-color, #888);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .micro-tags {
+    &::before {
+      content: " · ";
+    }
+
+    a {
+      color: var(--meta-color, #888);
+    }
+  }
+}

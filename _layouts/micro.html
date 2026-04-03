@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<article class="micro-post h-entry">
+
+  <a class="u-url" href="{{ page.url | prepend: site.url }}" hidden>permalink</a>
+
+  <div class="e-content micro-content">{{ content }}</div>
+
+  <div class="micro-meta">
+    <address class="micro-author">By
+      <a class="p-author h-card" href="{{ site.url }}">{{ site.author["name"] }}</a>
+    </address>
+    <a href="{{ page.url }}" class="micro-timestamp">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %d, %Y %H:%M" }}</time>
+    </a>
+    {% if page.tags.size > 0 %}
+    <span class="micro-tags">
+      {% for tag in page.tags %}<a class="p-category" href="/tags/#{{ tag | slugify }}" rel="tag">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}{% endfor %}
+    </span>
+    {% endif %}
+  </div>
+
+</article>
