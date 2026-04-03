@@ -7,6 +7,11 @@
 
   {% seo %}
 
+  <!-- Micropub / IndieAuth discovery (early in head for app compatibility) -->
+  <link rel="micropub" href="https://micropub.chenna.me/micropub" />
+  <link rel="authorization_endpoint" href="https://indieauth.com/auth" />
+  <link rel="token_endpoint" href="https://tokens.indieauth.com/token" />
+
   {% if page.profile_schema %}
     {% include profile-schema.html %}
   {% endif %}
@@ -64,6 +69,7 @@
       <ul>
         <li><a href="/" {% if current.size==0 %}data-current="current item" {% endif %}>home</a></li>
         <li><a href="/blog/" {% if current[1]=='blog' %}data-current="current item" {% endif %}>blog</a></li>
+        <li><a href="/micro/" {% if current[1]=='micro' %}data-current="current item" {% endif %}>micro</a></li>
         <!-- <li><a href="/work/" {% if current[1]=='work' %}data-current="current item" {% endif %}>work</a></li> -->
         <li><a href="/photos/" {% if current[1]=='photos' %}data-current="current item" {% endif %}>photos</a></li>
         <li><a href="/guestbook/" {% if current[1]=='guestbook' %}data-current="current item" {% endif %}>guestbook</a></li>

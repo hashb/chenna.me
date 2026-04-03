@@ -1,0 +1,25 @@
+---
+layout: default
+title: Micro
+---
+
+<h2>Smolblog</h2>
+
+{% assign micros = site.micros | sort: "date" | reverse %}
+{% for post in micros %}
+<article class="micro-entry h-entry">
+
+  <div class="e-content micro-content">{{ post.content }}</div>
+
+  <div class="micro-meta">
+    <a href="{{ post.url }}" class="micro-timestamp u-url">
+      <time class="dt-published" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y %H:%M" }}</time>
+    </a>
+  </div>
+
+</article>
+{% endfor %}
+
+{% if site.micros.size == 0 %}
+<p>No micro-posts yet.</p>
+{% endif %}

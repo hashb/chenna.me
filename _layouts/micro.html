@@ -1,0 +1,19 @@
+---
+layout: default
+---
+<article class="micro-post h-entry">
+
+  <a class="u-url" href="{{ page.url | prepend: site.url }}" hidden>permalink</a>
+
+  <div class="e-content micro-content">{{ content }}</div>
+
+  <div class="micro-meta">
+    <span class="micro-author">By
+      <a class="p-author h-card" href="{{ site.url }}">{{ site.author["name"] }}</a>
+    </span>
+    <a href="{{ page.url }}" class="micro-timestamp">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %d, %Y %H:%M" }}</time>
+    </a>
+  </div>
+
+</article>

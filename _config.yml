@@ -10,6 +10,7 @@ url: 'https://chenna.me'  # the base hostname & protocol for your site
 repo_url: 'https://github.com/hashb/chenna.me'
 
 timezone: UTC
+future: true
 
 paginate: 4
 paginate_path: '/blog/page:num/'
@@ -21,6 +22,9 @@ collections:
   projects:
     output: true
     permalink: '/work/:year/:month/:title/'
+  micros:
+    output: true
+    permalink: '/micro/:year/:month/:day/:hour:minute:second/'
 
 markdown: kramdown
 kramdown:
@@ -53,6 +57,11 @@ defaults:
       path: ""
     values:
       image: /assets/images/city_view_from_john_mclaren_park.JPG
+  - scope:
+      path: ""
+      type: "micros"
+    values:
+      layout: micro
 
 
 # TODO: Uncomment this when https://github.com/jekyll/jekyll-feed/pull/321 is merged
@@ -64,6 +73,7 @@ defaults:
 # hide backend components
 exclude:
   - guestbook-backend
+  - micropub_jekyll
 
 author: 
   name: Chenna Kautilya
