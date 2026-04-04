@@ -101,6 +101,9 @@
         line-height: 1.55;
         white-space: pre-wrap;
         word-break: break-word;
+        aspect-ratio: 1 / 1;
+        overflow-y: auto;
+        box-sizing: border-box;
 }
 
 .gb-entry-meta {

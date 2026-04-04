@@ -23,7 +23,7 @@ const (
 	maxPublicPerPage     = 48
 	maxNameRunes         = 80
 	maxWebsiteLength     = 2048
-	maxContentRunes      = 4000
+	maxContentRunes      = 500
 	maxJSONBodySize      = 64 << 10 // 64KB
 )
 
