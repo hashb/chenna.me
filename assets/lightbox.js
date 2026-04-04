@@ -54,7 +54,7 @@
     document.body.appendChild(overlay);
   }
 
-  // ─── Prefetch helpers ───────────────────────────────────────────────────────
+  // ─── Prefetch ───────────────────────────────────────────────────────────────
 
   function prefetchItem(item) {
     if (!item) return;
@@ -79,42 +79,26 @@
     }
   }
 
-  function isCached(item) {
-    var webp = prefetchCache[item.src];
-    if (webp && webp.complete && webp.naturalWidth > 0) return true;
-    if (item.srcJpg) {
-      var jpg = prefetchCache[item.srcJpg];
-      if (jpg && jpg.complete && jpg.naturalWidth > 0) return true;
-    }
-    return false;
+  // ─── Image switching ────────────────────────────────────────────────────────
+
+  function clearHandlers() {
+    lbImg.onload = null;
+    lbImg.onerror = null;
   }
 
-  // ─── Lightbox state ─────────────────────────────────────────────────────────
-
-  function applyImage(item) {
+  function setImage(item) {
+    // Set handlers BEFORE changing src to avoid the completion race
+    lbImg.onload = function () {
+      clearHandlers();
+      lbImg.classList.remove('lb-switching');
+    };
+    lbImg.onerror = function () {
+      clearHandlers();
+      lbImg.classList.remove('lb-switching');
+    };
     lbSource.srcset = item.src || '';
     lbImg.src = item.srcJpg || item.src;
     lbImg.alt = item.alt || '';
-  }
-
-  function revealWhenReady() {
-    // Set handler before checking complete to avoid the race condition
-    lbImg.onload = null;
-    lbImg.onerror = null;
-
-    var reveal = function () {
-      lbImg.onload = null;
-      lbImg.onerror = null;
-      lbImg.classList.remove('lb-switching');
-    };
-
-    lbImg.onload = reveal;
-    lbImg.onerror = reveal;
-
-    // If already decoded (cached), fire reveal immediately
-    if (lbImg.complete && lbImg.naturalWidth > 0) {
-      reveal();
-    }
   }
 
   function openLightbox(index) {
@@ -122,16 +106,19 @@
     var item = gallery[index];
 
     prefetchItem(item);
+    clearHandlers();
 
-    lbImg.classList.add('lb-switching');
-    applyImage(item);
+    // Show the image immediately on open — no fade needed
+    lbImg.classList.remove('lb-switching');
+    lbSource.srcset = item.src || '';
+    lbImg.src = item.srcJpg || item.src;
+    lbImg.alt = item.alt || '';
+
     updateNav();
-
     overlay.classList.add('lb-open');
     document.body.style.overflow = 'hidden';
     overlay.focus();
 
-    revealWhenReady();
     prefetchAdjacent(index);
   }
 
@@ -145,28 +132,26 @@
     var next = (currentIndex + dir + gallery.length) % gallery.length;
     var item = gallery[next];
 
-    // Cancel any in-flight switch
-    if (switchTimer) {
-      clearTimeout(switchTimer);
-      switchTimer = null;
-    }
+    // Cancel any pending switch
+    if (switchTimer) { clearTimeout(switchTimer); switchTimer = null; }
 
-    // Clear any pending reveal handler
-    lbImg.onload = null;
-    lbImg.onerror = null;
+    // Stop any in-flight load from the previous navigation
+    clearHandlers();
+
+    // Kick off prefetch immediately — don't wait for the fade-out timer.
+    // Rapid keypresses cancel the timer, so prefetch must fire here or it never runs.
+    prefetchItem(item);
+    prefetchAdjacent(next);
 
     // Fade out the current image immediately
     lbImg.classList.add('lb-switching');
-
     currentIndex = next;
     updateNav();
 
-    // Wait for fade-out, then swap src and reveal when ready
+    // After the fade-out completes, swap source and wait for load
     switchTimer = setTimeout(function () {
       switchTimer = null;
-      applyImage(item);
-      revealWhenReady();
-      prefetchAdjacent(next);
+      setImage(item);
     }, 150);
   }
 
@@ -175,6 +160,8 @@
     prevBtn.style.display = single ? 'none' : '';
     nextBtn.style.display = single ? 'none' : '';
   }
+
+  // ─── Init ───────────────────────────────────────────────────────────────────
 
   function init() {
     buildOverlay();
