@@ -75,6 +75,7 @@ defaults:
 exclude:
   - guestbook-backend
   - micropub_jekyll
+  - vendor
 
 author: 
   name: Chenna Kautilya
