@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"time"
 )
@@ -24,21 +25,22 @@ func newTelegramNotifier(token, chatID string) *telegramNotifier {
 }
 
 func (t *telegramNotifier) notifyNewEntry(entry Entry) {
-	var msg string
-	switch entry.EntryType {
-	case "drawing":
-		msg = fmt.Sprintf("New drawing in guestbook!\n\nFrom: %s", entry.Name)
-	default:
-		msg = fmt.Sprintf("New message in guestbook!\n\nFrom: %s\n\n%s", entry.Name, entry.Content)
+	if entry.EntryType == "drawing" {
+		caption := fmt.Sprintf("New drawing in guestbook!\n\nFrom: %s", entry.Name)
+		if entry.Website != "" {
+			caption += "\n\nWebsite: " + entry.Website
+		}
+		go t.sendPhoto(entry.ImageData, caption)
+	} else {
+		msg := fmt.Sprintf("New message in guestbook!\n\nFrom: %s\n\n%s", entry.Name, entry.Content)
+		if entry.Website != "" {
+			msg += "\n\nWebsite: " + entry.Website
+		}
+		go t.sendMessage(msg)
 	}
-	if entry.Website != "" {
-		msg += "\n\nWebsite: " + entry.Website
-	}
-
-	go t.send(msg)
 }
 
-func (t *telegramNotifier) send(text string) {
+func (t *telegramNotifier) sendMessage(text string) {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", t.token)
 	body, err := json.Marshal(map[string]string{
 		"chat_id": t.chatID,
@@ -57,6 +59,37 @@ func (t *telegramNotifier) send(text string) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		log.Printf("telegram: unexpected status %d", resp.StatusCode)
+		log.Printf("telegram: sendMessage unexpected status %d", resp.StatusCode)
+	}
+}
+
+func (t *telegramNotifier) sendPhoto(imageData []byte, caption string) {
+	var buf bytes.Buffer
+	w := multipart.NewWriter(&buf)
+
+	_ = w.WriteField("chat_id", t.chatID)
+	_ = w.WriteField("caption", caption)
+
+	part, err := w.CreateFormFile("photo", "drawing.png")
+	if err != nil {
+		log.Printf("telegram: failed to create form file: %v", err)
+		return
+	}
+	if _, err := part.Write(imageData); err != nil {
+		log.Printf("telegram: failed to write image data: %v", err)
+		return
+	}
+	w.Close()
+
+	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendPhoto", t.token)
+	resp, err := t.client.Post(url, w.FormDataContentType(), &buf)
+	if err != nil {
+		log.Printf("telegram: failed to send photo: %v", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("telegram: sendPhoto unexpected status %d", resp.StatusCode)
 	}
 }
