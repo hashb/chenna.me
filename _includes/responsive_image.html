@@ -1,20 +1,30 @@
 {% assign image_path = "//i.chenna.me/photos/prod/opt/" | append: include.base_image_name %}
 
 <div class="photo-thumb"{% if include.thumbhash and include.thumbhash != "" %} data-thumbhash="{{ include.thumbhash }}"{% endif %}>
-  <img
-    src="{{ image_path }}-small.jpg"
-    srcset="{{ image_path }}-small.jpg 320w,
-            {{ image_path }}-medium.jpg 640w,
-            {{ image_path }}-large.jpg 1024w,
-            {{ image_path }}-xlarge.jpg 1920w"
-    sizes="{{ include.sizes | default: '(max-width: 640px) calc(100vw - 2rem), 720px' }}"
-    title="{{ include.alt }}"
-    alt="{{ include.alt }}"
-    width="{{ include.width }}"
-    height="{{ include.height | default: 'auto' }}"
-    loading="lazy"
-    decoding="async"
-    class="responsive-image"
-    data-lightbox-src="{{ image_path }}-xlarge.jpg"
-  />
+  <picture>
+    <source
+      type="image/webp"
+      srcset="{{ image_path }}-small.webp 320w,
+              {{ image_path }}-medium.webp 640w,
+              {{ image_path }}-large.webp 1024w,
+              {{ image_path }}-xlarge.webp 1920w"
+      sizes="{{ include.sizes | default: '(max-width: 640px) calc(100vw - 2rem), 720px' }}"
+    />
+    <img
+      src="{{ image_path }}-small.jpg"
+      srcset="{{ image_path }}-small.jpg 320w,
+              {{ image_path }}-medium.jpg 640w,
+              {{ image_path }}-large.jpg 1024w,
+              {{ image_path }}-xlarge.jpg 1920w"
+      sizes="{{ include.sizes | default: '(max-width: 640px) calc(100vw - 2rem), 720px' }}"
+      title="{{ include.alt }}"
+      alt="{{ include.alt }}"
+      width="{{ include.width }}"
+      height="{{ include.height | default: 'auto' }}"
+      loading="lazy"
+      decoding="async"
+      class="responsive-image"
+      data-lightbox-src="{{ image_path }}-xlarge.jpg"
+    />
+  </picture>
 </div>

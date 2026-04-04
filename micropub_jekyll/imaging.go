@@ -8,6 +8,7 @@ import (
 	"image/jpeg"
 	"io"
 
+	"github.com/chai2010/webp"
 	"github.com/disintegration/imaging"
 	"go.n16f.net/thumbhash"
 )
@@ -27,10 +28,11 @@ var variants = []imageVariant{
 
 // resizeResult holds the resized image bytes for each variant.
 type resizeResult struct {
-	Variants  map[string][]byte // suffix -> JPEG bytes
-	Width     int               // original width
-	Height    int               // original height
-	ThumbHash string            // base64-encoded ThumbHash for blur-up placeholder
+	Variants     map[string][]byte // suffix -> JPEG bytes
+	WebPVariants map[string][]byte // suffix -> WebP bytes
+	Width        int               // original width
+	Height       int               // original height
+	ThumbHash    string            // base64-encoded ThumbHash for blur-up placeholder
 }
 
 // processImage reads an image, auto-orients it, and produces responsive variants.
@@ -51,9 +53,10 @@ func processImage(r io.Reader) (*resizeResult, error) {
 	origHeight := bounds.Dy()
 
 	result := &resizeResult{
-		Variants: make(map[string][]byte, len(variants)),
-		Width:    origWidth,
-		Height:   origHeight,
+		Variants:     make(map[string][]byte, len(variants)),
+		WebPVariants: make(map[string][]byte, len(variants)),
+		Width:        origWidth,
+		Height:       origHeight,
 	}
 
 	// Generate ThumbHash from a ≤100px thumbnail for blur-up placeholder
@@ -70,11 +73,17 @@ func processImage(r io.Reader) (*resizeResult, error) {
 			resized = imaging.Resize(src, v.Width, 0, imaging.Lanczos)
 		}
 
-		var buf bytes.Buffer
-		if err := jpeg.Encode(&buf, resized, &jpeg.Options{Quality: 85}); err != nil {
-			return nil, fmt.Errorf("encoding %s variant: %w", v.Suffix, err)
+		var jpegBuf bytes.Buffer
+		if err := jpeg.Encode(&jpegBuf, resized, &jpeg.Options{Quality: 85}); err != nil {
+			return nil, fmt.Errorf("encoding %s JPEG variant: %w", v.Suffix, err)
 		}
-		result.Variants[v.Suffix] = buf.Bytes()
+		result.Variants[v.Suffix] = jpegBuf.Bytes()
+
+		var webpBuf bytes.Buffer
+		if err := webp.Encode(&webpBuf, resized, &webp.Options{Lossless: false, Quality: 85}); err != nil {
+			return nil, fmt.Errorf("encoding %s WebP variant: %w", v.Suffix, err)
+		}
+		result.WebPVariants[v.Suffix] = webpBuf.Bytes()
 	}
 
 	return result, nil

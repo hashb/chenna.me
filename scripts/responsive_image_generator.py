@@ -43,10 +43,15 @@ def generate_responsive_images(input_image_path: Path):
             # Resize the image
             resized_img = img.resize((width, new_height), Image.Resampling.LANCZOS)
 
-            # Save the resized image in opt directory
+            # Save the resized image in opt directory (JPEG)
             resized_image_path = opt_dir / f"{base_name}{suffix}{ext}"
             resized_img.save(resized_image_path)
             print(f"Saved resized image: {resized_image_path}")
+
+            # Save WebP version
+            webp_path = opt_dir / f"{base_name}{suffix}.webp"
+            resized_img.save(webp_path, format="WEBP", quality=85, method=6)
+            print(f"Saved WebP image: {webp_path}")
 
     # thumbhash
     thumbhash = image_to_thumbhash(str(input_image_path))
