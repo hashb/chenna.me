@@ -67,3 +67,7 @@ Persian  |:|&nbsp; کوتلیا
 <!--
 [^1]: This picture was taken from [Jorge Cham](http://phdcomics.com/)'s work for [Willow Garage](http://www.willowgarage.com/blog/2009/09/04/robot-comics-path-planning) as part of the R.O.B.O.T. Comics series. 
 -->
+
+<a href="https://xn--sr8hvo.ws/previous">←</a>
+An <a href="https://xn--sr8hvo.ws">IndieWeb Webring</a> 🕸💍
+<a href="https://xn--sr8hvo.ws/next">→</a>
