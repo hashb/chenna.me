@@ -35,7 +35,7 @@ jobs:
       - name: Minify
         run: |
           go install github.com/tdewolff/minify/v2/cmd/minify@latest
-          minify -r -o _site/ _site/
+          $(go env GOPATH)/bin/minify -r -o _site/ _site/
 
       - uses: actions/configure-pages@v5
 
