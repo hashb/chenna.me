@@ -7,6 +7,9 @@
 
   {% seo %}
 
+  <link rel="preconnect" href="https://i.chenna.me" crossorigin>
+  <link rel="preconnect" href="https://umami.chenna.me" crossorigin>
+
   <!-- Micropub / IndieAuth discovery (early in head for app compatibility) -->
   <link rel="micropub" href="https://micropub.chenna.me/micropub" />
   <link rel="authorization_endpoint" href="https://indieauth.com/auth" />
@@ -23,7 +26,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="preload" as="style" href="/assets/css/style.css" rel="stylesheet" />
+  <link defer rel="preload" as="style" href="/assets/css/style.css" rel="stylesheet"/>
   <link href="/assets/css/style.css" rel="stylesheet" />
 
   <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">

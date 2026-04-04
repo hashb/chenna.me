@@ -95,6 +95,11 @@
   pointer-events: auto;
 }
 
+// Makes <picture> invisible to the flex layout so <img> centres directly
+.lb-picture {
+  display: contents;
+}
+
 .lb-img {
   max-width: min(92vw, 1000px);
   max-height: 90vh;
