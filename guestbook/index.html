@@ -13,10 +13,31 @@ permalink: /guestbook/
   <a class="gb-sign-btn" href="/guestbook/sign/">Sign the guestbook</a>
 </p>
 
-<div id="entry-grid" class="gb-gallery gb-gallery--single">
-  <div class="gb-loading">Loading entries…</div>
+{% assign entries = site.data.guestbook %}
+<div class="gb-gallery{% if entries.size <= 1 %} gb-gallery--single{% endif %}">
+  {% if entries.size == 0 %}
+    <div class="gb-empty">No entries yet. Be the first to sign.</div>
+  {% else %}
+    {% for entry in entries %}
+      <article class="gb-entry gb-entry--{{ entry.entry_type }}">
+        {% if entry.entry_type == "drawing" and entry.image_url %}
+          <img class="gb-entry-image" src="{{ entry.image_url }}" alt="Drawing by {{ entry.name | escape }}" loading="lazy">
+        {% else %}
+          <div class="gb-entry-message">{{ entry.content | escape }}</div>
+        {% endif %}
+        <div class="gb-entry-meta">
+          {% if entry.website %}
+            <a href="{{ entry.website }}" target="_blank" rel="ugc nofollow noopener noreferrer">{{ entry.name | escape }}</a>
+          {% else %}
+            <span class="gb-entry-author">{{ entry.name | escape }}</span>
+          {% endif %}
+          {% if entry.created_at %}
+            <time class="gb-entry-date" datetime="{{ entry.created_at }}">{{ entry.created_at | date: "%b %-d, %Y" }}</time>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  {% endif %}
 </div>
-
-<nav id="entry-pagination" class="postnavigation gb-pagination hidden" aria-label="Guestbook pages"></nav>
 
 <script src="/guestbook/guestbook.js"></script>

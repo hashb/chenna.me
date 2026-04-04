@@ -5,3 +5,5 @@ hashb.github.io.sublime-workspace
 .jekyll-metadata
 .ruby-lsp
 .DS_Store
+_data/guestbook.json
+assets/guestbook/
