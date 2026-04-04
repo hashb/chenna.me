@@ -13,6 +13,17 @@
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, ACTUAL, ACTUAL);
 
+  // Dot grid (Moleskine style)
+  const DOT_SPACING = 40; // actual pixels (= 20 logical px)
+  ctx.fillStyle = "#c8c8c8";
+  for (let x = DOT_SPACING; x < ACTUAL; x += DOT_SPACING) {
+    for (let y = DOT_SPACING; y < ACTUAL; y += DOT_SPACING) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
   // ── State ───────────────────────────────────────────────────
   let tool = "pen"; // "pen" | "eraser"
   let brushSize = 9; // 3, 9, 18
