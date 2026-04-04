@@ -6,4 +6,5 @@ hashb.github.io.sublime-workspace
 .ruby-lsp
 .DS_Store
 _data/guestbook.json
+_data/build.json
 assets/guestbook/

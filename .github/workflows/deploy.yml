@@ -27,6 +27,11 @@ jobs:
       - name: Fetch guestbook data
         run: python3 scripts/fetch-guestbook-data.py
 
+      - name: Write build info
+        run: |
+          mkdir -p _data
+          echo "{\"commit\": \"${GITHUB_SHA:0:7}\", \"time\": \"$(date -u '+%Y-%m-%d %H:%M UTC')\"}" > _data/build.json
+
       - name: Build Jekyll
         run: bundle exec jekyll build
         env:
