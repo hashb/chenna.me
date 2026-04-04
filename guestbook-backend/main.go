@@ -33,7 +33,19 @@ func main() {
 	defer db.Close()
 
 	limiter := newRateLimiter(10, time.Hour)
-	srv := newServer(db, adminToken, limiter)
+
+	var tg *telegramNotifier
+	if botToken := os.Getenv("TELEGRAM_BOT_TOKEN"); botToken != "" {
+		chatID := os.Getenv("TELEGRAM_CHAT_ID")
+		if chatID == "" {
+			log.Println("WARNING: TELEGRAM_BOT_TOKEN set but TELEGRAM_CHAT_ID is missing, notifications disabled")
+		} else {
+			tg = newTelegramNotifier(botToken, chatID)
+			log.Println("telegram notifications enabled")
+		}
+	}
+
+	srv := newServer(db, adminToken, limiter, tg)
 
 	handler := corsMiddleware(srv, allowedOrigins)
 

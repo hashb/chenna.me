@@ -31,7 +31,7 @@ func newTestEnv(t *testing.T) testEnv {
 
 	return testEnv{
 		db:     db,
-		server: newServer(db, "test-token", newRateLimiter(1000, time.Minute)),
+		server: newServer(db, "test-token", newRateLimiter(1000, time.Minute), nil),
 	}
 }
 

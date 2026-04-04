@@ -65,14 +65,16 @@ type server struct {
 	db         *sql.DB
 	adminToken string
 	limiter    *rateLimiter
+	telegram   *telegramNotifier
 	mux        *http.ServeMux
 }
 
-func newServer(db *sql.DB, adminToken string, limiter *rateLimiter) *server {
+func newServer(db *sql.DB, adminToken string, limiter *rateLimiter, telegram *telegramNotifier) *server {
 	s := &server{
 		db:         db,
 		adminToken: adminToken,
 		limiter:    limiter,
+		telegram:   telegram,
 		mux:        http.NewServeMux(),
 	}
 	s.routes()
@@ -211,6 +213,11 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		log.Printf("error creating entry: %v", err)
 		writeJSONError(w, http.StatusInternalServerError, "internal error")
 		return
+	}
+
+	if s.telegram != nil {
+		entry.ID = id
+		s.telegram.notifyNewEntry(entry)
 	}
 
 	writeJSON(w, http.StatusCreated, map[string]any{

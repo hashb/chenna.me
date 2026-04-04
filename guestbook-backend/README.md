@@ -52,6 +52,35 @@ name=Alice&entry_type=drawing&image=<PNG file, max 5MB>
 | `DB_PATH` | `/data/guestbook.db` | SQLite database path |
 | `ADMIN_TOKEN` | _(none)_ | Bearer token for admin endpoints; admin is disabled if unset |
 | `ALLOWED_ORIGINS` | `https://chenna.me,http://localhost:4000` | Comma-separated CORS origins |
+| `TELEGRAM_BOT_TOKEN` | _(none)_ | Telegram bot token for new-entry notifications |
+| `TELEGRAM_CHAT_ID` | _(none)_ | Telegram chat ID to send notifications to |
+
+## Telegram notifications
+
+When both `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are set, the server sends a Telegram message whenever a new guestbook entry is submitted.
+
+### Setup
+
+**1. Create a bot**
+
+Message [@BotFather](https://t.me/BotFather) on Telegram, send `/newbot`, and follow the prompts. Copy the token it gives you — that's your `TELEGRAM_BOT_TOKEN`.
+
+**2. Find your chat ID**
+
+Start a conversation with your bot (send it any message), then open this URL in your browser (replace `<TOKEN>` with your bot token):
+
+```
+https://api.telegram.org/bot<TOKEN>/getUpdates
+```
+
+Look for `"chat":{"id":...}` in the response. That number is your `TELEGRAM_CHAT_ID`. It will be negative for groups.
+
+**3. Set the secrets**
+
+```sh
+fly secrets set TELEGRAM_BOT_TOKEN=<token>
+fly secrets set TELEGRAM_CHAT_ID=<chat_id>
+```
 
 ## Development
 
