@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -31,6 +32,7 @@ func main() {
 	siteURL := getenv("SITE_URL", "https://chenna.me")
 	endpointURL := getenv("ENDPOINT_URL", siteURL)
 	tokenEndpoint := getenv("TOKEN_ENDPOINT", "https://tokens.indieauth.com/token")
+	honorCreatePostStatus := getenvBool("HONOR_CREATE_POST_STATUS", false)
 	allowedOrigins := parseOrigins(getenv("ALLOWED_ORIGINS", ""))
 	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
@@ -58,12 +60,13 @@ func main() {
 	}
 
 	impl := &jekyllMicropub{
-		repo:          repo,
-		gcs:           gcsClient,
-		imageBaseURL:  imageBaseURL,
-		siteURL:       siteURL,
-		endpointURL:   endpointURL,
-		tokenEndpoint: tokenEndpoint,
+		repo:                  repo,
+		gcs:                   gcsClient,
+		imageBaseURL:          imageBaseURL,
+		honorCreatePostStatus: honorCreatePostStatus,
+		siteURL:               siteURL,
+		endpointURL:           endpointURL,
+		tokenEndpoint:         tokenEndpoint,
 	}
 
 	mux := http.NewServeMux()
@@ -128,6 +131,20 @@ func getenv(key, fallback string) string {
 		return v
 	}
 	return fallback
+}
+
+func getenvBool(key string, fallback bool) bool {
+	v := strings.TrimSpace(os.Getenv(key))
+	if v == "" {
+		return fallback
+	}
+
+	parsed, err := strconv.ParseBool(v)
+	if err != nil {
+		return fallback
+	}
+
+	return parsed
 }
 
 func parseOrigins(env string) []string {

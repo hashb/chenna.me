@@ -18,14 +18,21 @@ type jekyllFrontMatter struct {
 }
 
 func buildFrontMatter(date time.Time, tags []string, published bool) (string, error) {
-	publishedValue := published
-
 	return marshalFrontMatter(jekyllFrontMatter{
 		Layout:    "micro",
 		Date:      date.Format("2006-01-02 15:04:05 -0700"),
 		Tags:      tags,
-		Published: &publishedValue,
+		Published: publishedFrontMatterValue(published),
 	})
+}
+
+func publishedFrontMatterValue(published bool) *bool {
+	if published {
+		return nil
+	}
+
+	publishedValue := false
+	return &publishedValue
 }
 
 func parseFrontMatter(data string) (jekyllFrontMatter, string, error) {

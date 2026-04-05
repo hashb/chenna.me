@@ -24,13 +24,14 @@ var defaultCategories = []string{
 }
 
 type jekyllMicropub struct {
-	repo           *gitRepo
-	gcs            *gcsUploader
-	imageBaseURL   string
-	siteURL        string
-	endpointURL    string
-	tokenEndpoint  string
-	thumbhashCache sync.Map // cdnURL -> base64 ThumbHash string
+	repo                  *gitRepo
+	gcs                   *gcsUploader
+	imageBaseURL          string
+	honorCreatePostStatus bool
+	siteURL               string
+	endpointURL           string
+	tokenEndpoint         string
+	thumbhashCache        sync.Map // cdnURL -> base64 ThumbHash string
 }
 
 type tokenVerificationResponse struct {
@@ -131,7 +132,7 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	categories := extractStringSlice(req.Properties, "category")
 
 	// Determine published status.
-	published := requestedPublishedStatus(req)
+	published := requestedPublishedStatus(req, j.honorCreatePostStatus)
 
 	// Use provided date or now
 	postDate := now
@@ -220,8 +221,8 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 			fm.Tags = toStringSlice(vals)
 		}
 		if vals, ok := req.Updates.Replace["post-status"]; ok && len(vals) > 0 {
-			published := fmt.Sprintf("%v", vals[0]) != "draft"
-			fm.Published = &published
+			published := !strings.EqualFold(fmt.Sprintf("%v", vals[0]), "draft")
+			fm.Published = publishedFrontMatterValue(published)
 		}
 	}
 
@@ -578,7 +579,11 @@ func canonicalizeURL(raw string) string {
 	return raw
 }
 
-func requestedPublishedStatus(req *micropub.Request) bool {
+func requestedPublishedStatus(req *micropub.Request, honorCreatePostStatus bool) bool {
+	if !honorCreatePostStatus {
+		return true
+	}
+
 	statuses := extractStringSlice(req.Properties, "post-status")
 	if len(statuses) == 0 {
 		statuses = extractStringSlice(req.Commands, "post-status")
@@ -586,7 +591,7 @@ func requestedPublishedStatus(req *micropub.Request) bool {
 	if len(statuses) == 0 {
 		return true
 	}
-	return statuses[0] != "draft"
+	return !strings.EqualFold(statuses[0], "draft")
 }
 
 func isManagedPhotoURL(photoURL, baseURL string) bool {

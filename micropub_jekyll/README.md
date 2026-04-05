@@ -33,6 +33,7 @@ A Go-based [Micropub](https://micropub.spec.indieweb.org/) server that creates J
 | `SITE_URL` | No | Canonical site/profile URL used for IndieAuth `me` validation and published post URLs | `https://chenna.me` |
 | `ENDPOINT_URL` | No | Public base URL of this Micropub service and media endpoint; defaults to `SITE_URL` | `https://chenna.me` |
 | `TOKEN_ENDPOINT` | No | IndieAuth token endpoint | `https://tokens.indieauth.com/token` |
+| `HONOR_CREATE_POST_STATUS` | No | Honor incoming create-time `post-status` values like `draft`; defaults to `false` so iA Writer publishes immediately instead of creating Jekyll drafts | `false` |
 | `ALLOWED_ORIGINS` | No | CORS origins (comma-separated) | `https://chenna.me,http://localhost:4000` |
 | `GOOGLE_APPLICATION_CREDENTIALS` | Yes | GCS service account key path | — |
 | `ORIGIN_CERT_PATH` | No | Cloudflare origin cert path for nginx | — |
@@ -60,6 +61,8 @@ go build -o micropub-jekyll .
 The binary automatically loads `.env` from the current working directory. Existing shell environment variables still take precedence.
 
 `REPO_PATH` should point at a dedicated checkout with a configured upstream branch. The service now fast-forwards that checkout and refuses local divergence instead of resetting it away.
+
+`HONOR_CREATE_POST_STATUS` is disabled by default because iA Writer's Micropub integration creates new drafts. Leave it disabled if you want iA Writer posts to go live immediately; enable it only if you want create requests with `post-status=draft` to become Jekyll drafts.
 
 If the Micropub service is hosted on a different public URL than the site itself, keep `SITE_URL` set to the canonical site URL and set `ENDPOINT_URL` to the Micropub host. For example, `SITE_URL=https://chenna.me` and `ENDPOINT_URL=https://micropub.chenna.me`.
 

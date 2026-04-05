@@ -103,6 +103,21 @@ func TestHasScopeRejectsFragmentedMeURL(t *testing.T) {
 	}
 }
 
+func TestRequestedPublishedStatusDefaultsToPublished(t *testing.T) {
+	t.Parallel()
+
+	req := &micropub.Request{
+		Properties: map[string][]any{
+			"post-status": {"draft"},
+		},
+		Commands: map[string][]any{},
+	}
+
+	if !requestedPublishedStatus(req, false) {
+		t.Fatal("requestedPublishedStatus honored draft status when create status handling is disabled")
+	}
+}
+
 func TestRequestedPublishedStatusReadsCreateProperty(t *testing.T) {
 	t.Parallel()
 
@@ -113,7 +128,7 @@ func TestRequestedPublishedStatusReadsCreateProperty(t *testing.T) {
 		Commands: map[string][]any{},
 	}
 
-	if requestedPublishedStatus(req) {
+	if requestedPublishedStatus(req, true) {
 		t.Fatal("requestedPublishedStatus returned published for a draft create request")
 	}
 }
@@ -220,6 +235,84 @@ func TestCreateIncludesObjectValuedPhotoInPostBody(t *testing.T) {
 	}
 	if !strings.Contains(body, "- photos") {
 		t.Fatalf("post body missing photos tag:\n%s", body)
+	}
+	if strings.Contains(body, "published:") {
+		t.Fatalf("published post unexpectedly included a published field:\n%s", body)
+	}
+}
+
+func TestCreateIgnoresDraftStatusByDefault(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	impl := &jekyllMicropub{
+		repo:    repo,
+		siteURL: "https://chenna.me",
+	}
+
+	req := &micropub.Request{
+		Properties: map[string][]any{
+			"content":     {"hello"},
+			"published":   {"2026-04-05T10:00:00Z"},
+			"post-status": {"draft"},
+		},
+		Commands: map[string][]any{},
+	}
+
+	if _, err := impl.Create(req); err != nil {
+		t.Fatalf("Create: %v", err)
+	}
+
+	data, err := os.ReadFile(filepath.Join(repoPaths.localDir, "_micros/2026/2026-04-05-100000.md"))
+	if err != nil {
+		t.Fatalf("os.ReadFile: %v", err)
+	}
+
+	body := string(data)
+	if strings.Contains(body, "published:") {
+		t.Fatalf("create request unexpectedly kept a draft flag by default:\n%s", body)
+	}
+}
+
+func TestCreateHonorsDraftStatusWhenEnabled(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	impl := &jekyllMicropub{
+		repo:                  repo,
+		honorCreatePostStatus: true,
+		siteURL:               "https://chenna.me",
+	}
+
+	req := &micropub.Request{
+		Properties: map[string][]any{
+			"content":     {"hello"},
+			"published":   {"2026-04-05T10:00:00Z"},
+			"post-status": {"draft"},
+		},
+		Commands: map[string][]any{},
+	}
+
+	if _, err := impl.Create(req); err != nil {
+		t.Fatalf("Create: %v", err)
+	}
+
+	data, err := os.ReadFile(filepath.Join(repoPaths.localDir, "_micros/2026/2026-04-05-100000.md"))
+	if err != nil {
+		t.Fatalf("os.ReadFile: %v", err)
+	}
+
+	body := string(data)
+	if !strings.Contains(body, "published: false") {
+		t.Fatalf("create request did not keep the draft flag when enabled:\n%s", body)
 	}
 }
 
