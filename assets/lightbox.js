@@ -163,6 +163,27 @@
 
   // ─── Init ───────────────────────────────────────────────────────────────────
 
+  // ─── Thumb sizing ───────────────────────────────────────────────────────────
+
+  // If the image's natural dimensions are smaller than the square container in
+  // either axis, shrink the container to match so small images aren't upscaled.
+  function adjustThumbSize(img) {
+    var thumb = img.closest('.photo-thumb');
+    if (!thumb) return;
+    var nw = img.naturalWidth;
+    var nh = img.naturalHeight;
+    if (!nw || !nh) return;
+
+    // The square side is the thumb's rendered width (= content column width).
+    var limit = thumb.offsetWidth || 680;
+    if (nw >= limit && nh >= limit) return; // large image — keep the square
+
+    var tw = Math.min(nw, limit);
+    var th = Math.min(nh, limit);
+    thumb.style.maxWidth = tw + 'px';
+    thumb.style.aspectRatio = tw + '/' + th;
+  }
+
   function init() {
     buildOverlay();
 
@@ -179,8 +200,12 @@
     images.forEach(function (el, i) {
       if (el.complete && el.naturalWidth > 0) {
         el.classList.add('lb-loaded');
+        adjustThumbSize(el);
       } else {
-        el.addEventListener('load', function () { el.classList.add('lb-loaded'); });
+        el.addEventListener('load', function () {
+          el.classList.add('lb-loaded');
+          adjustThumbSize(el);
+        });
       }
 
       var anchor = el.closest('a');

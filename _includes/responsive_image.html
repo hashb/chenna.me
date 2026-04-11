@@ -1,6 +1,18 @@
 {% assign image_path = "//i.chenna.me/photos/prod/opt/" | append: include.base_image_name %}
 
-<div class="photo-thumb"{% if include.thumbhash and include.thumbhash != "" %} data-thumbhash="{{ include.thumbhash }}"{% endif %}>
+{% comment %}Compute per-image thumb dimensions: cap each axis at the max content width (680px = 720 body - 2×20 padding). For images smaller than the cap, use the natural size so small images are never upscaled.{% endcomment %}
+{% assign _limit = 680 %}
+{% assign _img_w = include.width | plus: 0 %}
+{% assign _img_h = include.height | plus: 0 %}
+{% if _img_w > 0 and _img_h > 0 %}
+  {% if _img_w > _limit %}{% assign _thumb_w = _limit %}{% else %}{% assign _thumb_w = _img_w %}{% endif %}
+  {% if _img_h > _limit %}{% assign _thumb_h = _limit %}{% else %}{% assign _thumb_h = _img_h %}{% endif %}
+  {% assign _thumb_style = "max-width:" | append: _thumb_w | append: "px;aspect-ratio:" | append: _thumb_w | append: "/" | append: _thumb_h %}
+{% else %}
+  {% assign _thumb_style = nil %}
+{% endif %}
+
+<div class="photo-thumb"{% if include.thumbhash and include.thumbhash != "" %} data-thumbhash="{{ include.thumbhash }}"{% endif %}{% if _thumb_style %} style="{{ _thumb_style }}"{% endif %}>
   <picture>
     <source
       type="image/webp"
