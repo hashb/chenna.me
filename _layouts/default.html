@@ -8,7 +8,7 @@
   {% seo %}
 
   <link rel="preconnect" href="https://i.chenna.me" crossorigin>
-  <link rel="preconnect" href="https://umami.chenna.me" crossorigin>
+  {% if jekyll.environment == "production" %}<link rel="preconnect" href="https://umami.chenna.me" crossorigin>{% endif %}
 
   <!-- Micropub / IndieAuth discovery (early in head for app compatibility) -->
   <link rel="micropub" href="https://micropub.chenna.me/micropub" />
@@ -34,8 +34,10 @@
 
   <!-- bing verify -->
   <meta name="msvalidate.01" content="A91A3D6480BA119D7D8EAF3E5E1E8FB1" />
+  {% if jekyll.environment == "production" %}
   <!-- umami analytics -->
   <script defer src="https://umami.chenna.me/script.js" data-website-id="3ec6bdf1-7533-4e02-bd34-122ab82404a5"></script>
+  {% endif %}
   <script type="speculationrules">
     {
       "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }],
@@ -43,6 +45,7 @@
     }
   </script>
   <script src="/assets/bundle.js" ></script>
+  {% if jekyll.environment == "production" %}
   <script>
     const kit = new UmamiTracker({
       debug: false,
@@ -51,6 +54,7 @@
       heartbeatInterval: 15000
     });
   </script>
+  {% endif %}
   <!-- RSS feed metadata -->
   {% feed_meta %}
   <!-- IndieWeb Webmention -->
