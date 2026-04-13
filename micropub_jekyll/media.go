@@ -18,9 +18,10 @@ var mediaCounter atomic.Int64
 
 const mediaURLSuffix = "-xlarge.jpg"
 const mediaUploadTimeout = 30 * time.Second
+const maxMediaSize int64 = 80 << 20 // 80 MiB
 
 func newMediaHandler(impl *jekyllMicropub) http.Handler {
-	handler := micropub.NewMediaHandler(impl.uploadMediaWithoutRequestContext, impl.hasScope)
+	handler := micropub.NewMediaHandler(impl.uploadMediaWithoutRequestContext, impl.hasScope, micropub.WithMaxMediaSize(maxMediaSize))
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {

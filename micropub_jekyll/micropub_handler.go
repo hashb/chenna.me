@@ -51,7 +51,7 @@ func isMultipartMicropubRequest(r *http.Request) bool {
 }
 
 func rewriteMultipartCreateRequest(w http.ResponseWriter, r *http.Request, upload mediaUploadFunc) (*http.Request, error) {
-	r.Body = http.MaxBytesReader(w, r.Body, micropub.DefaultMaxMediaSize)
+	r.Body = http.MaxBytesReader(w, r.Body, maxMediaSize)
 	if err := r.ParseMultipartForm(0); err != nil {
 		return nil, fmt.Errorf("%w: %w", micropub.ErrBadRequest, err)
 	}
