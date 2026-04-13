@@ -54,9 +54,13 @@ func (j *jekyllMicropub) uploadMedia(ctx context.Context, file multipart.File, h
 		return "", fmt.Errorf("processing image: %w", err)
 	}
 
-	// Generate unique base name
+	// Generate unique base name, preferring the image's EXIF date over wall clock.
 	counter := mediaCounter.Add(1)
-	baseName := fmt.Sprintf("%s-%d", generateBaseName(), counter)
+	baseTime := time.Now().UTC()
+	if result.ExifDate != nil {
+		baseTime = result.ExifDate.UTC()
+	}
+	baseName := fmt.Sprintf("%s-%d", baseTime.Format("2006-01-02-150405"), counter)
 
 	// Upload all variants to GCS
 	ctx, cancel := context.WithTimeout(ctx, mediaUploadTimeout)
@@ -71,6 +75,11 @@ func (j *jekyllMicropub) uploadMedia(ctx context.Context, file multipart.File, h
 	// Cache the ThumbHash keyed by the CDN URL so Create() can embed it.
 	if result.ThumbHash != "" {
 		j.thumbhashCache.Store(cdnURL, result.ThumbHash)
+	}
+
+	// Cache the EXIF date keyed by the CDN URL so Create() can use it as the post date.
+	if result.ExifDate != nil {
+		j.exifDateCache.Store(cdnURL, *result.ExifDate)
 	}
 
 	log.Printf("media uploaded: %s -> %s", header.Filename, cdnURL)

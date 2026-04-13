@@ -7,9 +7,12 @@ import (
 	"image"
 	"image/jpeg"
 	"io"
+	"log"
+	"time"
 
 	"github.com/chai2010/webp"
 	"github.com/disintegration/imaging"
+	"github.com/rwcarlsen/goexif/exif"
 	"go.n16f.net/thumbhash"
 )
 
@@ -33,6 +36,22 @@ type resizeResult struct {
 	Width        int               // original width
 	Height       int               // original height
 	ThumbHash    string            // base64-encoded ThumbHash for blur-up placeholder
+	ExifDate     *time.Time        // DateTimeOriginal from EXIF, nil if not present
+}
+
+// extractExifDate attempts to read the DateTimeOriginal (or DateTime) from raw
+// image bytes. Returns nil if the data has no usable EXIF date.
+func extractExifDate(data []byte) *time.Time {
+	x, err := exif.Decode(bytes.NewReader(data))
+	if err != nil {
+		return nil
+	}
+	t, err := x.DateTime()
+	if err != nil || t.IsZero() {
+		return nil
+	}
+	log.Printf("exif date extracted: %s", t.Format(time.RFC3339))
+	return &t
 }
 
 // processImage reads an image, auto-orients it, and produces responsive variants.
@@ -57,6 +76,7 @@ func processImage(r io.Reader) (*resizeResult, error) {
 		WebPVariants: make(map[string][]byte, len(variants)),
 		Width:        origWidth,
 		Height:       origHeight,
+		ExifDate:     extractExifDate(data),
 	}
 
 	// Generate ThumbHash from a ≤100px thumbnail for blur-up placeholder

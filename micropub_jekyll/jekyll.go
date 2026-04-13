@@ -32,6 +32,7 @@ type jekyllMicropub struct {
 	endpointURL           string
 	tokenEndpoint         string
 	thumbhashCache        sync.Map // cdnURL -> base64 ThumbHash string
+	exifDateCache         sync.Map // cdnURL -> time.Time (EXIF DateTimeOriginal)
 }
 
 type tokenVerificationResponse struct {
@@ -134,11 +135,15 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	// Determine published status.
 	published := requestedPublishedStatus(req, j.honorCreatePostStatus)
 
-	// Use provided date or now
+	// Use provided date, EXIF date from the first photo, or now (in that priority order).
 	postDate := now
 	if dates := extractStringSlice(req.Properties, "published"); len(dates) > 0 {
 		if t, err := time.Parse(time.RFC3339, dates[0]); err == nil {
 			postDate = t.UTC()
+		}
+	} else if len(photos) > 0 {
+		if v, ok := j.exifDateCache.Load(photos[0].URL); ok {
+			postDate = v.(time.Time).UTC()
 		}
 	}
 
