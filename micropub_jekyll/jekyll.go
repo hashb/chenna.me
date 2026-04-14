@@ -181,9 +181,9 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	}
 
 	// Build front matter
-	// URL is derived entirely from the date via permalink: /micro/:year/:month/:day/:hour:minute:second/
+	// URL is derived entirely from the date via permalink: /notes/:year/:month/:day/:hour:minute:second/
 	filename := fmt.Sprintf("_micros/%d/%s.md", postDate.Year(), postDate.Format("2006-01-02-150405"))
-	postURL := fmt.Sprintf("%s/micro/%s/", j.siteURL, postDate.Format("2006/01/02/150405"))
+	postURL := fmt.Sprintf("%s/notes/%s/", j.siteURL, postDate.Format("2006/01/02/150405"))
 
 	frontMatter, err := buildFrontMatter(postDate, categories, published)
 	if err != nil {
@@ -689,7 +689,7 @@ func (j *jekyllMicropub) filenameToURL(filename string) string {
 		return j.siteURL + "/notes/"
 	}
 
-	return fmt.Sprintf("%s/micro/%s/%s/%s/%s/", j.siteURL, dateParts[0], dateParts[1], dateParts[2], dateParts[3])
+	return fmt.Sprintf("%s/notes/%s/%s/%s/%s/", j.siteURL, dateParts[0], dateParts[1], dateParts[2], dateParts[3])
 }
 
 // postToMf2 converts a Jekyll post file to microformats2 properties.
