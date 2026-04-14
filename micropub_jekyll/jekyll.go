@@ -656,7 +656,7 @@ func extractStringValues(value any) ([]string, error) {
 // File format: _micros/2026/2026-04-03-143000.md
 func (j *jekyllMicropub) urlToFilename(postURL string) (string, error) {
 	path := strings.TrimPrefix(postURL, j.siteURL)
-	path = strings.TrimPrefix(path, "/micro/")
+	path = strings.TrimPrefix(path, "/notes/")
 	path = strings.TrimSuffix(path, "/")
 
 	// Expected: "2026/04/03/143000"
@@ -680,13 +680,13 @@ func (j *jekyllMicropub) filenameToURL(filename string) string {
 	// Expected: "2026/2026-04-03-143000"
 	parts := strings.Split(name, "/")
 	if len(parts) != 2 {
-		return j.siteURL + "/micro/"
+		return j.siteURL + "/notes/"
 	}
 
 	// Parse "2026-04-03-143000" → year, month, day, time
 	dateParts := strings.SplitN(parts[1], "-", 4)
 	if len(dateParts) != 4 {
-		return j.siteURL + "/micro/"
+		return j.siteURL + "/notes/"
 	}
 
 	return fmt.Sprintf("%s/micro/%s/%s/%s/%s/", j.siteURL, dateParts[0], dateParts[1], dateParts[2], dateParts[3])

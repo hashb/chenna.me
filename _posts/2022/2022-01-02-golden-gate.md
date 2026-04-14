@@ -1,3 +1,3 @@
 ---
-redirect_to: "/micro/2022/01/02/123400/"
+redirect_to: "/notes/2022/01/02/123400/"
 ---

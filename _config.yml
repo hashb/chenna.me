@@ -24,7 +24,7 @@ collections:
     permalink: '/work/:year/:month/:title/'
   micros:
     output: true
-    permalink: '/micro/:year/:month/:day/:hour:minute:second/'
+    permalink: '/notes/:year/:month/:day/:hour:minute:second/'
 
 markdown: kramdown
 kramdown:
