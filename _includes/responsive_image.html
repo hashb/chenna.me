@@ -20,7 +20,7 @@
       title="{{ include.alt }}"
       alt="{{ include.alt }}"
       width="{{ include.width }}"
-      height="{{ include.height | default: 'auto' }}"
+      {% if include.height and include.height != 'auto' %}height="{{ include.height }}"{% endif %}
       loading="lazy"
       decoding="async"
       class="responsive-image"

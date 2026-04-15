@@ -5,7 +5,8 @@ layout: default
 <div class="photos-grid">
 {% assign all_photo_posts = site.posts | concat: site.micros | sort: "date" | reverse %}
 {% assign seen_urls = "" %}
-{% assign first_rendered = true %}
+{% assign eager_count = 0 %}
+{% assign eager_limit = 8 %}
 
 {% for post in all_photo_posts %}
   {% assign lowercaseTags = post.tags | join: ',' | downcase | split: ',' %}
@@ -19,9 +20,13 @@ layout: default
       <a href="{{ post.url }}">
       {% assign post_html = post.excerpt %}
       {% assign post_html = post_html | replace: 'sizes="(max-width: 640px) calc(100vw - 2rem), 720px"', 'sizes="(max-width: 330px) calc(100vw - 1.5rem), (max-width: 720px) calc(50vw - 1.125rem), 171px"' %}
-      {% if first_rendered %}
-        {% assign post_html = post_html | replace: 'loading="lazy"', 'loading="eager" fetchpriority="high"' %}
-        {% assign first_rendered = false %}
+      {% if eager_count < eager_limit %}
+        {% if eager_count == 0 %}
+          {% assign post_html = post_html | replace: 'loading="lazy"', 'loading="eager" fetchpriority="high"' %}
+        {% else %}
+          {% assign post_html = post_html | replace: 'loading="lazy"', 'loading="eager"' %}
+        {% endif %}
+        {% assign eager_count = eager_count | plus: 1 %}
       {% endif %}
       {{ post_html -}}
       </a>

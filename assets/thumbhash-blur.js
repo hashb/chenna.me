@@ -12,8 +12,10 @@
       for (var i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
       var dataURL = thumbHashToDataURL(bytes);
 
-      // Use as background of the wrapper so it shows while the real img loads
-      wrap.style.backgroundImage = 'url(' + dataURL + ')';
+      // Use as background of the wrapper so it shows while the real img loads.
+      // Set via CSS custom property so background-size/position from the
+      // stylesheet always apply correctly (avoids Safari inline-style cascade issues).
+      wrap.style.setProperty('--thumbhash-url', 'url(' + dataURL + ')');
       wrap.classList.add('thumbhash-active');
 
       var img = wrap.querySelector('img.responsive-image');
@@ -23,7 +25,7 @@
         wrap.classList.add('thumbhash-done');
         // Remove background after fade completes
         setTimeout(function () {
-          wrap.style.backgroundImage = '';
+          wrap.style.removeProperty('--thumbhash-url');
           wrap.classList.remove('thumbhash-active', 'thumbhash-done');
         }, 500);
       }

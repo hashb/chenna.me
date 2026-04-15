@@ -3,21 +3,13 @@
 .photo-thumb {
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--c-secondary-background);
+  background-color: var(--c-secondary-background);
+  background-image: var(--thumbhash-url, none); // CSS custom property set by JS
+  background-size: cover;
+  background-position: center;
   border-radius: 4px;
   display: block;
   margin-bottom: 1em;
-  background-size: cover;
-  background-position: center;
-
-  // ThumbHash blur-up: fade out the placeholder background once the image loads
-  &.thumbhash-active {
-    background-image: var(--thumbhash-url); // set inline by JS
-  }
-  &.thumbhash-done {
-    background-image: none;
-    transition: background-image 0.4s ease;
-  }
 
   .responsive-image {
     width: 100%;

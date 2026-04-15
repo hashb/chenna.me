@@ -44,7 +44,7 @@
       "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }]
     }
   </script>
-  <script src="/assets/bundle.js" ></script>
+  <script src="/assets/bundle.js" defer data-cfasync="false"></script>
   {% if jekyll.environment == "production" %}
   <script>
     const kit = new UmamiTracker({
