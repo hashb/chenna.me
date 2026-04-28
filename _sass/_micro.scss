@@ -1,7 +1,7 @@
 .micro-entry,
 .micro-post {
   padding: 1em 0;
-  border-bottom: 1px solid var(--border-color, #eee);
+  border-bottom: 0.1px solid var(--border-color, #444);
 
   &:last-child {
     border-bottom: none;
