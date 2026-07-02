@@ -2,7 +2,7 @@
 layout: post
 date: '2025-09-14 13:01 -0700'
 last_modified_at: 2025-11-07 20:39:26 +0000
-published: true
+published: false
 title: '9 rules for effective debugging '
 tags: [Debugging]
 external-url: ''
