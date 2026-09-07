@@ -9,7 +9,7 @@ Hi!
 I am Chenna Kautilya. Currently, I am taking a break from work to travel the 
 world. Previously, I worked at [Medra](https://medra.ai/), where I led the 
 development of a end user programmable lab automation system. Before that, 
-I worked at Nimble Robotics and Omron Research Center of America (ORCA) as a 
+I worked at [Nimble Robotics](https://nimble.ai/) and [Omron Research Center of America (ORCA)](https://automation.omron.com/en/us/) as a 
 Robotics Software Engineer. At Nimble and ORCA, I worked on Motion Planning for 
 6-dof Robotic Arms and Real Time Distributed system for Robot Control.
 
@@ -23,11 +23,10 @@ Robotics Software Engineer. At Nimble and ORCA, I worked on Motion Planning for
 </figcaption>
 </figure>
 
-I earned a master's degree in Robotics from the University of Utah.
+I have a master's degree in Robotics from the University of Utah.
 I worked under [Dr. Tucker Hermans](http://www.cs.utah.edu/~thermans/) at the
 Learning Lab for Manipulator Autonomy ([LL4MA Lab 🦙](https://robot-learning.cs.utah.edu/)).
-During this time, I worked on Grasp Planning using Probabilistic Modeling and
-Machine Learning.
+During this time, I worked on Robotic Manipulation using Machine Learning and Robot Control.
 
 You can reach me over [email](mailto:hi@chenna.me),
 [twitter](https://twitter.com/{{site.twitter_username}}),
