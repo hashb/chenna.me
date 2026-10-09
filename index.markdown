@@ -6,8 +6,12 @@ profile_schema: true
 
 Hi!
 
-I am Chenna Kautilya. Currently, I am taking a break from work to travel the 
-world. Previously, I worked at [Medra](https://medra.ai/), where I led the 
+I am Chenna Kautilya. 
+
+<mark>I am actively looking for new opportunities in Physical AI/Robotics.</mark>
+
+I took a break from work to travel the world during 2026. 
+Previously, I worked at [Medra](https://medra.ai/), where I led the 
 development of a end user programmable lab automation system. Before that, 
 I worked at [Nimble Robotics](https://nimble.ai/) and [Omron Research Center of America (ORCA)](https://automation.omron.com/en/us/) as a 
 Robotics Software Engineer. At Nimble and ORCA, I worked on Motion Planning for 
