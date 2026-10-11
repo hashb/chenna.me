@@ -10,7 +10,7 @@ I am Chenna Kautilya.
 
 <mark>I am actively looking for new opportunities in Physical AI/Robotics.</mark>
 
-Checkout my LinkedIn ([link](https://www.linkedin.com/in/kautilyach/)) or
+Checkout my LinkedIn ([link](https://www.linkedin.com/in/kautilyach/))  
 Book time on my calendar ([link](https://calendar.app.google/qvQ1UGQjCd7Gjtvd9))
 
 I took a break from work to travel the world during 2026. 
