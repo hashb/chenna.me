@@ -1,6 +1,6 @@
 {
     "name": "Github Pages",
-    "image": "mcr.microsoft.com/devcontainers/jekyll:dev-3.4-bookworm",
+    "image": "mcr.microsoft.com/devcontainers/jekyll:2-3.4-bookworm",
     // The port(s) to open from your container.
     "appPort": [
         4000

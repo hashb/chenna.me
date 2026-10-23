@@ -5,19 +5,19 @@
 
 @charset 'utf-8';
 
-@import "main";
+@use "main";
 
 // Import highlighting
-@import "highlighting";
+@use "highlighting";
 
 // Guestbook
-@import "guestbook";
+@use "guestbook";
 
 // Borealis text effect on the guestbook nav link
-@import "fx-aurora";
+@use "fx-aurora";
 
 // Micro-posts
-@import "micro";
+@use "micro";
 
 // Lightbox + photo thumbnails
-@import "lightbox";
+@use "lightbox";

@@ -35,9 +35,11 @@ kramdown:
 
 gfm_quirks: paragraph_end
 
-# The github-pages gem used to set this; kept so the CSS output is unchanged
+# The github-pages gem used to set this; kept so the CSS output is unchanged.
+# jekyll-sass-converter 3 writes a .css.map by default, which the site doesn't need
 sass:
   style: compressed
+  sourcemap: never
 
 plugins:
   - jekyll-paginate
