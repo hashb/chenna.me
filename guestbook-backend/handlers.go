@@ -138,6 +138,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	contentType := r.Header.Get("Content-Type")
 
 	var entry Entry
+	var honeypot string
 
 	if strings.HasPrefix(contentType, "multipart/form-data") {
 		r.Body = http.MaxBytesReader(w, r.Body, maxMultipartBodySize)
@@ -149,6 +150,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		entry.Website = strings.TrimSpace(r.FormValue("website"))
 		entry.EntryType = normalizeEntryType(r.FormValue("entry_type"))
 		entry.Content = normalizeContent(r.FormValue("content"))
+		honeypot = r.FormValue("gb_verify")
 
 		file, _, err := r.FormFile("image")
 		if err == nil {
@@ -186,6 +188,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 			Website   string `json:"website"`
 			EntryType string `json:"entry_type"`
 			Content   string `json:"content"`
+			Verify    string `json:"gb_verify"`
 		}
 		r.Body = http.MaxBytesReader(w, r.Body, maxJSONBodySize)
 		decoder := json.NewDecoder(r.Body)
@@ -198,6 +201,18 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		entry.Website = strings.TrimSpace(req.Website)
 		entry.EntryType = normalizeEntryType(req.EntryType)
 		entry.Content = normalizeContent(req.Content)
+		honeypot = req.Verify
+	}
+
+	// The sign form hides the gb_verify field from people, so anything in it
+	// came from a bot. Reply exactly like a real submission so the bot has no
+	// signal to adapt to, but store nothing and send no notification.
+	if strings.TrimSpace(honeypot) != "" {
+		writeJSON(w, http.StatusCreated, map[string]any{
+			"id":      0,
+			"message": "entry submitted for review",
+		})
+		return
 	}
 
 	website, err := normalizeWebsite(entry.Website)

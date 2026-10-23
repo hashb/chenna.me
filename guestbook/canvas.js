@@ -27,6 +27,7 @@
   // ── State ───────────────────────────────────────────────────
   let tool = "pen"; // "pen" | "eraser"
   let brushSize = 9; // 3, 9, 18
+  let color = "#000000";
   let drawing = false;
   let lastX = null;
   let lastY = null;
@@ -97,7 +98,7 @@
     // Draw a dot at the start point
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, scaledBrush() / 2, 0, Math.PI * 2);
-    ctx.fillStyle = tool === "eraser" ? "#fff" : "#000";
+    ctx.fillStyle = tool === "eraser" ? "#fff" : color;
     ctx.fill();
   }
 
@@ -109,7 +110,7 @@
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(pos.x, pos.y);
-    ctx.strokeStyle = tool === "eraser" ? "#fff" : "#000";
+    ctx.strokeStyle = tool === "eraser" ? "#fff" : color;
     ctx.lineWidth = scaledBrush();
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -191,6 +192,16 @@
     updateCursorSize();
   }
 
+  const swatches = document.querySelectorAll(".gb-swatch");
+
+  // Picking a colour also switches back to the pen
+  function setColor(c) {
+    color = c;
+    swatches.forEach((s) => s.classList.toggle("active", s.dataset.color === c));
+    setTool("pen");
+  }
+
+  swatches.forEach((s) => s.addEventListener("click", () => setColor(s.dataset.color)));
   document.getElementById("btn-pen").addEventListener("click", () => setTool("pen"));
   document.getElementById("btn-eraser").addEventListener("click", () => setTool("eraser"));
   document.getElementById("btn-small").addEventListener("click", () => setBrush(3));
@@ -200,7 +211,7 @@
   document.getElementById("btn-redo").addEventListener("click", redo);
 
   // Set initial state
-  setTool("pen");
+  setColor("#000000");
   setBrush(9);
   updateUndoRedo();
 

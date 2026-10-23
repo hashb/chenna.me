@@ -88,6 +88,60 @@ func TestHandleCreateEntryNormalizesMessageEntries(t *testing.T) {
 	}
 }
 
+func TestHandleCreateEntryDropsHoneypotSubmissions(t *testing.T) {
+	env := newTestEnv(t)
+
+	jsonPayload := []byte(`{"name":"Bot","entry_type":"message","content":"buy now","gb_verify":"filled"}`)
+	recorder := env.request(t, http.MethodPost, "/api/entries", jsonPayload, map[string]string{
+		"Content-Type": "application/json",
+	})
+	if recorder.Code != http.StatusCreated {
+		t.Fatalf("json: expected status %d, got %d: %s", http.StatusCreated, recorder.Code, recorder.Body.String())
+	}
+
+	var body bytes.Buffer
+	writer := multipart.NewWriter(&body)
+	writer.WriteField("name", "Bot")
+	writer.WriteField("entry_type", "message")
+	writer.WriteField("content", "buy now")
+	writer.WriteField("gb_verify", "filled")
+	writer.Close()
+	recorder = env.request(t, http.MethodPost, "/api/entries", body.Bytes(), map[string]string{
+		"Content-Type": writer.FormDataContentType(),
+	})
+	if recorder.Code != http.StatusCreated {
+		t.Fatalf("multipart: expected status %d, got %d: %s", http.StatusCreated, recorder.Code, recorder.Body.String())
+	}
+
+	entries, err := getPendingEntries(env.db)
+	if err != nil {
+		t.Fatalf("get pending entries: %v", err)
+	}
+	if len(entries) != 0 {
+		t.Fatalf("expected honeypot submissions to be dropped, got %d pending entries", len(entries))
+	}
+}
+
+func TestHandleCreateEntryAcceptsEmptyHoneypot(t *testing.T) {
+	env := newTestEnv(t)
+
+	payload := []byte(`{"name":"Alice","entry_type":"message","content":"Hello","gb_verify":""}`)
+	recorder := env.request(t, http.MethodPost, "/api/entries", payload, map[string]string{
+		"Content-Type": "application/json",
+	})
+	if recorder.Code != http.StatusCreated {
+		t.Fatalf("expected status %d, got %d: %s", http.StatusCreated, recorder.Code, recorder.Body.String())
+	}
+
+	entries, err := getPendingEntries(env.db)
+	if err != nil {
+		t.Fatalf("get pending entries: %v", err)
+	}
+	if len(entries) != 1 {
+		t.Fatalf("expected 1 pending entry, got %d", len(entries))
+	}
+}
+
 func TestHandleCreateEntryRejectsUnsupportedWebsiteScheme(t *testing.T) {
 	env := newTestEnv(t)
 

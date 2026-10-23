@@ -58,6 +58,7 @@ function initSignForm() {
   const messageField = document.getElementById("message");
   const nameField = document.getElementById("name");
   const websiteField = document.getElementById("website");
+  const honeypotField = document.getElementById("gb-verify");
   const submitButton = form.querySelector(".gb-submit-btn");
   const success = document.getElementById("success");
   const modeRadios = form.querySelectorAll('input[name="mode"]');
@@ -119,6 +120,9 @@ function initSignForm() {
         formData.append("website", website);
       }
       formData.append("entry_type", mode === "draw" ? "drawing" : "message");
+      if (honeypotField && honeypotField.value) {
+        formData.append("gb_verify", honeypotField.value);
+      }
 
       if (mode === "draw") {
         const blob = await canvasToBlob(document.getElementById("draw-canvas"));

@@ -44,6 +44,8 @@ Content-Type: multipart/form-data
 name=Alice&entry_type=drawing&image=<PNG file, max 5MB>
 ```
 
+Both formats accept an optional `gb_verify` field. It's a honeypot: the sign form hides it from people, so if it has any value the server replies `201` as usual but stores nothing and sends no notification.
+
 ## Environment variables
 
 | Variable | Default | Description |

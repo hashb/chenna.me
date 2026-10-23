@@ -35,6 +35,12 @@ permalink: /guestbook/sign/
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></svg>
       </button>
       <span class="gb-toolbar-sep"></span>
+      <button type="button" class="gb-swatch" data-color="#000000" title="Black" aria-label="Black ink"><span style="background:#000000"></span></button>
+      <button type="button" class="gb-swatch" data-color="#8a00e6" title="Violet" aria-label="Violet ink"><span style="background:#8a00e6"></span></button>
+      <button type="button" class="gb-swatch" data-color="#0091c2" title="Blue" aria-label="Blue ink"><span style="background:#0091c2"></span></button>
+      <button type="button" class="gb-swatch" data-color="#e11900" title="Red" aria-label="Red ink"><span style="background:#e11900"></span></button>
+      <button type="button" class="gb-swatch" data-color="#0a8754" title="Green" aria-label="Green ink"><span style="background:#0a8754"></span></button>
+      <span class="gb-toolbar-sep"></span>
       <button type="button" id="btn-undo" title="Undo" aria-label="Undo">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 512 512" fill="currentColor"><path d="M48.5 224H40c-13.3 0-24-10.7-24-24V72c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2L98.6 96.6c87.6-86.5 228.7-86.2 315.8 1c87.5 87.5 87.5 229.3 0 316.8s-229.3 87.5-316.8 0c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c62.5 62.5 163.8 62.5 226.3 0s62.5-163.8 0-226.3c-62.2-62.2-162.7-62.5-225.3-1L185 183c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8H48.5z"/></svg>
       </button>
@@ -62,16 +68,16 @@ permalink: /guestbook/sign/
     <input type="text" id="website" name="website" placeholder="https://" maxlength="2048" autocapitalize="none" spellcheck="false">
   </div>
 
-  <div class="gb-field">
-    <label for="spam">Spam bot blocker</label>
-    <small>Please enter the word "guestbook" below, lovely human.</small>
-    <input type="text" id="spam" name="spam" required pattern="[Gg][Uu][Ee][Ss][Tt][Bb][Oo][Oo][Kk]" title="Please type the word 'guestbook'" autocapitalize="none">
+  <!-- Honeypot: hidden from people, but bots that fill every field fill this one too -->
+  <div class="gb-hp" aria-hidden="true">
+    <label for="gb-verify">Leave this field empty</label>
+    <input type="text" id="gb-verify" name="gb_verify" tabindex="-1" autocomplete="off">
   </div>
 
   <div id="form-status" class="gb-status hidden" aria-live="polite"></div>
 
   <button type="submit" class="gb-submit-btn">Submit</button>
-  <a href="/guestbook/" style="display:inline-block; margin-top:0.75rem; font-size:0.85rem;">Cancel</a>
+  <a class="gb-cancel-link" href="/guestbook/">Cancel</a>
 </form>
 
 <div id="success" class="gb-success hidden">

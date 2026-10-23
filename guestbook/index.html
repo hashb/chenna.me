@@ -6,18 +6,28 @@ permalink: /guestbook/
 
 <h1>Guestbook</h1>
 
-<p>Leave a little drawing or a little note if you feel like it.</p>
-<p>New entries are reviewed before they show up here, so there can be a short delay.</p>
-
-<p class="gb-cta">
-  <a class="gb-sign-btn" href="/guestbook/sign/">Sign the guestbook</a>
-</p>
+<p>Leave a drawing or a note. I read every one.</p>
 
 {% assign entries = site.data.guestbook %}
-<div class="gb-gallery{% if entries.size <= 1 %} gb-gallery--single{% endif %}">
-  {% if entries.size == 0 %}
-    <div class="gb-empty">No entries yet. Be the first to sign.</div>
-  {% else %}
+<p class="gb-cta">
+  <a class="gb-sign-btn" href="/guestbook/sign/">Sign the guestbook</a>
+  {% if entries.size > 0 %}
+    <span class="gb-count">{{ entries.size }} {% if entries.size == 1 %}visitor has{% else %}visitors have{% endif %} signed so far</span>
+  {% endif %}
+</p>
+
+<div class="gb-gallery">
+  <a class="gb-entry gb-entry--invite" href="/guestbook/sign/">
+    <span class="gb-invite-box">
+      <span class="gb-invite-plus" aria-hidden="true">+</span>
+      {% if entries.size == 0 %}Be the first to sign{% else %}Your drawing here{% endif %}
+    </span>
+    <span class="gb-entry-meta">
+      <span class="gb-entry-author">you?</span>
+      <span class="gb-entry-date">today</span>
+    </span>
+  </a>
+  {% if entries.size > 0 %}
     {% for entry in entries %}
       <article class="gb-entry gb-entry--{{ entry.entry_type }}">
         {% if entry.entry_type == "drawing" and entry.image_url %}

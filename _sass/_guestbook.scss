@@ -1,5 +1,26 @@
 /* ── Guestbook ──────────────────────────────────────────────── */
 
+/* Drawings are stored black-on-white. In dark mode they're shown through
+   --gb-ink-filter, which maps the white paper to the page background
+   (#fff → #212121) and black ink to the text colour (#000 → #dedede);
+   the hue-rotate keeps coloured ink roughly its own colour. The sign-page
+   canvas uses the same filter so people see what the gallery will show. */
+:root {
+        --gb-paper: #fff;
+        --gb-card-edge: #d9d9d9;
+        --gb-card-shadow: rgba(0, 0, 0, 0.08);
+        --gb-ink-filter: none;
+}
+
+@media (prefers-color-scheme: dark) {
+        :root {
+                --gb-paper: #212121;
+                --gb-card-edge: #3d3d3d;
+                --gb-card-shadow: rgba(0, 0, 0, 0.45);
+                --gb-ink-filter: invert(0.87) hue-rotate(180deg);
+        }
+}
+
 .gb-sign-btn,
 .gb-submit-btn,
 .gb-secondary-btn,
@@ -36,7 +57,16 @@
 }
 
 .gb-cta {
-        margin: 1.25rem 0 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 1rem;
+        margin: 1.25rem 0 2.25rem;
+}
+
+.gb-count {
+        font-size: 0.85rem;
+        opacity: 0.7;
 }
 
 .gb-gallery {
@@ -53,9 +83,21 @@
         box-sizing: border-box;
 }
 
+/* Entries sit at small alternating tilts, like notes pinned to a wall, and
+   straighten up with a little lift on hover. */
 .gb-entry {
         width: calc((100% - 3 * 1.5rem) / 4);
         min-width: 0;
+        transition: transform 0.2s ease;
+
+        &:nth-child(4n + 1) { transform: rotate(-1.2deg); }
+        &:nth-child(4n + 2) { transform: rotate(0.8deg); }
+        &:nth-child(4n + 3) { transform: rotate(-0.5deg); }
+        &:nth-child(4n + 4) { transform: rotate(1.3deg); }
+
+        &:hover {
+                transform: translateY(-4px) rotate(0deg);
+        }
 
         @media (max-width: 900px) {
                 width: calc((100% - 2 * 1.5rem) / 3);
@@ -68,49 +110,95 @@
         @media (max-width: 400px) {
                 width: 100%;
         }
+
+        @media (prefers-reduced-motion: reduce) {
+                transition: none;
+        }
 }
 
-.gb-gallery--single {
+/* Drawings, notes and the "your drawing here" tile share one card frame. */
+.gb-entry-image,
+.gb-entry-message,
+.gb-invite-box {
         display: block;
-        width: auto;
-        position: static;
-        transform: none;
-        max-width: none;
-        padding: 0;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        box-sizing: border-box;
+        border: 1px solid var(--gb-card-edge);
+        border-radius: 0.35em;
+        box-shadow: 0 1px 3px var(--gb-card-shadow);
+        transition: box-shadow 0.2s ease;
+}
+
+.gb-entry:hover :is(.gb-entry-image, .gb-entry-message, .gb-invite-box) {
+        box-shadow: 0 6px 16px var(--gb-card-shadow);
 }
 
 .gb-entry-image {
-        display: block;
-        width: 100%;
-        border: 2px solid var(--c-text);
-        border-radius: 0.25em;
         background: #fff;
-
-        @media (prefers-color-scheme: dark) {
-                opacity: 0.8;
-        }
+        filter: var(--gb-ink-filter);
 }
 
 .gb-entry-message {
         padding: 0.9rem 1rem;
-        background: var(--c-secondary-background);
-        border: 2px solid var(--c-secondary-background);
-        border-radius: 0.25em;
+        background: var(--gb-paper);
         font-family: monaco, monospace;
         font-size: 0.85rem;
         line-height: 1.55;
         white-space: pre-wrap;
         word-break: break-word;
-        aspect-ratio: 1 / 1;
         overflow-y: auto;
-        box-sizing: border-box;
+}
+
+.gb-entry--invite {
+        color: var(--c-link-text);
+        text-decoration: none;
+
+        &:hover {
+                text-decoration: none;
+        }
+}
+
+.gb-invite-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        border: 2px dashed var(--c-link-text);
+        box-shadow: none;
+        font-size: 0.9rem;
+        font-weight: bold;
+        text-align: center;
+
+        .gb-entry--invite:hover & {
+                background: var(--c-focus);
+        }
+
+        /* One column on phones: a short banner instead of a full square, so
+           real entries show up on the first screen. */
+        @media (max-width: 400px) {
+                flex-direction: row;
+                aspect-ratio: auto;
+                padding: 1rem;
+        }
+}
+
+.gb-entry--invite .gb-entry-meta {
+        @media (max-width: 400px) {
+                display: none;
+        }
+}
+
+.gb-invite-plus {
+        font-size: 2.25rem;
+        font-weight: normal;
+        line-height: 1;
 }
 
 .gb-entry-meta {
-        display: flex;
-        align-items: baseline;
-        gap: 0.4rem;
-        margin: 0.4rem 0 0;
+        display: grid;
+        margin: 0.45rem 0 0;
         font-size: 0.82rem;
         line-height: 1.4;
         min-width: 0;
@@ -137,8 +225,6 @@
         font-size: 0.78rem;
         opacity: 0.6;
         white-space: nowrap;
-        flex-shrink: 0;
-        margin-left: auto;
 }
 
 .gb-loading,
@@ -213,15 +299,13 @@
                 display: block;
                 width: 100%;
                 height: 100%;
-                border-radius: 0.25em;
-                border: 2px solid #b0b0b0;
+                border-radius: 0.35em;
+                border: 1px solid var(--gb-card-edge);
+                box-shadow: 0 1px 3px var(--gb-card-shadow);
                 cursor: none;
                 touch-action: none;
                 background: #fff;
-
-                @media (prefers-color-scheme: dark) {
-                        border-color: #555;
-                }
+                filter: var(--gb-ink-filter);
         }
 }
 
@@ -246,8 +330,8 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 40px;
+                height: 40px;
                 background: var(--c-secondary-background);
                 border: 1px solid var(--c-secondary-background);
                 border-radius: 0.25em;
@@ -267,6 +351,44 @@
         }
 }
 
+/* Colour swatches go through the same dark-mode filter as the canvas, so
+   each one shows the colour the ink will actually appear in. */
+.gb-toolbar .gb-swatch {
+        span {
+                display: block;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                filter: var(--gb-ink-filter);
+        }
+
+        &.active {
+                background: var(--c-secondary-background);
+                border-color: var(--c-link-text);
+                box-shadow: inset 0 0 0 1px var(--c-link-text);
+        }
+}
+
+.gb-toolbar button:focus-visible {
+        outline: 2px solid var(--c-link-text);
+        outline-offset: 2px;
+}
+
+/* Off-screen rather than display: none, since some bots skip hidden inputs */
+.gb-hp {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+}
+
+.gb-cancel-link {
+        display: inline-block;
+        margin-top: 0.75rem;
+        font-size: 0.85rem;
+}
+
 .gb-toolbar-sep {
         width: 1px;
         height: 20px;
@@ -280,6 +402,7 @@
 
         textarea {
                 width: 100%;
+                box-sizing: border-box;
                 min-height: 220px;
                 background: var(--c-secondary-background);
                 color: var(--c-text);
@@ -317,6 +440,7 @@
         input[type="password"] {
                 width: 100%;
                 max-width: 420px;
+                box-sizing: border-box;
                 background: var(--c-secondary-background);
                 color: var(--c-text);
                 border: 1px solid var(--c-secondary-background);
