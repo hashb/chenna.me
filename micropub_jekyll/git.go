@@ -215,6 +215,28 @@ func (g *gitRepo) updateAndPush(filename, content, message string) error {
 	return g.writeAndPush(filename, content, message)
 }
 
+// editAndPush reads and transforms the current remote version while holding
+// the mutation lock, so edits cannot overwrite a stale snapshot or resurrect
+// a remotely deleted post.
+func (g *gitRepo) editAndPush(filename, message string, edit func([]byte) (string, error)) error {
+	return g.mutateAndPush(filename, message, func(fullPath string) error {
+		data, err := os.ReadFile(fullPath)
+		if err != nil {
+			return fmt.Errorf("read post: %w", err)
+		}
+		content, err := edit(data)
+		if err != nil {
+			return err
+		}
+		if err := os.WriteFile(fullPath, []byte(content), 0o644); err != nil {
+			return fmt.Errorf("write post: %w", err)
+		}
+		return nil
+	}, func() error {
+		return g.git("add", "--", filename)
+	})
+}
+
 // deleteAndPush removes a file, commits, and pushes.
 func (g *gitRepo) deleteAndPush(filename, message string) error {
 	return g.mutateAndPush(filename, message, func(string) error {

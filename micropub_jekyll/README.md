@@ -20,6 +20,10 @@ A Go-based [Micropub](https://micropub.spec.indieweb.org/) server that creates J
 | `/media` | `POST` | Upload images |
 | `/health` | `GET` | Health check |
 
+Source queries (`q=source`, including the post list) require an owner token
+with the `update` scope. Successful cross-origin responses expose `Location`
+so allowed browser clients can read newly created post and media URLs.
+
 ## Environment Variables
 
 | Variable | Required | Description | Default |
@@ -83,6 +87,9 @@ What `deploy.sh` does:
 - installs it to `/usr/local/bin/micropub-jekyll`
 - creates or updates a `systemd` unit
 - restarts the service and shows its status/logs
+
+Every explicit deployment restarts the service to apply `.env` changes, even
+when the binary and generated systemd unit are unchanged.
 
 What `setup_proxy.sh` does:
 

@@ -311,29 +311,40 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 		return "", err
 	}
 
-	data, err := j.repo.readFile(filename)
-	if err != nil {
+	commitMsg := fmt.Sprintf("micropub: update micro-post %s", filepath.Base(filename))
+	err = j.repo.editAndPush(filename, commitMsg, func(data []byte) (string, error) {
+		return applyPostUpdate(string(data), req.Updates)
+	})
+	if errors.Is(err, os.ErrNotExist) {
 		return "", micropub.ErrNotFound
 	}
+	if err != nil {
+		return "", fmt.Errorf("failed to update post: %w", err)
+	}
 
-	fm, content, err := parseFrontMatter(string(data))
+	log.Printf("updated micro-post: %s", filename)
+	return req.URL, nil
+}
+
+func applyPostUpdate(data string, updates micropub.RequestUpdate) (string, error) {
+	fm, content, err := parseFrontMatter(data)
 	if err != nil {
 		return "", fmt.Errorf("parse post: %w", err)
 	}
 
 	// Apply replacements
-	if req.Updates.Replace != nil {
-		if vals, ok := req.Updates.Replace["content"]; ok && len(vals) > 0 {
+	if updates.Replace != nil {
+		if vals, ok := updates.Replace["content"]; ok && len(vals) > 0 {
 			newContent, ok := contentValueToString(vals[0])
 			if !ok {
 				return "", fmt.Errorf("%w: unsupported content value type %T", micropub.ErrBadRequest, vals[0])
 			}
 			content = newContent
 		}
-		if vals, ok := req.Updates.Replace["category"]; ok {
+		if vals, ok := updates.Replace["category"]; ok {
 			fm.Tags = toStringSlice(vals)
 		}
-		if vals, ok := req.Updates.Replace["post-status"]; ok && len(vals) > 0 {
+		if vals, ok := updates.Replace["post-status"]; ok && len(vals) > 0 {
 			status, ok := vals[0].(string)
 			if !ok {
 				return "", fmt.Errorf("%w: post-status must be a string", micropub.ErrBadRequest)
@@ -344,14 +355,14 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 	}
 
 	// Apply additions
-	if req.Updates.Add != nil {
-		if vals, ok := req.Updates.Add["category"]; ok {
+	if updates.Add != nil {
+		if vals, ok := updates.Add["category"]; ok {
 			fm.Tags = append(fm.Tags, toStringSlice(vals)...)
 		}
 	}
 
 	// Apply deletions
-	if deleteMap, ok := req.Updates.Delete.(map[string]any); ok {
+	if deleteMap, ok := updates.Delete.(map[string]any); ok {
 		if vals, ok := deleteMap["category"]; ok {
 			toRemove, err := extractStringValues(vals)
 			if err != nil {
@@ -359,7 +370,7 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 			}
 			fm.Tags = removeStrings(fm.Tags, toRemove)
 		}
-	} else if deleteSlice, ok := req.Updates.Delete.([]any); ok {
+	} else if deleteSlice, ok := updates.Delete.([]any); ok {
 		for _, key := range deleteSlice {
 			if k, ok := key.(string); ok {
 				if k == "category" {
@@ -373,13 +384,7 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("rebuild post: %w", err)
 	}
-	commitMsg := fmt.Sprintf("micropub: update micro-post %s", filepath.Base(filename))
-	if err := j.repo.updateAndPush(filename, fullContent, commitMsg); err != nil {
-		return "", fmt.Errorf("failed to update post: %w", err)
-	}
-
-	log.Printf("updated micro-post: %s", filename)
-	return req.URL, nil
+	return fullContent, nil
 }
 
 // Delete removes a micro-post.
@@ -469,8 +474,12 @@ func extractBearerToken(r *http.Request) string {
 	if strings.HasPrefix(auth, "Bearer ") {
 		return strings.TrimPrefix(auth, "Bearer ")
 	}
-	// Also check form value per spec
-	if token := r.FormValue("access_token"); token != "" {
+	if r.Method != http.MethodPost {
+		return ""
+	}
+	// indielib removes access_token from Form when parsing a create. PostForm
+	// retains the body values, and avoids accepting tokens from query strings.
+	if token := r.PostFormValue("access_token"); token != "" {
 		return token
 	}
 	return ""

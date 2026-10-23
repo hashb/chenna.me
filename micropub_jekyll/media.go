@@ -28,10 +28,21 @@ func newMediaHandler(impl *jekyllMicropub) http.Handler {
 			return
 		}
 
-		handler.ServeHTTP(w, r)
-		if r.MultipartForm != nil {
-			_ = r.MultipartForm.RemoveAll()
+		// Token extraction may parse the form before indielib applies its own
+		// limit. Bound that read too, and keep file parts on disk.
+		r.Body = http.MaxBytesReader(w, r.Body, maxMediaSize)
+		defer func() {
+			if r.MultipartForm != nil {
+				_ = r.MultipartForm.RemoveAll()
+			}
+		}()
+		if !strings.HasPrefix(r.Header.Get("Authorization"), "Bearer ") {
+			if err := r.ParseMultipartForm(0); err != nil {
+				serveMicropubError(w, fmt.Errorf("%w: %w", micropub.ErrBadRequest, err))
+				return
+			}
 		}
+		handler.ServeHTTP(w, r)
 	})
 }
 

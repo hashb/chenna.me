@@ -61,6 +61,18 @@ func newMicropubHandlerWithUpload(impl *jekyllMicropub, authorize requestAuthori
 	)
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// indielib does not authorize source queries. Reading drafts and post
+		// source is part of editing, so require the owner's update scope.
+		if r.Method == http.MethodGet && r.URL.Query().Get("q") == "source" {
+			if extractBearerToken(r) == "" {
+				serveMicropubError(w, errUnauthorized)
+				return
+			}
+			if !impl.HasScope(r, "update") {
+				serveMicropubError(w, errInsufficientScope)
+				return
+			}
+		}
 		if isMultipartMicropubRequest(r) {
 			rewritten, err := rewriteMultipartCreateRequest(w, r, authorize, upload)
 			if err != nil {

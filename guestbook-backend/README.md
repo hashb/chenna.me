@@ -92,6 +92,9 @@ ALLOWED_ORIGINS="http://localhost:4001" ADMIN_TOKEN=secret DB_PATH=./guestbook.d
 
 # Run tests
 go test -v ./...
+
+# Canvas undo/redo regression tests (Node.js)
+node --test canvas_test.cjs
 ```
 
 ## Deployment

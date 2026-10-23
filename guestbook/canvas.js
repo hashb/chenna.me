@@ -32,14 +32,14 @@
   let lastY = null;
 
   // History
-  let history = [ctx.getImageData(0, 0, ACTUAL, ACTUAL)];
+  let history = [{ pixels: ctx.getImageData(0, 0, ACTUAL, ACTUAL), blank: true }];
   let historyIndex = 0;
   const MAX_HISTORY = 20;
 
   function saveState() {
     historyIndex++;
     history = history.slice(0, historyIndex);
-    history.push(ctx.getImageData(0, 0, ACTUAL, ACTUAL));
+    history.push({ pixels: ctx.getImageData(0, 0, ACTUAL, ACTUAL), blank: false });
     if (history.length > MAX_HISTORY) {
       history.shift();
       historyIndex--;
@@ -50,7 +50,7 @@
   function undo() {
     if (historyIndex > 0) {
       historyIndex--;
-      ctx.putImageData(history[historyIndex], 0, 0);
+      ctx.putImageData(history[historyIndex].pixels, 0, 0);
       updateUndoRedo();
     }
   }
@@ -58,7 +58,7 @@
   function redo() {
     if (historyIndex < history.length - 1) {
       historyIndex++;
-      ctx.putImageData(history[historyIndex], 0, 0);
+      ctx.putImageData(history[historyIndex].pixels, 0, 0);
       updateUndoRedo();
     }
   }
@@ -206,7 +206,7 @@
 
   window.guestbookCanvas = {
     isBlank() {
-      return historyIndex === 0;
+      return history[historyIndex].blank;
     },
   };
 })();
