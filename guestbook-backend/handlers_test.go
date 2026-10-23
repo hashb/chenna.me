@@ -5,6 +5,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/png"
+	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -328,5 +331,84 @@ func TestDeleteAndPurgeAdminEndpoints(t *testing.T) {
 	json.Unmarshal(recorder.Body.Bytes(), &purgeResp)
 	if purgeResp["deleted"] != float64(3) {
 		t.Fatalf("expected 3 deleted, got %v", purgeResp["deleted"])
+	}
+}
+
+func TestNormalizeWebsite(t *testing.T) {
+	tests := []struct {
+		name    string
+		raw     string
+		want    string
+		wantErr bool
+	}{
+		{name: "empty", raw: "", want: ""},
+		{name: "bare host", raw: "example.com", want: "https://example.com"},
+		{name: "uppercase scheme and host", raw: "HTTP://Example.COM/Path", want: "http://example.com/Path"},
+		{name: "query kept", raw: "example.com/?q=a&b=c", want: "https://example.com/?q=a&b=c"},
+		{name: "fragment stripped", raw: "https://example.com/page#top", want: "https://example.com/page"},
+		{name: "unsupported scheme", raw: "ftp://example.com", wantErr: true},
+		{name: "javascript scheme", raw: "javascript://example.com/%0aalert(1)", wantErr: true},
+		{name: "quote in query", raw: `x.com/?q="><script>alert(1)</script>`, wantErr: true},
+		{name: "single quote", raw: "x.com/?q='onmouseover=alert(1)", wantErr: true},
+		{name: "angle brackets in path", raw: "x.com/<script>", wantErr: true},
+		{name: "backtick", raw: "x.com/?q=`x`", wantErr: true},
+		{name: "space in query", raw: "x.com/?q=a b", wantErr: true},
+		{name: "tab", raw: "x.com/\tx", wantErr: true},
+		{name: "newline", raw: "x.com/?q=a\nb", wantErr: true},
+		{name: "nul", raw: "x.com/?q=\x00", wantErr: true},
+		{name: "del", raw: "x.com/?q=\x7f", wantErr: true},
+		{name: "non-breaking space", raw: "x.com/?q=a\u00a0b", wantErr: true},
+		{name: "too long", raw: "example.com/" + strings.Repeat("a", maxWebsiteLength), wantErr: true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := normalizeWebsite(tt.raw)
+			if tt.wantErr {
+				if err == nil {
+					t.Fatalf("expected error, got %q", got)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if got != tt.want {
+				t.Fatalf("expected %q, got %q", tt.want, got)
+			}
+		})
+	}
+}
+
+func TestHandleCreateEntryRejectsImageOnMessage(t *testing.T) {
+	env := newTestEnv(t)
+
+	var img bytes.Buffer
+	if err := png.Encode(&img, image.NewRGBA(image.Rect(0, 0, 1, 1))); err != nil {
+		t.Fatalf("encode png: %v", err)
+	}
+
+	var body bytes.Buffer
+	mw := multipart.NewWriter(&body)
+	mw.WriteField("name", "Alice")
+	mw.WriteField("entry_type", "message")
+	mw.WriteField("content", "hello")
+	part, err := mw.CreateFormFile("image", "drawing.png")
+	if err != nil {
+		t.Fatalf("create form file: %v", err)
+	}
+	part.Write(img.Bytes())
+	mw.Close()
+
+	recorder := env.request(t, http.MethodPost, "/api/entries", body.Bytes(), map[string]string{
+		"Content-Type": mw.FormDataContentType(),
+	})
+	if recorder.Code != http.StatusBadRequest {
+		t.Fatalf("expected 400, got %d: %s", recorder.Code, recorder.Body.String())
+	}
+	var response map[string]string
+	json.Unmarshal(recorder.Body.Bytes(), &response)
+	if !strings.Contains(response["error"], "only allowed for drawing") {
+		t.Fatalf("unexpected error %q", response["error"])
 	}
 }

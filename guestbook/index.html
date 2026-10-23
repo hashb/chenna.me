@@ -27,7 +27,7 @@ permalink: /guestbook/
         {% endif %}
         <div class="gb-entry-meta">
           {% if entry.website %}
-            <a href="{{ entry.website }}" target="_blank" rel="ugc nofollow noopener noreferrer">{{ entry.name | escape }}</a>
+            <a href="{{ entry.website | escape }}" target="_blank" rel="ugc nofollow noopener noreferrer">{{ entry.name | escape }}</a>
           {% else %}
             <span class="gb-entry-author">{{ entry.name | escape }}</span>
           {% endif %}

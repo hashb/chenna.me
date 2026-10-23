@@ -15,6 +15,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -25,6 +26,9 @@ const (
 	maxWebsiteLength     = 2048
 	maxContentRunes      = 500
 	maxJSONBodySize      = 64 << 10 // 64KB
+	maxMultipartBodySize = 10 << 20 // 10MB
+	maxMultipartMemory   = 1 << 20  // 1MB; larger parts spill to temp files
+	maxImageSize         = 5 << 20  // 5MB
 )
 
 var pngSignature = []byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}
@@ -136,8 +140,8 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	var entry Entry
 
 	if strings.HasPrefix(contentType, "multipart/form-data") {
-		r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
-		if err := r.ParseMultipartForm(10 << 20); err != nil { // 10MB max
+		r.Body = http.MaxBytesReader(w, r.Body, maxMultipartBodySize)
+		if err := r.ParseMultipartForm(maxMultipartMemory); err != nil {
 			writeJSONError(w, http.StatusBadRequest, "request too large")
 			return
 		}
@@ -149,12 +153,12 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		file, _, err := r.FormFile("image")
 		if err == nil {
 			defer file.Close()
-			data, err := io.ReadAll(io.LimitReader(file, (5<<20)+1))
+			data, err := io.ReadAll(io.LimitReader(file, maxImageSize+1))
 			if err != nil {
 				writeJSONError(w, http.StatusBadRequest, "error reading image")
 				return
 			}
-			if len(data) > 5<<20 {
+			if len(data) > maxImageSize {
 				writeJSONError(w, http.StatusBadRequest, "image must be 5MB or smaller")
 				return
 			}
@@ -243,10 +247,6 @@ func (s *server) handleGetImage(w http.ResponseWriter, r *http.Request) {
 		writeJSONError(w, http.StatusInternalServerError, "internal error")
 		return
 	}
-	if data == nil {
-		writeJSONError(w, http.StatusNotFound, "not found")
-		return
-	}
 
 	w.Header().Set("Content-Type", "image/png")
 	w.Header().Set("Cache-Control", "public, max-age=86400")
@@ -268,10 +268,6 @@ func (s *server) handleAdminGetImage(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Printf("error getting admin image: %v", err)
 		writeJSONError(w, http.StatusInternalServerError, "internal error")
-		return
-	}
-	if data == nil {
-		writeJSONError(w, http.StatusNotFound, "not found")
 		return
 	}
 
@@ -459,21 +455,46 @@ func normalizeWebsite(raw string) (string, error) {
 	if len(raw) > maxWebsiteLength {
 		return "", fmt.Errorf("website must be %d characters or fewer", maxWebsiteLength)
 	}
+	errInvalid := errors.New("website must be a valid http or https URL")
+	if hasUnsafeURLChar(raw) {
+		return "", errInvalid
+	}
 	if !strings.Contains(raw, "://") {
 		raw = "https://" + raw
 	}
 
-	parsed, err := url.ParseRequestURI(raw)
+	parsed, err := url.Parse(raw)
 	if err != nil || parsed.Host == "" {
-		return "", errors.New("website must be a valid http or https URL")
+		return "", errInvalid
 	}
 	parsed.Scheme = strings.ToLower(parsed.Scheme)
 	parsed.Host = strings.ToLower(parsed.Host)
 	parsed.Fragment = ""
+	parsed.RawFragment = ""
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return "", errors.New("website must be a valid http or https URL")
+		return "", errInvalid
 	}
-	return parsed.String(), nil
+	// url.URL.String keeps RawQuery verbatim, so re-check the output too.
+	normalized := parsed.String()
+	if hasUnsafeURLChar(normalized) {
+		return "", errInvalid
+	}
+	return normalized, nil
+}
+
+// hasUnsafeURLChar reports characters that could break out of an HTML
+// attribute or are never valid unescaped in a URL.
+func hasUnsafeURLChar(s string) bool {
+	for _, r := range s {
+		if r <= ' ' || unicode.IsSpace(r) || unicode.IsControl(r) {
+			return true
+		}
+		switch r {
+		case '"', '\'', '<', '>', '`':
+			return true
+		}
+	}
+	return false
 }
 
 func validateEntry(entry Entry) error {
@@ -494,6 +515,9 @@ func validateEntry(entry Entry) error {
 	}
 	if entry.EntryType == "drawing" && len(entry.ImageData) == 0 {
 		return errors.New("image is required for drawing entries")
+	}
+	if entry.EntryType == "message" && len(entry.ImageData) > 0 {
+		return errors.New("image is only allowed for drawing entries")
 	}
 	return nil
 }
