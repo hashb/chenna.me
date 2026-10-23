@@ -144,6 +144,10 @@ func (g *gitRepo) writeAndPush(filename, content, message string) error {
 // exists in the repository after syncing with the remote.
 var errFileExists = errors.New("file already exists")
 
+// errNoChanges is returned by a mutation that leaves the file as it is, so
+// there is nothing to commit.
+var errNoChanges = errors.New("no changes")
+
 // createAndPush writes a new file to the repo, commits, and pushes. Unlike
 // writeAndPush it never overwrites: the file is opened with O_CREATE|O_EXCL
 // inside the locked section (after syncing with the remote), and
@@ -195,6 +199,10 @@ func (g *gitRepo) mutateAndPush(pathspec, message string, mutate func(fullPath s
 			// Nothing was written; leave the existing file untouched.
 			return err
 		}
+		if errors.Is(err, errNoChanges) {
+			// Nothing was written and the repo already matches; not an error.
+			return nil
+		}
 		return wrapWithRollback(err, g.rollbackToHead(rollbackHead, pathspec))
 	}
 
@@ -210,14 +218,10 @@ func (g *gitRepo) mutateAndPush(pathspec, message string, mutate func(fullPath s
 	return nil
 }
 
-// updateAndPush overwrites a file, commits, and pushes.
-func (g *gitRepo) updateAndPush(filename, content, message string) error {
-	return g.writeAndPush(filename, content, message)
-}
-
 // editAndPush reads and transforms the current remote version while holding
 // the mutation lock, so edits cannot overwrite a stale snapshot or resurrect
-// a remotely deleted post.
+// a remotely deleted post. An edit that leaves the file unchanged succeeds
+// without committing.
 func (g *gitRepo) editAndPush(filename, message string, edit func([]byte) (string, error)) error {
 	return g.mutateAndPush(filename, message, func(fullPath string) error {
 		data, err := os.ReadFile(fullPath)
@@ -227,6 +231,9 @@ func (g *gitRepo) editAndPush(filename, message string, edit func([]byte) (strin
 		content, err := edit(data)
 		if err != nil {
 			return err
+		}
+		if content == string(data) {
+			return errNoChanges
 		}
 		if err := os.WriteFile(fullPath, []byte(content), 0o644); err != nil {
 			return fmt.Errorf("write post: %w", err)

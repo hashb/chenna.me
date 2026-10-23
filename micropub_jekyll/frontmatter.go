@@ -52,7 +52,9 @@ func rebuildPost(fm jekyllFrontMatter, content string) (string, error) {
 		return "", err
 	}
 
-	return frontMatter + "\n" + content, nil
+	// Parsed content keeps the blank line after the front matter; trim it so
+	// repeated updates don't add another one each time.
+	return frontMatter + "\n" + strings.TrimLeft(content, "\r\n"), nil
 }
 
 func marshalFrontMatter(fm jekyllFrontMatter) (string, error) {

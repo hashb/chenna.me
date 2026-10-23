@@ -493,3 +493,21 @@ func TestPruneMediaCachesDropsStaleEntries(t *testing.T) {
 		t.Fatal("fresh thumbhash entry pruned")
 	}
 }
+
+func TestUpdateWithoutChangesSucceeds(t *testing.T) {
+	impl, paths := newTestMicropub(t)
+	location, err := impl.Create(createRequest("original body", "2026-04-03T08:00:00Z"))
+	if err != nil {
+		t.Fatalf("Create: %v", err)
+	}
+	name := "_micros/2026/2026-04-03-080000.md"
+	before := readRepoFile(t, paths, name)
+
+	_, err = impl.Update(&micropub.Request{URL: location, Updates: micropub.RequestUpdate{Replace: map[string][]any{"category": {"micro"}}}})
+	if err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+	if got := readRepoFile(t, paths, name); got != before {
+		t.Fatalf("no-op update changed the post:\n%s", got)
+	}
+}

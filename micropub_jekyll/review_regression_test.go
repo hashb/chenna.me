@@ -298,3 +298,13 @@ func TestCORSExposesLocationOnlyToAllowedOrigins(t *testing.T) {
 		}
 	}
 }
+
+func TestMediaWithoutTokenOrMultipartBodyIsUnauthorized(t *testing.T) {
+	r := httptest.NewRequest(http.MethodPost, "/media", strings.NewReader(`{}`))
+	r.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	newMediaHandler(&jekyllMicropub{siteURL: "https://chenna.me"}).ServeHTTP(w, r)
+	if w.Code != http.StatusUnauthorized || !strings.Contains(w.Body.String(), `"unauthorized"`) {
+		t.Fatalf("status=%d body=%s", w.Code, w.Body.String())
+	}
+}

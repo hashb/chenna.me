@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"log"
 	"mime/multipart"
@@ -38,6 +39,11 @@ func newMediaHandler(impl *jekyllMicropub) http.Handler {
 		}()
 		if !strings.HasPrefix(r.Header.Get("Authorization"), "Bearer ") {
 			if err := r.ParseMultipartForm(0); err != nil {
+				// A non-multipart body can't carry a form token either.
+				if errors.Is(err, http.ErrNotMultipart) {
+					serveMicropubError(w, errUnauthorized)
+					return
+				}
 				serveMicropubError(w, fmt.Errorf("%w: %w", micropub.ErrBadRequest, err))
 				return
 			}
