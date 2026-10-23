@@ -48,6 +48,7 @@ plugins:
   - jemoji
   - jekyll-feed
   - jekyll-redirect-from
+  - jekyll-last-modified-at
 
 incremental: false
 

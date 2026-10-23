@@ -21,6 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history so jekyll-last-modified-at can date each file by its
+          # last commit (a shallow clone gives every file the latest commit's date)
+          fetch-depth: 0
 
       - uses: ruby/setup-ruby@v1
         with:

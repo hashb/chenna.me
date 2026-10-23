@@ -14,4 +14,5 @@ group :jekyll_plugins do
   gem "jekyll-sitemap", "~> 1.4"
   gem "jemoji", "~> 0.13"
   gem "jekyll-compose", "~> 0.12"
+  gem "jekyll-last-modified-at", "~> 1.3"
 end
