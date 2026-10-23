@@ -1,0 +1,68 @@
+/* ── Borealis text effect (guestbook nav link) ─────────────────── */
+
+/* Colour tokens — override to re-skin the effect:
+   --ink    main text colour (defaults to currentColor)
+   --ink-2  primary accent   --ink-3  secondary accent
+   Ultraviolet palette: deep violet into blue on light, neon on dark. */
+.fx-aurora {
+    --ink: currentColor;
+    --ink-2: #8a00e6;
+    --ink-3: #0091c2;
+    --fx-duration: 3s;
+}
+
+@media (prefers-color-scheme: dark) {
+    .fx-aurora {
+        --ink-2: #b026ff;
+        --ink-3: #00f0ff;
+    }
+}
+
+/* 01 Borealis — aurora gradient drifting through the letters.
+   Plays once on page load, and once more each time the link is hovered or
+   focused. The replay is a second, identical keyframes entry: adding it to
+   the list starts it fresh without restarting the first one, and removing it
+   on mouse-out doesn't trigger another run.
+   At rest the text is the normal link colour and has no gradient at all; the
+   keyframes fade the text colour out to reveal the gradient, then back in.
+   The gradient starts and ends on --ink-2 and doesn't repeat, so no seam
+   ever passes through the letters. */
+.fx-aurora {
+    --fx-gradient: linear-gradient(115deg, var(--ink-2), var(--ink-3), var(--ink-2), var(--ink-3), var(--ink-2));
+    background-size: 300% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fx-aurora var(--fx-duration) ease-in-out 1;
+}
+
+a:hover > .fx-aurora,
+a:focus-visible > .fx-aurora {
+    animation:
+        fx-aurora var(--fx-duration) ease-in-out 1,
+        fx-aurora-replay var(--fx-duration) ease-in-out 1;
+}
+
+/* Hue holds still while the text fades, so the plain link colour never
+   shows up tinted. */
+@keyframes fx-aurora {
+    0%   { background-image: var(--fx-gradient); background-position: 0% 50%;   color: var(--ink);    filter: hue-rotate(0deg); }
+    20%  { color: transparent; filter: hue-rotate(0deg); }
+    80%  { color: transparent; filter: hue-rotate(360deg); }
+    100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: var(--ink);    filter: hue-rotate(360deg); }
+}
+
+@keyframes fx-aurora-replay {
+    0%   { background-image: var(--fx-gradient); background-position: 0% 50%;   color: var(--ink);    filter: hue-rotate(0deg); }
+    20%  { color: transparent; filter: hue-rotate(0deg); }
+    80%  { color: transparent; filter: hue-rotate(360deg); }
+    100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: var(--ink);    filter: hue-rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fx-aurora,
+    a:hover > .fx-aurora,
+    a:focus-visible > .fx-aurora {
+        animation: none;
+    }
+}
