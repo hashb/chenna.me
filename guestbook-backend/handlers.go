@@ -131,7 +131,7 @@ func (s *server) handleGetEntries(w http.ResponseWriter, r *http.Request) {
 
 func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	if s.limiter != nil && !s.limiter.allow(clientIP(r)) {
-		writeJSONError(w, http.StatusTooManyRequests, "too many submissions, please try again later")
+		rejectSubmission(w, r, http.StatusTooManyRequests, "too many submissions, please try again later")
 		return
 	}
 
@@ -143,7 +143,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	if strings.HasPrefix(contentType, "multipart/form-data") {
 		r.Body = http.MaxBytesReader(w, r.Body, maxMultipartBodySize)
 		if err := r.ParseMultipartForm(maxMultipartMemory); err != nil {
-			writeJSONError(w, http.StatusBadRequest, "request too large")
+			rejectSubmission(w, r, http.StatusBadRequest, "request too large")
 			return
 		}
 		entry.Name = strings.TrimSpace(r.FormValue("name"))
@@ -157,29 +157,29 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 			defer file.Close()
 			data, err := io.ReadAll(io.LimitReader(file, maxImageSize+1))
 			if err != nil {
-				writeJSONError(w, http.StatusBadRequest, "error reading image")
+				rejectSubmission(w, r, http.StatusBadRequest, "error reading image")
 				return
 			}
 			if len(data) > maxImageSize {
-				writeJSONError(w, http.StatusBadRequest, "image must be 5MB or smaller")
+				rejectSubmission(w, r, http.StatusBadRequest, "image must be 5MB or smaller")
 				return
 			}
 			if !isPNG(data) {
-				writeJSONError(w, http.StatusBadRequest, "image must be a PNG file")
+				rejectSubmission(w, r, http.StatusBadRequest, "image must be a PNG file")
 				return
 			}
 			cfg, pngErr := png.DecodeConfig(bytes.NewReader(data))
 			if pngErr != nil {
-				writeJSONError(w, http.StatusBadRequest, "image must be a valid PNG file")
+				rejectSubmission(w, r, http.StatusBadRequest, "image must be a valid PNG file")
 				return
 			}
 			if cfg.Width*cfg.Height > 2_000_000 {
-				writeJSONError(w, http.StatusBadRequest, "image dimensions too large")
+				rejectSubmission(w, r, http.StatusBadRequest, "image dimensions too large")
 				return
 			}
 			entry.ImageData = data
 		} else if !errors.Is(err, http.ErrMissingFile) {
-			writeJSONError(w, http.StatusBadRequest, "error reading image")
+			rejectSubmission(w, r, http.StatusBadRequest, "error reading image")
 			return
 		}
 	} else {
@@ -194,7 +194,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		decoder.DisallowUnknownFields()
 		if err := decoder.Decode(&req); err != nil {
-			writeJSONError(w, http.StatusBadRequest, "invalid JSON")
+			rejectSubmission(w, r, http.StatusBadRequest, "invalid JSON")
 			return
 		}
 		entry.Name = strings.TrimSpace(req.Name)
@@ -208,6 +208,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	// came from a bot. Reply exactly like a real submission so the bot has no
 	// signal to adapt to, but store nothing and send no notification.
 	if strings.TrimSpace(honeypot) != "" {
+		log.Printf("submission dropped: honeypot filled (ua=%q)", truncate(r.UserAgent(), 120))
 		writeJSON(w, http.StatusCreated, map[string]any{
 			"id":      0,
 			"message": "entry submitted for review",
@@ -217,13 +218,13 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 
 	website, err := normalizeWebsite(entry.Website)
 	if err != nil {
-		writeJSONError(w, http.StatusBadRequest, err.Error())
+		rejectSubmission(w, r, http.StatusBadRequest, err.Error())
 		return
 	}
 	entry.Website = website
 
 	if err := validateEntry(entry); err != nil {
-		writeJSONError(w, http.StatusBadRequest, err.Error())
+		rejectSubmission(w, r, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -233,6 +234,8 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		writeJSONError(w, http.StatusInternalServerError, "internal error")
 		return
 	}
+
+	log.Printf("submission accepted: id=%d type=%s", id, entry.EntryType)
 
 	if s.telegram != nil {
 		entry.ID = id
@@ -575,6 +578,21 @@ func writeJSON(w http.ResponseWriter, status int, value any) {
 	w.WriteHeader(status)
 	w.Write(data)
 	w.Write([]byte("\n"))
+}
+
+// rejectSubmission logs why a guestbook submission was turned away before
+// replying, so "nobody submitted" can be told apart from "submits are failing".
+// It logs the reason and user agent, not the name, content or IP.
+func rejectSubmission(w http.ResponseWriter, r *http.Request, status int, message string) {
+	log.Printf("submission rejected: status=%d reason=%q ua=%q", status, message, truncate(r.UserAgent(), 120))
+	writeJSONError(w, status, message)
+}
+
+func truncate(s string, limit int) string {
+	if len(s) <= limit {
+		return s
+	}
+	return s[:limit]
 }
 
 func writeJSONError(w http.ResponseWriter, status int, message string) {
