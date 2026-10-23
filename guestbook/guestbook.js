@@ -68,8 +68,9 @@ function initSignForm() {
     const isDrawMode = mode === "draw";
     drawSection.classList.toggle("hidden", !isDrawMode);
     messageSection.classList.toggle("hidden", isDrawMode);
+    // Not `required`: the browser's own check would block the submit before
+    // the handler below can show its message and record it in analytics
     messageField.disabled = isDrawMode;
-    messageField.required = !isDrawMode;
     clearStatus(status);
   };
 

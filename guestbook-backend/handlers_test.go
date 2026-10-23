@@ -142,6 +142,23 @@ func TestHandleCreateEntryAcceptsEmptyHoneypot(t *testing.T) {
 	}
 }
 
+func TestHoneypotReplyMatchesRealReply(t *testing.T) {
+	env := newTestEnv(t)
+	headers := map[string]string{"Content-Type": "application/json"}
+
+	real := env.request(t, http.MethodPost, "/api/entries",
+		[]byte(`{"name":"Alice","entry_type":"message","content":"Hello"}`), headers)
+	bot := env.request(t, http.MethodPost, "/api/entries",
+		[]byte(`{"name":"Bot","entry_type":"message","content":"spam","gb_verify":"x"}`), headers)
+
+	if real.Code != bot.Code {
+		t.Fatalf("status differs: real %d, honeypot %d", real.Code, bot.Code)
+	}
+	if real.Body.String() != bot.Body.String() {
+		t.Fatalf("body differs:\nreal:     %s\nhoneypot: %s", real.Body.String(), bot.Body.String())
+	}
+}
+
 func TestHandleCreateEntryRejectsUnsupportedWebsiteScheme(t *testing.T) {
 	env := newTestEnv(t)
 

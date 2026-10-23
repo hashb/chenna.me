@@ -209,10 +209,7 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 	// signal to adapt to, but store nothing and send no notification.
 	if strings.TrimSpace(honeypot) != "" {
 		log.Printf("submission dropped: honeypot filled (ua=%q)", truncate(r.UserAgent(), 120))
-		writeJSON(w, http.StatusCreated, map[string]any{
-			"id":      0,
-			"message": "entry submitted for review",
-		})
+		writeSubmissionAccepted(w)
 		return
 	}
 
@@ -242,8 +239,13 @@ func (s *server) handleCreateEntry(w http.ResponseWriter, r *http.Request) {
 		s.telegram.notifyNewEntry(entry)
 	}
 
-	writeJSON(w, http.StatusCreated, map[string]any{
-		"id":      id,
+	writeSubmissionAccepted(w)
+}
+
+// writeSubmissionAccepted is the reply for both real and honeypot submissions.
+// It carries no entry id, so the two can't be told apart.
+func writeSubmissionAccepted(w http.ResponseWriter) {
+	writeJSON(w, http.StatusCreated, map[string]string{
 		"message": "entry submitted for review",
 	})
 }

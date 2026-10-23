@@ -25,7 +25,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link href="{{ '/assets/css/style.css' | fingerprint }}" rel="stylesheet" />
   <script>
-    // Guestbook nav link effect: play it on page load at most once every 10 minutes.
+    // Guestbook nav link effect: play it on page load at most once every 5 minutes.
     // Runs before first paint so the animation never starts and then cuts off.
     (function () {
       var gap = 5 * 60 * 1000, key = 'fx-aurora-last-played', now = Date.now();

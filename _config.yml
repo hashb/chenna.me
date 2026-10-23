@@ -76,10 +76,17 @@ defaults:
 #       - "Captain's log"
 
 # hide backend components
+# Setting exclude replaces Jekyll's default list, so repo files that aren't
+# part of the site are listed here too
 exclude:
   - guestbook-backend
   - micropub_jekyll
   - vendor
+  - scripts
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
 
 author: 
   name: Chenna Kautilya
