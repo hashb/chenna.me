@@ -96,8 +96,6 @@ author:
   handle: Kautilya Chenna
   alternate_names:
     - Kautilya Chenna
-    - Kautilya
-    - Chenna
     - kautilyach
     - Kautilya Ch
     - hashb
@@ -106,7 +104,6 @@ author:
     - Chenna K.
     - Kautilya C.
     - C. Kautilya
-    - Chenna Kautilya
   description: "Makes Robots Move | Robotics Technical Lead with a decade of experience in Robotic Manipulation, Task and Motion Planning, and Machine Learning"
   job_title: "Robotics Technical Lead"
   knows_about:
@@ -135,10 +132,7 @@ author:
   youtube: kautilyach
   linkedin: kautilyach
   image: /android-chrome-512x512.png
-  image_192: /android-chrome-192x192.png
-  image_32: /favicon-32x32.png
-  image_16: /favicon-16x16.png
-  image_backup: /favicon.png
+  photo: /assets/images/chenna-kautilya.jpg
 
 # Social
 twitter_username: 'kautilyach'
@@ -150,7 +144,10 @@ twitter:
 
 social:
   name: Chenna Kautilya
-  links:
+  # Not `links`: jekyll-seo-tag puts social.links in the sameAs of its WebSite
+  # JSON-LD, so the website would claim my profiles too. They belong only to the
+  # Person in profile-schema.html
+  profiles:
     - https://twitter.com/kautilyach
     - https://x.com/kautilyach
     - https://www.linkedin.com/in/kautilyach

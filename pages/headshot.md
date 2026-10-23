@@ -9,7 +9,7 @@ tags: [page]
 
 <figure>
   <picture>
-    <img src="/assets/images/blah.jpg" alt="Kautilya Chenna" class="center">
+    <img src="/assets/images/chenna-kautilya.jpg" alt="Kautilya Chenna" class="center">
   </picture>
   <figcaption markdown="1">Chenna Kautilya, circa 2017
   </figcaption>

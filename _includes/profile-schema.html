@@ -19,14 +19,8 @@
     "name": "{{ site.author.name }}",
     "alternateName": {{ site.author.alternate_names | jsonify }},
     "description": "{{ site.author.description | escape }}",
-    "image": [
-      "{{ site.url }}{{ site.author.image }}",
-      "{{ site.url }}{{ site.author.image_backup }}",
-      "{{ site.url }}{{ site.author.image_192 }}",
-      "{{ site.url }}{{ site.author.image_32 }}",
-      "{{ site.url }}{{ site.author.image_16 }}"
-    ],
-    "sameAs": {{ site.social.links | jsonify }},
+    "image": "{{ site.url }}{{ site.author.photo }}",
+    "sameAs": {{ site.social.profiles | jsonify }},
     "knowsAbout": {{ site.author.knows_about | jsonify }},
     "jobTitle": "{{ site.author.job_title }}"
   }
