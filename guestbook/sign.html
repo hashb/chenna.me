@@ -69,13 +69,13 @@ permalink: /guestbook/sign/
 
   <div class="gb-field">
     <label for="name">Your name</label>
-    <input type="text" id="name" name="name" value="Anonymoose" autocomplete="name" maxlength="80">
+    <input type="text" class="gb-input" id="name" name="name" value="Anonymoose" autocomplete="name" maxlength="80">
   </div>
 
   <!-- Shown once someone puts their own name in (guestbook.js) -->
   <div class="gb-field hidden" id="website-field">
     <label for="website">Your website (optional)</label>
-    <input type="text" id="website" name="website" placeholder="https://" maxlength="2048" autocapitalize="none" spellcheck="false">
+    <input type="text" class="gb-input" id="website" name="website" placeholder="https://" maxlength="2048" autocapitalize="none" spellcheck="false">
   </div>
 
   <!-- Honeypot: hidden from people, but bots that fill every field fill this one too -->
@@ -98,5 +98,5 @@ permalink: /guestbook/sign/
 
 <div id="cursor-circle" class="gb-cursor"></div>
 
-<script src="/guestbook/canvas.js"></script>
-<script src="/guestbook/guestbook.js"></script>
+<script src="{{ '/guestbook/canvas.js' | fingerprint }}"></script>
+<script src="{{ '/guestbook/guestbook.js' | fingerprint }}"></script>

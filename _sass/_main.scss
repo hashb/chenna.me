@@ -209,6 +209,11 @@ footer {
     text-align: left;
 }
 
+/* Small print, same as the browser's <small> */
+#footer {
+    font-size: smaller;
+}
+
 .helptext {
     color: var(--c-secondary-background);
     font-size: small;

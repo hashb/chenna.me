@@ -393,6 +393,7 @@
 }
 
 .gb-toolbar button:disabled {
+        opacity: 0.5;
         cursor: default;
 }
 
@@ -447,24 +448,23 @@
                 font-size: 0.75rem;
                 margin-bottom: 0.2rem;
         }
+}
 
-        input[type="text"],
-        input[type="password"] {
-                width: 100%;
-                max-width: 420px;
-                box-sizing: border-box;
-                background: var(--c-secondary-background);
-                color: var(--c-text);
-                border: 1px solid var(--c-secondary-background);
-                border-radius: 0.25em;
-                padding: 0.5rem 0.75rem;
-                font-family: inherit;
-                font-size: 0.9rem;
+.gb-input {
+        width: 100%;
+        max-width: 420px;
+        box-sizing: border-box;
+        background: var(--c-secondary-background);
+        color: var(--c-text);
+        border: 1px solid var(--c-secondary-background);
+        border-radius: 0.25em;
+        padding: 0.5rem 0.75rem;
+        font-family: inherit;
+        font-size: 0.9rem;
 
-                &:focus {
-                        outline: none;
-                        border-color: var(--c-link-text);
-                }
+        &:focus {
+                outline: none;
+                border-color: var(--c-link-text);
         }
 }
 

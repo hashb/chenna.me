@@ -19,15 +19,11 @@
     {% include profile-schema.html %}
   {% endif %}
 
-  <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link defer rel="preload" as="style" href="/assets/css/style.css" rel="stylesheet"/>
-  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link href="{{ '/assets/css/style.css' | fingerprint }}" rel="stylesheet" />
   <script>
     // Guestbook nav link effect: play it on page load at most once every 10 minutes.
     // Runs before first paint so the animation never starts and then cuts off.
@@ -59,7 +55,7 @@
       "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }]
     }
   </script>
-  <script src="/assets/bundle.js" defer data-cfasync="false"></script>
+  <script src="{{ '/assets/bundle.js' | fingerprint }}" defer data-cfasync="false"></script>
   {% if jekyll.environment == "production" %}
   <script>
     const kit = new UmamiTracker({
@@ -105,22 +101,19 @@
     {{ content }}
   </main>
 
-  <!-- for some reason, small tag gets closed early when I put it inside footer -->
-  <small>
-    <footer id="footer">
-      <p class="copyright">Copyright &copy; Chenna Kautilya, 2011 - {{ site.time | date: '%Y' }}. Powered by <a
-          href="http://jekyllrb.com">Jekyll</a>.
-          
-          <noscript>
-            hello stranger with no javascript ;)
-          </noscript>
-          {% if site.data.build %}
-          <br>built on {{ site.data.build.time }} using commit <a href="https://github.com/hashb/chenna.me/commit/{{ site.data.build.commit }}">{{ site.data.build.commit }}</a>
-          {% endif %}
-          <br>
-          <a href="/feed"><img src="/assets/images/rss-subscribe.png" alt="Subscribe via RSS" width="80" height="15"></a>
-      </p>
-    </footer>
-  </small>
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; Chenna Kautilya, 2011 - {{ site.time | date: '%Y' }}. Powered by <a
+        href="http://jekyllrb.com">Jekyll</a>.
+        
+        <noscript>
+          hello stranger with no javascript ;)
+        </noscript>
+        {% if site.data.build %}
+        <br>built on {{ site.data.build.time }} using commit <a href="https://github.com/hashb/chenna.me/commit/{{ site.data.build.commit }}">{{ site.data.build.commit }}</a>
+        {% endif %}
+        <br>
+        <a href="/feed"><img src="/assets/images/rss-subscribe.png" alt="Subscribe via RSS" width="80" height="15"></a>
+    </p>
+  </footer>
 </body>
 </html>

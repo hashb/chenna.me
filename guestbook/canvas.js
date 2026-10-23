@@ -135,16 +135,12 @@
     const clearBtn = document.getElementById("btn-clear");
     if (undoBtn) {
       undoBtn.disabled = historyIndex <= 0;
-      undoBtn.style.opacity = historyIndex > 0 ? "1" : "0.35";
     }
     if (redoBtn) {
       redoBtn.disabled = historyIndex >= history.length - 1;
-      redoBtn.style.opacity = historyIndex < history.length - 1 ? "1" : "0.35";
     }
     if (clearBtn) {
-      const blank = history[historyIndex].blank;
-      clearBtn.disabled = blank;
-      clearBtn.style.opacity = blank ? "0.35" : "1";
+      clearBtn.disabled = history[historyIndex].blank;
     }
   }
 

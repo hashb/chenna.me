@@ -35,6 +35,10 @@ kramdown:
 
 gfm_quirks: paragraph_end
 
+# The github-pages gem used to set this; kept so the CSS output is unchanged
+sass:
+  style: compressed
+
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
