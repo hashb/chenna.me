@@ -43,6 +43,19 @@ a:focus-visible > .fx-aurora {
         fx-aurora-replay var(--fx-duration) ease-in-out 1;
 }
 
+/* Played recently on another page (set by the inline script in
+   default.html): skip the load animation but keep the hover replay. */
+.fx-aurora-quiet .fx-aurora {
+    animation: none;
+}
+
+/* Already on the guestbook: no need to draw attention to the link. */
+a[data-current] > .fx-aurora,
+a[data-current]:hover > .fx-aurora,
+a[data-current]:focus-visible > .fx-aurora {
+    animation: none;
+}
+
 /* Hue holds still while the text fades, so the plain link colour never
    shows up tinted. */
 @keyframes fx-aurora {

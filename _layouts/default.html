@@ -28,6 +28,21 @@
   <link rel="manifest" href="/site.webmanifest">
   <link defer rel="preload" as="style" href="/assets/css/style.css" rel="stylesheet"/>
   <link href="/assets/css/style.css" rel="stylesheet" />
+  <script>
+    // Guestbook nav link effect: play it on page load at most once every 10 minutes.
+    // Runs before first paint so the animation never starts and then cuts off.
+    (function () {
+      var gap = 5 * 60 * 1000, key = 'fx-aurora-last-played', now = Date.now();
+      if (location.pathname.indexOf('/guestbook') === 0) return;
+      try {
+        if (now - (Number(localStorage.getItem(key)) || 0) < gap) {
+          document.documentElement.classList.add('fx-aurora-quiet');
+        } else {
+          localStorage.setItem(key, String(now));
+        }
+      } catch (e) {}
+    })();
+  </script>
 
   <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)">
