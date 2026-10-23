@@ -2,19 +2,17 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 	"log"
 	"mime/multipart"
 	"net/http"
 	"strings"
-	"sync/atomic"
 	"time"
 
 	"go.hacdias.com/indielib/micropub"
 )
-
-// mediaCounter ensures unique names when multiple images are uploaded in the same second.
-var mediaCounter atomic.Int64
 
 const mediaURLSuffix = "-xlarge.jpg"
 const mediaUploadTimeout = 30 * time.Second
@@ -56,12 +54,14 @@ func (j *jekyllMicropub) uploadMedia(ctx context.Context, file multipart.File, h
 	}
 
 	// Generate unique base name, preferring the image's EXIF date over wall clock.
-	counter := mediaCounter.Add(1)
 	baseTime := time.Now().UTC()
 	if result.ExifDate != nil {
 		baseTime = result.ExifDate.UTC()
 	}
-	baseName := fmt.Sprintf("%s-%d", baseTime.Format("2006-01-02-150405"), counter)
+	baseName, err := newMediaBaseName(baseTime)
+	if err != nil {
+		return "", err
+	}
 
 	// Upload all variants to GCS
 	ctx, cancel := context.WithTimeout(ctx, mediaUploadTimeout)
@@ -73,15 +73,9 @@ func (j *jekyllMicropub) uploadMedia(ctx context.Context, file multipart.File, h
 	// Return a concrete uploaded object so the Location header is dereferenceable.
 	cdnURL := mediaObjectURL(j.imageBaseURL, baseName)
 
-	// Cache the ThumbHash keyed by the CDN URL so Create() can embed it.
-	if result.ThumbHash != "" {
-		j.thumbhashCache.Store(cdnURL, result.ThumbHash)
-	}
-
-	// Cache the EXIF date keyed by the CDN URL so Create() can use it as the post date.
-	if result.ExifDate != nil {
-		j.exifDateCache.Store(cdnURL, *result.ExifDate)
-	}
+	// Cache the ThumbHash and EXIF date keyed by the CDN URL so Create() can
+	// embed them; entries are timestamped so unused uploads get pruned.
+	j.rememberMediaMetadata(cdnURL, result.ThumbHash, result.ExifDate)
 
 	log.Printf("media uploaded: %s -> %s", header.Filename, cdnURL)
 	return cdnURL, nil
@@ -93,4 +87,22 @@ func mediaObjectURL(baseURL, baseName string) string {
 		baseURL = "https:" + baseURL
 	}
 	return fmt.Sprintf("%s/%s%s", baseURL, baseName, mediaURLSuffix)
+}
+
+// mediaNameSuffixBytes is the number of random bytes in a media base name.
+// 4 bytes (8 hex chars) makes same-second collisions vanishingly unlikely;
+// gcsUploader also writes with a DoesNotExist precondition as a backstop.
+const mediaNameSuffixBytes = 4
+
+// newMediaBaseName returns "<YYYY-MM-DD-HHMMSS>-<random hex>" for t. The
+// random suffix keeps names unique across process restarts (burst photos
+// often share an EXIF second), unlike an in-process counter. The suffix is
+// pure hex, so it can never end in a variant suffix such as "-small" that
+// extractBaseName strips.
+func newMediaBaseName(t time.Time) (string, error) {
+	var suffix [mediaNameSuffixBytes]byte
+	if _, err := rand.Read(suffix[:]); err != nil {
+		return "", fmt.Errorf("generating media name: %w", err)
+	}
+	return fmt.Sprintf("%s-%s", t.UTC().Format("2006-01-02-150405"), hex.EncodeToString(suffix[:])), nil
 }

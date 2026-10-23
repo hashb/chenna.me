@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"time"
 
 	"cloud.google.com/go/storage"
 )
@@ -15,9 +14,11 @@ type gcsUploader struct {
 	prefix string
 }
 
-// upload uploads image bytes to GCS and returns the object name.
+// upload uploads image bytes to GCS. Objects are immutable once published
+// (served with a one-year cache), so the write fails rather than overwriting
+// an existing object with the same name.
 func (g *gcsUploader) upload(ctx context.Context, objectName string, data []byte, contentType string) error {
-	obj := g.client.Bucket(g.bucket).Object(objectName)
+	obj := g.client.Bucket(g.bucket).Object(objectName).If(storage.Conditions{DoesNotExist: true})
 	w := obj.NewWriter(ctx)
 	w.ContentType = contentType
 	w.CacheControl = "public, max-age=31536000"
@@ -48,10 +49,4 @@ func (g *gcsUploader) uploadVariants(ctx context.Context, baseName string, resul
 		}
 	}
 	return nil
-}
-
-// generateBaseName creates a unique base name from a timestamp.
-func generateBaseName() string {
-	now := time.Now().UTC()
-	return now.Format("2006-01-02-150405")
 }
