@@ -184,7 +184,7 @@ function initSignForm() {
     const content = messageField.value.replace(/\r\n/g, "\n");
 
     if (mode !== "draw" && !content.trim()) {
-      setStatus(status, "Write a message before submitting.", "error");
+      setStatus(status, "Write something~", "error");
       trackBlocked("empty-message");
       messageField.focus();
       return;
