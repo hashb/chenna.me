@@ -3,11 +3,22 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"log"
 	"mime/multipart"
 	"net/http"
+	"net/url"
+	"strings"
 	"time"
+	"unicode/utf16"
+)
+
+// Telegram limits, counted in UTF-16 code units.
+const (
+	maxTelegramMessage = 4096
+	maxTelegramCaption = 1024
 )
 
 type telegramNotifier struct {
@@ -30,18 +41,17 @@ func (t *telegramNotifier) notifyNewEntry(entry Entry) {
 		if entry.Website != "" {
 			caption += "\n\nWebsite: " + entry.Website
 		}
-		go t.sendPhoto(entry.ImageData, caption)
+		go t.sendPhoto(entry.ImageData, truncateUTF16(caption, maxTelegramCaption))
 	} else {
 		msg := fmt.Sprintf("New message in guestbook!\n\nFrom: %s\n\n%s", entry.Name, entry.Content)
 		if entry.Website != "" {
 			msg += "\n\nWebsite: " + entry.Website
 		}
-		go t.sendMessage(msg)
+		go t.sendMessage(truncateUTF16(msg, maxTelegramMessage))
 	}
 }
 
 func (t *telegramNotifier) sendMessage(text string) {
-	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", t.token)
 	body, err := json.Marshal(map[string]string{
 		"chat_id": t.chatID,
 		"text":    text,
@@ -51,7 +61,7 @@ func (t *telegramNotifier) sendMessage(text string) {
 		return
 	}
 
-	resp, err := t.client.Post(url, "application/json", bytes.NewReader(body))
+	resp, err := t.post("sendMessage", "application/json", bytes.NewReader(body))
 	if err != nil {
 		log.Printf("telegram: failed to send message: %v", err)
 		return
@@ -81,8 +91,7 @@ func (t *telegramNotifier) sendPhoto(imageData []byte, caption string) {
 	}
 	w.Close()
 
-	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendPhoto", t.token)
-	resp, err := t.client.Post(url, w.FormDataContentType(), &buf)
+	resp, err := t.post("sendPhoto", w.FormDataContentType(), &buf)
 	if err != nil {
 		log.Printf("telegram: failed to send photo: %v", err)
 		return
@@ -92,4 +101,45 @@ func (t *telegramNotifier) sendPhoto(imageData []byte, caption string) {
 	if resp.StatusCode != http.StatusOK {
 		log.Printf("telegram: sendPhoto unexpected status %d", resp.StatusCode)
 	}
+}
+
+// post calls a Bot API method. Errors never include the token-bearing URL.
+func (t *telegramNotifier) post(method, contentType string, body io.Reader) (*http.Response, error) {
+	endpoint := fmt.Sprintf("https://api.telegram.org/bot%s/%s", t.token, method)
+	resp, err := t.client.Post(endpoint, contentType, body)
+	if err != nil {
+		var urlErr *url.Error
+		if errors.As(err, &urlErr) {
+			err = urlErr.Err
+		}
+		msg := err.Error()
+		if t.token != "" {
+			msg = strings.ReplaceAll(msg, t.token, "<redacted>")
+		}
+		return nil, fmt.Errorf("%s: %s", method, msg)
+	}
+	return resp, nil
+}
+
+// truncateUTF16 shortens s to at most limit UTF-16 code units without
+// splitting a rune, appending an ellipsis when cut.
+func truncateUTF16(s string, limit int) string {
+	units := 0
+	for _, r := range s {
+		units += utf16.RuneLen(r)
+	}
+	if units <= limit {
+		return s
+	}
+	const ellipsis = "…"
+	limit -= utf16.RuneLen('…')
+	units = 0
+	for i, r := range s {
+		n := utf16.RuneLen(r)
+		if units+n > limit {
+			return s[:i] + ellipsis
+		}
+		units += n
+	}
+	return s
 }

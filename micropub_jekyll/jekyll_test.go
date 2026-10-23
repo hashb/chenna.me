@@ -217,8 +217,8 @@ func TestCreateIncludesObjectValuedPhotoInPostBody(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Create: %v", err)
 	}
-	if location != "https://chenna.me/micro/2026/04/03/080000/" {
-		t.Fatalf("location = %q, want %q", location, "https://chenna.me/micro/2026/04/03/080000/")
+	if location != "https://chenna.me/notes/2026/04/03/080000/" {
+		t.Fatalf("location = %q, want %q", location, "https://chenna.me/notes/2026/04/03/080000/")
 	}
 
 	data, err := os.ReadFile(filepath.Join(repoPaths.localDir, "_micros/2026/2026-04-03-080000.md"))

@@ -140,6 +140,46 @@ func (g *gitRepo) writeAndPush(filename, content, message string) error {
 	})
 }
 
+// errFileExists is returned by createAndPush when the target file already
+// exists in the repository after syncing with the remote.
+var errFileExists = errors.New("file already exists")
+
+// errNoChanges is returned by a mutation that leaves the file as it is, so
+// there is nothing to commit.
+var errNoChanges = errors.New("no changes")
+
+// createAndPush writes a new file to the repo, commits, and pushes. Unlike
+// writeAndPush it never overwrites: the file is opened with O_CREATE|O_EXCL
+// inside the locked section (after syncing with the remote), and
+// errFileExists is returned if the path is already taken.
+func (g *gitRepo) createAndPush(filename, content, message string) error {
+	return g.mutateAndPush(filename, message, func(fullPath string) error {
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			return fmt.Errorf("mkdir: %w", err)
+		}
+		f, err := os.OpenFile(fullPath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
+		if err != nil {
+			if errors.Is(err, os.ErrExist) {
+				return fmt.Errorf("%w: %s", errFileExists, filename)
+			}
+			return fmt.Errorf("create file: %w", err)
+		}
+		if _, err := f.WriteString(content); err != nil {
+			f.Close()
+			return fmt.Errorf("write file: %w", err)
+		}
+		if err := f.Close(); err != nil {
+			return fmt.Errorf("close file: %w", err)
+		}
+		return nil
+	}, func() error {
+		if err := g.git("add", "--", filename); err != nil {
+			return fmt.Errorf("git add: %w", err)
+		}
+		return nil
+	})
+}
+
 func (g *gitRepo) mutateAndPush(pathspec, message string, mutate func(fullPath string) error, stage func() error) error {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -155,6 +195,14 @@ func (g *gitRepo) mutateAndPush(pathspec, message string, mutate func(fullPath s
 
 	fullPath := filepath.Join(g.path, pathspec)
 	if err := mutate(fullPath); err != nil {
+		if errors.Is(err, errFileExists) {
+			// Nothing was written; leave the existing file untouched.
+			return err
+		}
+		if errors.Is(err, errNoChanges) {
+			// Nothing was written and the repo already matches; not an error.
+			return nil
+		}
 		return wrapWithRollback(err, g.rollbackToHead(rollbackHead, pathspec))
 	}
 
@@ -170,9 +218,30 @@ func (g *gitRepo) mutateAndPush(pathspec, message string, mutate func(fullPath s
 	return nil
 }
 
-// updateAndPush overwrites a file, commits, and pushes.
-func (g *gitRepo) updateAndPush(filename, content, message string) error {
-	return g.writeAndPush(filename, content, message)
+// editAndPush reads and transforms the current remote version while holding
+// the mutation lock, so edits cannot overwrite a stale snapshot or resurrect
+// a remotely deleted post. An edit that leaves the file unchanged succeeds
+// without committing.
+func (g *gitRepo) editAndPush(filename, message string, edit func([]byte) (string, error)) error {
+	return g.mutateAndPush(filename, message, func(fullPath string) error {
+		data, err := os.ReadFile(fullPath)
+		if err != nil {
+			return fmt.Errorf("read post: %w", err)
+		}
+		content, err := edit(data)
+		if err != nil {
+			return err
+		}
+		if content == string(data) {
+			return errNoChanges
+		}
+		if err := os.WriteFile(fullPath, []byte(content), 0o644); err != nil {
+			return fmt.Errorf("write post: %w", err)
+		}
+		return nil
+	}, func() error {
+		return g.git("add", "--", filename)
+	})
 }
 
 // deleteAndPush removes a file, commits, and pushes.

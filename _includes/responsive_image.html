@@ -1,6 +1,6 @@
 {% assign image_path = "//i.chenna.me/photos/prod/opt/" | append: include.base_image_name %}
 
-<div class="photo-thumb"{% if include.thumbhash and include.thumbhash != "" %} data-thumbhash="{{ include.thumbhash }}"{% endif %}>
+<div class="photo-thumb"{% if include.thumbhash and include.thumbhash != "" %} data-thumbhash="{{ include.thumbhash | escape }}"{% endif %}>
   <picture>
     <source
       type="image/webp"
@@ -17,8 +17,8 @@
               {{ image_path }}-large.jpg 1024w,
               {{ image_path }}-xlarge.jpg 1920w"
       sizes="{{ include.sizes | default: '(max-width: 640px) calc(100vw - 2rem), 720px' }}"
-      title="{{ include.alt }}"
-      alt="{{ include.alt }}"
+      title="{{ include.alt | escape }}"
+      alt="{{ include.alt | escape }}"
       width="{{ include.width }}"
       {% if include.height and include.height != 'auto' %}height="{{ include.height }}"{% endif %}
       loading="lazy"

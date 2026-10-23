@@ -133,10 +133,10 @@ function updateEmptyState(list) {
   }
 }
 
-function createPendingEntry(entry, token, list, topStatus) {
+function createPendingEntry(entry, list, topStatus) {
   const article = document.createElement("article");
   article.className = "gb-admin-entry";
-  article.appendChild(createPreviewNode(entry, token));
+  article.appendChild(createPreviewNode(entry, activeToken));
 
   const meta = document.createElement("div");
   meta.className = "gb-admin-meta";
@@ -174,6 +174,12 @@ function createPendingEntry(entry, token, list, topStatus) {
   inlineStatus.className = "gb-status gb-inline-status hidden";
 
   const runAction = async (action) => {
+    // Read the current token so a cleared or rejected one is never reused.
+    const token = activeToken;
+    if (!token) {
+      setStatus(inlineStatus, "Enter the admin token again.", "error");
+      return;
+    }
     approveButton.disabled = true;
     rejectButton.disabled = true;
     setStatus(inlineStatus, action === "approve" ? "Approving..." : "Rejecting...", "info");
@@ -228,7 +234,7 @@ async function loadPendingEntries(token, list, panel, status) {
 
     list.innerHTML = "";
     entries.forEach((entry) => {
-      list.appendChild(createPendingEntry(entry, token, list, status));
+      list.appendChild(createPendingEntry(entry, list, status));
     });
     setStatus(status, `Loaded ${entries.length} pending entr${entries.length === 1 ? "y" : "ies"}.`, "success");
   } catch (error) {

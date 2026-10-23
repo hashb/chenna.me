@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"html"
 	"io"
 	"log"
 	"net/http"
@@ -31,8 +33,74 @@ type jekyllMicropub struct {
 	siteURL               string
 	endpointURL           string
 	tokenEndpoint         string
-	thumbhashCache        sync.Map // cdnURL -> base64 ThumbHash string
-	exifDateCache         sync.Map // cdnURL -> time.Time (EXIF DateTimeOriginal)
+	// thumbhashCache and exifDateCache are filled by uploadMedia and read by
+	// Create, which deletes the entries for its photos once the post is pushed. Values are either the raw value (string /
+	// time.Time) or a mediaCacheEntry wrapping it with the time it was stored;
+	// only wrapped entries can be pruned by age (see rememberMediaMetadata).
+	thumbhashCache sync.Map // cdnURL -> base64 ThumbHash string
+	exifDateCache  sync.Map // cdnURL -> time.Time (EXIF DateTimeOriginal)
+}
+
+// mediaCacheTTL bounds how long upload metadata is kept waiting for a Create
+// that references it.
+const mediaCacheTTL = 24 * time.Hour
+
+// maxCreateCollisionRetries bounds how many times Create bumps the post date
+// by one second to find a free filename/URL.
+const maxCreateCollisionRetries = 60
+
+type mediaCacheEntry struct {
+	value    any
+	storedAt time.Time
+}
+
+// rememberMediaMetadata stores upload metadata for a later Create, with a
+// timestamp so stale entries (uploads never followed by a Create) can be
+// pruned. thumbhash may be empty and exifDate may be nil.
+func (j *jekyllMicropub) rememberMediaMetadata(cdnURL, thumbhash string, exifDate *time.Time) {
+	now := time.Now()
+	if thumbhash != "" {
+		j.thumbhashCache.Store(cdnURL, mediaCacheEntry{value: thumbhash, storedAt: now})
+	}
+	if exifDate != nil {
+		j.exifDateCache.Store(cdnURL, mediaCacheEntry{value: *exifDate, storedAt: now})
+	}
+}
+
+// loadMediaCacheValue returns the cached value for key, accepting both raw
+// and timestamped (mediaCacheEntry) values.
+func loadMediaCacheValue(m *sync.Map, key string) (any, bool) {
+	v, ok := m.Load(key)
+	if !ok {
+		return nil, false
+	}
+	if entry, ok := v.(mediaCacheEntry); ok {
+		return entry.value, true
+	}
+	return v, true
+}
+
+// forgetMediaMetadata drops the cached upload metadata for photos that a
+// post has now consumed. It runs only after a successful create, so a failed
+// create can be retried by the client without losing the EXIF date/ThumbHash.
+// A later post reusing the same photo URL will not get them.
+func (j *jekyllMicropub) forgetMediaMetadata(photos []photoReference) {
+	for _, photo := range photos {
+		j.thumbhashCache.Delete(photo.URL)
+		j.exifDateCache.Delete(photo.URL)
+	}
+}
+
+// pruneMediaCaches drops timestamped cache entries older than mediaCacheTTL.
+func (j *jekyllMicropub) pruneMediaCaches(now time.Time) {
+	for _, m := range []*sync.Map{&j.thumbhashCache, &j.exifDateCache} {
+		m.Range(func(key, value any) bool {
+			if entry, ok := value.(mediaCacheEntry); ok && now.Sub(entry.storedAt) > mediaCacheTTL {
+				m.CompareAndDelete(key, value)
+			}
+			return true
+		})
+	}
 }
 
 type tokenVerificationResponse struct {
@@ -127,6 +195,7 @@ func (j *jekyllMicropub) hasScope(r *http.Request, scope string) bool {
 // Create creates a new micro-post.
 func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	now := time.Now().UTC()
+	j.pruneMediaCaches(now)
 
 	content := extractContent(req.Properties)
 	photos := extractPhotos(req.Properties, req.Commands)
@@ -142,8 +211,10 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 			postDate = t.UTC()
 		}
 	} else if len(photos) > 0 {
-		if v, ok := j.exifDateCache.Load(photos[0].URL); ok {
-			postDate = v.(time.Time).UTC()
+		if v, ok := loadMediaCacheValue(&j.exifDateCache, photos[0].URL); ok {
+			if t, ok := v.(time.Time); ok {
+				postDate = t.UTC()
+			}
 		}
 	}
 
@@ -158,15 +229,23 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 	// Append photos that aren't already inline in HTML content
 	for _, photo := range photos {
 		// If the photo URL matches our CDN, use responsive_image include
+		th := ""
+		if v, ok := loadMediaCacheValue(&j.thumbhashCache, photo.URL); ok {
+			th, _ = v.(string)
+		}
+		baseName := ""
 		if isManagedPhotoURL(photo.URL, j.imageBaseURL) {
-			baseName := extractBaseName(photo.URL, j.imageBaseURL)
-			th := ""
-			if v, ok := j.thumbhashCache.Load(photo.URL); ok {
-				th = v.(string)
+			baseName = extractBaseName(photo.URL, j.imageBaseURL)
+		}
+		if baseName != "" && isSafeIncludeBaseName(baseName) {
+			if !isSafeThumbhash(th) {
+				th = ""
 			}
-			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%q alt=%q width=\"1920\" height=\"auto\" thumbhash=%q %%}\n", baseName, photo.Alt, th))
+			body.WriteString(fmt.Sprintf("\n{%% include responsive_image.html base_image_name=%s alt=%s width=\"1920\" height=\"auto\" thumbhash=%s %%}\n",
+				jekyllIncludeValue(baseName), jekyllIncludeValue(photo.Alt), jekyllIncludeValue(th)))
 		} else {
-			body.WriteString(fmt.Sprintf("\n<img src=%q alt=%q style=\"max-width: 100%%; height: auto;\">\n", photo.URL, photo.Alt))
+			body.WriteString(fmt.Sprintf("\n<img src=\"%s\" alt=\"%s\" style=\"max-width: 100%%; height: auto;\">\n",
+				html.EscapeString(neutralizeLiquidURL(photo.URL)), html.EscapeString(neutralizeLiquid(strings.Join(strings.Fields(photo.Alt), " ")))))
 		}
 	}
 
@@ -180,24 +259,49 @@ func (j *jekyllMicropub) Create(req *micropub.Request) (string, error) {
 		categories = []string{"micro"}
 	}
 
-	// Build front matter
-	// URL is derived entirely from the date via permalink: /notes/:year/:month/:day/:hour:minute:second/
-	filename := fmt.Sprintf("_micros/%d/%s.md", postDate.Year(), postDate.Format("2006-01-02-150405"))
-	postURL := fmt.Sprintf("%s/notes/%s/", j.siteURL, postDate.Format("2006/01/02/150405"))
+	// The URL is derived entirely from the front matter date via the _micros
+	// permalink /notes/:year/:month/:day/:hour:minute:second/ (site timezone
+	// is UTC), and the filename uses the same second-resolution timestamp. A
+	// post must never replace an existing one, so on collision the date is
+	// bumped by one second and the create is retried, keeping filename, front
+	// matter date and URL consistent.
+	for attempt := 0; attempt < maxCreateCollisionRetries; attempt++ {
+		candidate := postDate.Add(time.Duration(attempt) * time.Second)
+		filename := postFilename(candidate)
 
-	frontMatter, err := buildFrontMatter(postDate, categories, published)
-	if err != nil {
-		return "", fmt.Errorf("build front matter: %w", err)
+		// Cheap pre-check against the local checkout; createAndPush re-checks
+		// atomically (O_EXCL) after syncing with the remote.
+		if _, err := os.Stat(filepath.Join(j.repo.path, filename)); err == nil {
+			continue
+		}
+
+		frontMatter, err := buildFrontMatter(candidate, categories, published)
+		if err != nil {
+			return "", fmt.Errorf("build front matter: %w", err)
+		}
+		fullContent := frontMatter + "\n" + body.String()
+
+		commitMsg := fmt.Sprintf("micropub: create micro-post %s", candidate.Format("2006-01-02T150405"))
+		if err := j.repo.createAndPush(filename, fullContent, commitMsg); err != nil {
+			if errors.Is(err, errFileExists) {
+				continue
+			}
+			return "", fmt.Errorf("failed to write post: %w", err)
+		}
+
+		j.forgetMediaMetadata(photos)
+		if attempt > 0 {
+			log.Printf("post date %s was taken; used %s instead", postDate.Format(time.RFC3339), candidate.Format(time.RFC3339))
+		}
+		log.Printf("created micro-post: %s", filename)
+		return fmt.Sprintf("%s/notes/%s/", j.siteURL, candidate.Format("2006/01/02/150405")), nil
 	}
-	fullContent := frontMatter + "\n" + body.String()
 
-	commitMsg := fmt.Sprintf("micropub: create micro-post %s", postDate.Format("2006-01-02T150405"))
-	if err := j.repo.writeAndPush(filename, fullContent, commitMsg); err != nil {
-		return "", fmt.Errorf("failed to write post: %w", err)
-	}
+	return "", fmt.Errorf("failed to write post: no free post slot within %d seconds of %s", maxCreateCollisionRetries, postDate.Format(time.RFC3339))
+}
 
-	log.Printf("created micro-post: %s", filename)
-	return postURL, nil
+func postFilename(date time.Time) string {
+	return fmt.Sprintf("_micros/%d/%s.md", date.Year(), date.Format("2006-01-02-150405"))
 }
 
 // Update modifies an existing micro-post.
@@ -207,39 +311,58 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 		return "", err
 	}
 
-	data, err := j.repo.readFile(filename)
-	if err != nil {
+	commitMsg := fmt.Sprintf("micropub: update micro-post %s", filepath.Base(filename))
+	err = j.repo.editAndPush(filename, commitMsg, func(data []byte) (string, error) {
+		return applyPostUpdate(string(data), req.Updates)
+	})
+	if errors.Is(err, os.ErrNotExist) {
 		return "", micropub.ErrNotFound
 	}
+	if err != nil {
+		return "", fmt.Errorf("failed to update post: %w", err)
+	}
 
-	fm, content, err := parseFrontMatter(string(data))
+	log.Printf("updated micro-post: %s", filename)
+	return req.URL, nil
+}
+
+func applyPostUpdate(data string, updates micropub.RequestUpdate) (string, error) {
+	fm, content, err := parseFrontMatter(data)
 	if err != nil {
 		return "", fmt.Errorf("parse post: %w", err)
 	}
 
 	// Apply replacements
-	if req.Updates.Replace != nil {
-		if vals, ok := req.Updates.Replace["content"]; ok && len(vals) > 0 {
-			content = fmt.Sprintf("%v", vals[0])
+	if updates.Replace != nil {
+		if vals, ok := updates.Replace["content"]; ok && len(vals) > 0 {
+			newContent, ok := contentValueToString(vals[0])
+			if !ok {
+				return "", fmt.Errorf("%w: unsupported content value type %T", micropub.ErrBadRequest, vals[0])
+			}
+			content = newContent
 		}
-		if vals, ok := req.Updates.Replace["category"]; ok {
+		if vals, ok := updates.Replace["category"]; ok {
 			fm.Tags = toStringSlice(vals)
 		}
-		if vals, ok := req.Updates.Replace["post-status"]; ok && len(vals) > 0 {
-			published := !strings.EqualFold(fmt.Sprintf("%v", vals[0]), "draft")
+		if vals, ok := updates.Replace["post-status"]; ok && len(vals) > 0 {
+			status, ok := vals[0].(string)
+			if !ok {
+				return "", fmt.Errorf("%w: post-status must be a string", micropub.ErrBadRequest)
+			}
+			published := !strings.EqualFold(status, "draft")
 			fm.Published = publishedFrontMatterValue(published)
 		}
 	}
 
 	// Apply additions
-	if req.Updates.Add != nil {
-		if vals, ok := req.Updates.Add["category"]; ok {
+	if updates.Add != nil {
+		if vals, ok := updates.Add["category"]; ok {
 			fm.Tags = append(fm.Tags, toStringSlice(vals)...)
 		}
 	}
 
 	// Apply deletions
-	if deleteMap, ok := req.Updates.Delete.(map[string]any); ok {
+	if deleteMap, ok := updates.Delete.(map[string]any); ok {
 		if vals, ok := deleteMap["category"]; ok {
 			toRemove, err := extractStringValues(vals)
 			if err != nil {
@@ -247,7 +370,7 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 			}
 			fm.Tags = removeStrings(fm.Tags, toRemove)
 		}
-	} else if deleteSlice, ok := req.Updates.Delete.([]any); ok {
+	} else if deleteSlice, ok := updates.Delete.([]any); ok {
 		for _, key := range deleteSlice {
 			if k, ok := key.(string); ok {
 				if k == "category" {
@@ -261,13 +384,7 @@ func (j *jekyllMicropub) Update(req *micropub.Request) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("rebuild post: %w", err)
 	}
-	commitMsg := fmt.Sprintf("micropub: update micro-post %s", filepath.Base(filename))
-	if err := j.repo.updateAndPush(filename, fullContent, commitMsg); err != nil {
-		return "", fmt.Errorf("failed to update post: %w", err)
-	}
-
-	log.Printf("updated micro-post: %s", filename)
-	return req.URL, nil
+	return fullContent, nil
 }
 
 // Delete removes a micro-post.
@@ -357,8 +474,12 @@ func extractBearerToken(r *http.Request) string {
 	if strings.HasPrefix(auth, "Bearer ") {
 		return strings.TrimPrefix(auth, "Bearer ")
 	}
-	// Also check form value per spec
-	if token := r.FormValue("access_token"); token != "" {
+	if r.Method != http.MethodPost {
+		return ""
+	}
+	// indielib removes access_token from Form when parsing a create. PostForm
+	// retains the body values, and avoids accepting tokens from query strings.
+	if token := r.PostFormValue("access_token"); token != "" {
 		return token
 	}
 	return ""
@@ -366,24 +487,98 @@ func extractBearerToken(r *http.Request) string {
 
 func extractContent(props map[string][]any) string {
 	if vals, ok := props["content"]; ok && len(vals) > 0 {
-		switch v := vals[0].(type) {
-		case string:
-			return v
-		case map[string]any:
-			// Sunlit sends {"html": "<p>...</p>"}
-			if html, ok := v["html"]; ok {
-				if s, ok := html.(string); ok {
-					return s
-				}
-			}
-			if text, ok := v["value"]; ok {
-				if s, ok := text.(string); ok {
-					return s
-				}
-			}
-		}
+		s, _ := contentValueToString(vals[0])
+		return s
 	}
 	return ""
+}
+
+// contentValueToString converts a single Micropub content value to the post
+// body. It accepts a plain string, {"html": "..."} (e.g. Sunlit) and
+// {"value": "..."}; ok is false for any other shape.
+func contentValueToString(value any) (string, bool) {
+	switch v := value.(type) {
+	case string:
+		return v, true
+	case map[string]any:
+		if s, ok := v["html"].(string); ok {
+			return s, true
+		}
+		if s, ok := v["value"].(string); ok {
+			return s, true
+		}
+	}
+	return "", false
+}
+
+// jekyllIncludeValue renders s as a double-quoted parameter value for a
+// Jekyll {% include %} tag.
+//
+// Jekyll's include tag (lib/jekyll/tags/include.rb) matches quoted values with
+// "([^"\\]*(?:\\.[^"\\]*)*)" and then unescapes only \" -> ". Every other
+// backslash sequence is kept verbatim, so a backslash adjacent to a quote (or
+// at the end of the value) cannot be represented and would break the tag.
+// Therefore:
+//   - backslashes are replaced with U+FF3C FULLWIDTH REVERSE SOLIDUS,
+//   - runs of whitespace (including newlines) collapse to a single space,
+//   - Liquid delimiters ({%, %}, {{, }}) are broken up so the value can
+//     neither end the tag early nor be treated as a variable include,
+//   - " is escaped as \".
+func jekyllIncludeValue(s string) string {
+	s = strings.ReplaceAll(s, `\`, "\uFF3C")
+	s = strings.Join(strings.Fields(s), " ")
+	s = neutralizeLiquid(s)
+	s = strings.ReplaceAll(s, `"`, `\"`)
+	return `"` + s + `"`
+}
+
+// neutralizeLiquid inserts a space into Liquid tag/output delimiters so text
+// written into a post body is not interpreted by Liquid.
+func neutralizeLiquid(s string) string {
+	replacer := strings.NewReplacer("{%", "{ %", "%}", "% }", "{{", "{ {", "}}", "} }")
+	for {
+		next := replacer.Replace(s)
+		if next == s {
+			return s
+		}
+		s = next
+	}
+}
+
+// neutralizeLiquidURL percent-encodes braces so a URL cannot contain Liquid
+// delimiters.
+func neutralizeLiquidURL(s string) string {
+	return strings.NewReplacer("{", "%7B", "}", "%7D").Replace(s)
+}
+
+// isSafeIncludeBaseName reports whether a base image name can be passed to
+// responsive_image.html, which interpolates it unescaped into URLs/attributes.
+func isSafeIncludeBaseName(name string) bool {
+	if name == "" || strings.Contains(name, "..") {
+		return false
+	}
+	for _, r := range name {
+		switch {
+		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9':
+		case r == '-', r == '_', r == '.', r == '/':
+		default:
+			return false
+		}
+	}
+	return true
+}
+
+// isSafeThumbhash reports whether th looks like base64 ThumbHash data.
+func isSafeThumbhash(th string) bool {
+	for _, r := range th {
+		switch {
+		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9':
+		case r == '+', r == '/', r == '=', r == '-', r == '_':
+		default:
+			return false
+		}
+	}
+	return true
 }
 
 func extractStringSlice(props map[string][]any, key string) []string {
@@ -652,27 +847,63 @@ func extractStringValues(value any) ([]string, error) {
 }
 
 // urlToFilename converts a post URL to a file path in the repo.
-// URL format: https://chenna.me/micro/2026/04/03/143000/
+// URL format: https://chenna.me/notes/2026/04/03/143000/
 // File format: _micros/2026/2026-04-03-143000.md
+//
+// The URL must be on the site's host, under <siteURL>/notes/, and consist of
+// exactly a 4-digit year, 2-digit month, 2-digit day and 6-digit time.
 func (j *jekyllMicropub) urlToFilename(postURL string) (string, error) {
-	path := strings.TrimPrefix(postURL, j.siteURL)
-	path = strings.TrimPrefix(path, "/notes/")
-	path = strings.TrimSuffix(path, "/")
+	invalid := fmt.Errorf("%w: invalid post URL: %s", micropub.ErrBadRequest, postURL)
 
-	// Expected: "2026/04/03/143000"
-	parts := strings.Split(path, "/")
-	if len(parts) != 4 {
-		return "", fmt.Errorf("%w: invalid post URL format: %s", micropub.ErrBadRequest, postURL)
+	post, err := parseComparableURL(postURL)
+	if err != nil {
+		return "", invalid
+	}
+	site, err := parseComparableURL(j.siteURL)
+	if err != nil {
+		return "", fmt.Errorf("invalid site URL %q: %w", j.siteURL, err)
+	}
+	if post.Host != site.Host || (post.Scheme != "http" && post.Scheme != "https") {
+		return "", invalid
 	}
 
-	year, month, day, time := parts[0], parts[1], parts[2], parts[3]
-	filename := fmt.Sprintf("_micros/%s/%s-%s-%s-%s.md", year, year, month, day, time)
-	return filename, nil
+	rest, ok := strings.CutPrefix(post.Path, site.Path+"/notes/")
+	if !ok || post.RawPath != "" {
+		// RawPath is set when the path contains escapes (e.g. %2F) whose
+		// decoded form differs; real post URLs never need them.
+		return "", invalid
+	}
+
+	// Expected: "2026/04/03/143000"
+	parts := strings.Split(rest, "/")
+	if len(parts) != 4 {
+		return "", invalid
+	}
+	for i, wantLen := range []int{4, 2, 2, 6} {
+		if !isASCIIDigits(parts[i], wantLen) {
+			return "", invalid
+		}
+	}
+
+	year, month, day, hms := parts[0], parts[1], parts[2], parts[3]
+	return fmt.Sprintf("_micros/%s/%s-%s-%s-%s.md", year, year, month, day, hms), nil
+}
+
+func isASCIIDigits(s string, length int) bool {
+	if len(s) != length {
+		return false
+	}
+	for i := 0; i < len(s); i++ {
+		if s[i] < '0' || s[i] > '9' {
+			return false
+		}
+	}
+	return true
 }
 
 // filenameToURL converts a file path to a post URL.
 // File format: _micros/2026/2026-04-03-143000.md
-// URL format: https://chenna.me/micro/2026/04/03/143000/
+// URL format: https://chenna.me/notes/2026/04/03/143000/
 func (j *jekyllMicropub) filenameToURL(filename string) string {
 	name := strings.TrimPrefix(filename, "_micros/")
 	name = strings.TrimSuffix(name, ".md")

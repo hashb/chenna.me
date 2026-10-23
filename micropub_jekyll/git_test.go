@@ -161,3 +161,133 @@ func runGit(t *testing.T, dir string, args ...string) string {
 	}
 	return strings.TrimSpace(string(output))
 }
+
+func TestCreateAndPushRefusesToOverwriteExistingFile(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	filename := "_micros/2026/2026-04-03-143000.md"
+	if err := repo.createAndPush(filename, "original\n", "create original"); err != nil {
+		t.Fatalf("createAndPush (first): %v", err)
+	}
+	head := runGit(t, repoPaths.localDir, "rev-parse", "HEAD")
+
+	err = repo.createAndPush(filename, "replacement\n", "create replacement")
+	if !errors.Is(err, errFileExists) {
+		t.Fatalf("createAndPush (second) error = %v, want errFileExists", err)
+	}
+
+	content, err := os.ReadFile(filepath.Join(repoPaths.localDir, filename))
+	if err != nil {
+		t.Fatalf("read post: %v", err)
+	}
+	if string(content) != "original\n" {
+		t.Fatalf("post content = %q, want %q", string(content), "original\n")
+	}
+	if got := runGit(t, repoPaths.localDir, "rev-parse", "HEAD"); got != head {
+		t.Fatalf("HEAD = %q, want %q", got, head)
+	}
+	if got := runGit(t, repoPaths.localDir, "status", "--porcelain"); got != "" {
+		t.Fatalf("git status --porcelain = %q, want empty", got)
+	}
+}
+
+func TestCreateAndPushDetectsFileCreatedOnRemote(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	// A peer pushes the same path; the local checkout only sees it after
+	// createAndPush syncs with the remote.
+	filename := "_micros/2026/2026-04-03-143000.md"
+	pushFromPeer(t, repoPaths.remoteDir, filename, "from peer\n")
+
+	err = repo.createAndPush(filename, "local\n", "create local")
+	if !errors.Is(err, errFileExists) {
+		t.Fatalf("createAndPush error = %v, want errFileExists", err)
+	}
+
+	content, err := os.ReadFile(filepath.Join(repoPaths.localDir, filename))
+	if err != nil {
+		t.Fatalf("read post: %v", err)
+	}
+	if string(content) != "from peer\n" {
+		t.Fatalf("post content = %q, want peer content", string(content))
+	}
+	if got := runGit(t, repoPaths.localDir, "status", "--porcelain"); got != "" {
+		t.Fatalf("git status --porcelain = %q, want empty", got)
+	}
+}
+
+func TestEditAndPushOverwrites(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	filename := "_micros/2026/2026-04-03-143000.md"
+	if err := repo.createAndPush(filename, "original\n", "create"); err != nil {
+		t.Fatalf("createAndPush: %v", err)
+	}
+	if err := repo.editAndPush(filename, "update", func([]byte) (string, error) { return "updated\n", nil }); err != nil {
+		t.Fatalf("editAndPush: %v", err)
+	}
+
+	content, err := os.ReadFile(filepath.Join(repoPaths.localDir, filename))
+	if err != nil {
+		t.Fatalf("read post: %v", err)
+	}
+	if string(content) != "updated\n" {
+		t.Fatalf("post content = %q, want %q", string(content), "updated\n")
+	}
+}
+
+// pushFromPeer commits content at filename from a separate clone of remoteDir
+// and pushes it.
+func pushFromPeer(t *testing.T, remoteDir, filename, content string) {
+	t.Helper()
+
+	peerDir := filepath.Join(t.TempDir(), "peer")
+	runGit(t, filepath.Dir(peerDir), "clone", remoteDir, peerDir)
+
+	fullPath := filepath.Join(peerDir, filename)
+	if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+		t.Fatalf("mkdir peer path: %v", err)
+	}
+	if err := os.WriteFile(fullPath, []byte(content), 0o644); err != nil {
+		t.Fatalf("write peer file: %v", err)
+	}
+	runGit(t, peerDir, "add", "--", filename)
+	runGit(t, peerDir, "commit", "-m", "peer commit")
+	runGit(t, peerDir, "push", "origin", "main")
+}
+
+func TestEditAndPushWithoutChangesSkipsCommit(t *testing.T) {
+	repoPaths := newTempGitRepo(t)
+
+	repo, err := newGitRepo(repoPaths.localDir)
+	if err != nil {
+		t.Fatalf("newGitRepo: %v", err)
+	}
+
+	filename := "_micros/2026/2026-04-03-143000.md"
+	if err := repo.createAndPush(filename, "original\n", "create"); err != nil {
+		t.Fatalf("createAndPush: %v", err)
+	}
+	before := runGit(t, repoPaths.localDir, "rev-parse", "HEAD")
+	if err := repo.editAndPush(filename, "update", func(data []byte) (string, error) { return string(data), nil }); err != nil {
+		t.Fatalf("editAndPush: %v", err)
+	}
+	if after := runGit(t, repoPaths.localDir, "rev-parse", "HEAD"); after != before {
+		t.Fatalf("HEAD moved from %s to %s for a no-op edit", before, after)
+	}
+}
