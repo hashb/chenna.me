@@ -19,14 +19,11 @@
 }
 
 /* 01 Borealis — aurora gradient drifting through the letters.
-   Plays once on page load, and once more each time the link is hovered or
-   focused. The replay is a second, identical keyframes entry: adding it to
-   the list starts it fresh without restarting the first one, and removing it
-   on mouse-out doesn't trigger another run.
-   At rest the text is the normal link colour and has no gradient at all; the
-   keyframes fade the text colour out to reveal the gradient, then back in.
-   The gradient starts and ends on --ink-2 and doesn't repeat, so no seam
-   ever passes through the letters. */
+   Plays once on page load, and loops for as long as the link is hovered or
+   focused. At rest the text is the normal link colour and has no gradient at
+   all; the keyframes fade the text colour out to reveal the gradient. The
+   gradient starts and ends on --ink-2 and doesn't repeat, so no seam ever
+   passes through the letters. */
 .fx-aurora {
     --fx-gradient: linear-gradient(115deg, var(--ink-2), var(--ink-3), var(--ink-2), var(--ink-3), var(--ink-2));
     background-size: 300% 100%;
@@ -36,15 +33,19 @@
     animation: fx-aurora var(--fx-duration) ease-in-out 1;
 }
 
+/* Hover: fade the gradient in, then sweep it back and forth until the pointer
+   leaves. fx-aurora stays first in the list so leaving doesn't restart the
+   load animation; the later entries win while they run. */
 a:hover > .fx-aurora,
 a:focus-visible > .fx-aurora {
     animation:
         fx-aurora var(--fx-duration) ease-in-out 1,
-        fx-aurora-replay var(--fx-duration) ease-in-out 1;
+        fx-aurora-loop var(--fx-duration) ease-in-out infinite alternate,
+        fx-aurora-fade-in 0.4s ease-out 1;
 }
 
 /* Played recently on another page (set by the inline script in
-   default.html): skip the load animation but keep the hover replay. */
+   default.html): skip the load animation but keep the hover loop. */
 .fx-aurora-quiet .fx-aurora {
     animation: none;
 }
@@ -65,11 +66,16 @@ a[data-current]:focus-visible > .fx-aurora {
     100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: var(--ink);    filter: hue-rotate(360deg); }
 }
 
-@keyframes fx-aurora-replay {
-    0%   { background-image: var(--fx-gradient); background-position: 0% 50%;   color: var(--ink);    filter: hue-rotate(0deg); }
-    20%  { color: transparent; filter: hue-rotate(0deg); }
-    80%  { color: transparent; filter: hue-rotate(360deg); }
-    100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: var(--ink);    filter: hue-rotate(360deg); }
+/* Runs forwards then backwards (alternate), so each pass ends where the next
+   begins and the gradient stays visible the whole time. */
+@keyframes fx-aurora-loop {
+    0%   { background-image: var(--fx-gradient); background-position: 0% 50%;   color: transparent; filter: hue-rotate(0deg); }
+    100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: transparent; filter: hue-rotate(360deg); }
+}
+
+@keyframes fx-aurora-fade-in {
+    from { color: var(--ink); }
+    to   { color: transparent; }
 }
 
 @media (prefers-reduced-motion: reduce) {
