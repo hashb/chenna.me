@@ -73,16 +73,15 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Links inside running text are underlined so they don't rely on colour
-   alone; the underline is faint until hovered. */
-main p a {
+/* Links inside running text get a faint hairline underline so they don't
+   rely on colour alone; a:hover above turns it solid. Headings and nav
+   aren't text blocks, and components (buttons, tags) set their own
+   text-decoration. */
+:is(main, footer) :is(p, li, figcaption, td) a {
     text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
-    text-underline-offset: 0.15em;
-}
-
-main p a:hover {
-    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+    text-underline-offset: 0.25em;
 }
 
 .title {
@@ -472,6 +471,8 @@ div.archive-month {
     img {
         border-radius: 50%;
         vertical-align: middle;
+        aspect-ratio: 1;
+        object-fit: cover;
     }
 }
 
@@ -488,5 +489,7 @@ div.archive-month {
         border-radius: 50%;
         vertical-align: middle;
         margin-right: 4px;
+        aspect-ratio: 1;
+        object-fit: cover;
     }
 }

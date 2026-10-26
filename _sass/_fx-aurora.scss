@@ -1,11 +1,9 @@
 /* ── Borealis text effect (guestbook nav link) ─────────────────── */
 
 /* Colour tokens — override to re-skin the effect:
-   --ink    main text colour (defaults to currentColor)
    --ink-2  primary accent   --ink-3  secondary accent
    Ultraviolet palette: deep violet into blue on light, neon on dark. */
 .fx-aurora {
-    --ink: currentColor;
     --ink-2: #8a00e6;
     --ink-3: #0091c2;
     --fx-duration: 3s;
@@ -35,6 +33,10 @@
     content: attr(data-text) / "";
     position: absolute;
     inset: 0;
+    /* inset: 0 sizes the box to the span's content area, which is what
+       line-height: normal lays a line out in; the inherited page
+       line-height would push the copy below the real word */
+    line-height: normal;
     background: linear-gradient(115deg, var(--ink-2), var(--ink-3), var(--ink-2));
     -webkit-background-clip: text;
     background-clip: text;

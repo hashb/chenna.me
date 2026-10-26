@@ -28,15 +28,24 @@
     // Guestbook nav link effect: play it on page load at most once every 5 minutes.
     // Runs before first paint so the animation never starts and then cuts off.
     (function () {
-      var gap = 5 * 60 * 1000, key = 'fx-aurora-last-played', now = Date.now();
+      var gap = 5 * 60 * 1000, key = 'fx-aurora-last-played', root = document.documentElement;
       if (location.pathname.indexOf('/guestbook') === 0) return;
-      try {
-        if (now - (Number(localStorage.getItem(key)) || 0) < gap) {
-          document.documentElement.classList.add('fx-aurora-quiet');
-        } else {
-          localStorage.setItem(key, String(now));
-        }
-      } catch (e) {}
+      function decide() {
+        var now = Date.now(), quiet = false;
+        try {
+          quiet = now - (Number(localStorage.getItem(key)) || 0) < gap;
+          if (!quiet) localStorage.setItem(key, String(now));
+        } catch (e) {}
+        root.classList.toggle('fx-aurora-quiet', quiet);
+      }
+      // A page prerendered by the speculation rules runs this before anyone
+      // sees it; hold the animation until the page is actually shown.
+      if (document.prerendering) {
+        root.classList.add('fx-aurora-quiet');
+        document.addEventListener('prerenderingchange', decide, { once: true });
+      } else {
+        decide();
+      }
     })();
   </script>
 
@@ -90,7 +99,7 @@
         <li><a href="/notes/" {% if current[1]=='notes' %}data-current="current item" {% endif %}>notes</a></li>
         <!-- <li><a href="/work/" {% if current[1]=='work' %}data-current="current item" {% endif %}>work</a></li> -->
         <li><a href="/photos/" {% if current[1]=='photos' %}data-current="current item" {% endif %}>photos</a></li>
-        <li><a href="/guestbook/" {% if current[1]=='guestbook' %}data-current="current item" {% endif %}><span class="fx-aurora" data-text="guestbook">guestbook</span></a></li>
+        <li><a href="/guestbook/" {% if current[1]=='guestbook' %}data-current="current item" {% endif %}>{% assign guestbook_label = "guestbook" %}<span class="fx-aurora" data-text="{{ guestbook_label }}">{{ guestbook_label }}</span></a></li>
         <li><a href="/archives/" {% if current[1]=='archives' %}data-current="current item" {% endif %}>archive</a></li>
       </ul>
     </nav>
