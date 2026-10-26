@@ -18,30 +18,37 @@
     }
 }
 
-/* TODO: Lighthouse flags this as a non-composited animation (it animates
-   color and background-position). Investigate a compositor-only version
-   (filter/transform) that keeps the current look. */
-
-/* 01 Borealis — aurora gradient drifting through the letters.
+/* 01 Borealis — aurora gradient shifting through the letters.
    Plays once on page load, and loops for as long as the link is hovered or
-   focused. At rest the text is the normal link colour and has no gradient at
-   all; the keyframes fade the text colour out to reveal the gradient. The
-   gradient starts and ends on --ink-2 and doesn't repeat, so no seam ever
-   passes through the letters. */
+   focused. A copy of the word (::after, from the span's data-text) carries
+   the gradient and sits over the normal link text. It fades in and out with
+   opacity and shifts colour with hue-rotate; only opacity and filter
+   animate, so the browser can run it on the compositor. */
 .fx-aurora {
-    --fx-gradient: linear-gradient(115deg, var(--ink-2), var(--ink-3), var(--ink-2), var(--ink-3), var(--ink-2));
-    background-size: 300% 100%;
-    background-repeat: no-repeat;
+    position: relative;
+}
+
+.fx-aurora::after {
+    content: attr(data-text);
+    /* Same text as the span, so screen readers skip it (browsers without
+       alt text support keep the line above) */
+    content: attr(data-text) / "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, var(--ink-2), var(--ink-3), var(--ink-2));
     -webkit-background-clip: text;
     background-clip: text;
+    color: transparent;
+    opacity: 0;
+    pointer-events: none;
     animation: fx-aurora var(--fx-duration) ease-in-out 1;
 }
 
-/* Hover: fade the gradient in, then sweep it back and forth until the pointer
-   leaves. fx-aurora stays first in the list so leaving doesn't restart the
-   load animation; the later entries win while they run. */
-a:hover > .fx-aurora,
-a:focus-visible > .fx-aurora {
+/* Hover: fade the gradient in, then shift its hue back and forth until the
+   pointer leaves. fx-aurora stays first in the list so leaving doesn't
+   restart the load animation; the later entries win while they run. */
+a:hover > .fx-aurora::after,
+a:focus-visible > .fx-aurora::after {
     animation:
         fx-aurora var(--fx-duration) ease-in-out 1,
         fx-aurora-loop var(--fx-duration) ease-in-out infinite alternate,
@@ -50,42 +57,41 @@ a:focus-visible > .fx-aurora {
 
 /* Played recently on another page (set by the inline script in
    default.html): skip the load animation but keep the hover loop. */
-.fx-aurora-quiet .fx-aurora {
+.fx-aurora-quiet .fx-aurora::after {
     animation: none;
 }
 
 /* Already on the guestbook: no need to draw attention to the link. */
-a[data-current] > .fx-aurora,
-a[data-current]:hover > .fx-aurora,
-a[data-current]:focus-visible > .fx-aurora {
+a[data-current] > .fx-aurora::after,
+a[data-current]:hover > .fx-aurora::after,
+a[data-current]:focus-visible > .fx-aurora::after {
     animation: none;
 }
 
-/* Hue holds still while the text fades, so the plain link colour never
-   shows up tinted. */
+/* Hue holds still while the gradient fades in and out. */
 @keyframes fx-aurora {
-    0%   { background-image: var(--fx-gradient); background-position: 0% 50%;   color: var(--ink);    filter: hue-rotate(0deg); }
-    20%  { color: transparent; filter: hue-rotate(0deg); }
-    80%  { color: transparent; filter: hue-rotate(360deg); }
-    100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: var(--ink);    filter: hue-rotate(360deg); }
+    0%   { opacity: 0; filter: hue-rotate(0deg); }
+    20%  { opacity: 1; filter: hue-rotate(0deg); }
+    80%  { opacity: 1; filter: hue-rotate(360deg); }
+    100% { opacity: 0; filter: hue-rotate(360deg); }
 }
 
 /* Runs forwards then backwards (alternate), so each pass ends where the next
    begins and the gradient stays visible the whole time. */
 @keyframes fx-aurora-loop {
-    0%   { background-image: var(--fx-gradient); background-position: 0% 50%;   color: transparent; filter: hue-rotate(0deg); }
-    100% { background-image: var(--fx-gradient); background-position: 100% 50%; color: transparent; filter: hue-rotate(360deg); }
+    0%   { opacity: 1; filter: hue-rotate(0deg); }
+    100% { opacity: 1; filter: hue-rotate(360deg); }
 }
 
 @keyframes fx-aurora-fade-in {
-    from { color: var(--ink); }
-    to   { color: transparent; }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .fx-aurora,
-    a:hover > .fx-aurora,
-    a:focus-visible > .fx-aurora {
+    .fx-aurora::after,
+    a:hover > .fx-aurora::after,
+    a:focus-visible > .fx-aurora::after {
         animation: none;
     }
 }
