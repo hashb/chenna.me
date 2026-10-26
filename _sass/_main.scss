@@ -73,6 +73,18 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Links inside running text are underlined so they don't rely on colour
+   alone; the underline is faint until hovered. */
+main p a {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    text-underline-offset: 0.15em;
+}
+
+main p a:hover {
+    text-decoration-color: currentColor;
+}
+
 .title {
     text-decoration: none;
     border: 0;
@@ -128,6 +140,7 @@ hr {
 
 img {
     max-width: 100%;
+    height: auto;
 }
 
 .responsive-image-wrapper {

@@ -10,8 +10,8 @@ I am Chenna Kautilya.
 
 <mark>I am actively looking for new opportunities in Physical AI/Robotics.</mark>
 
-Checkout my LinkedIn ([link](https://www.linkedin.com/in/kautilyach/))  
-Book time on my calendar ([link](https://calendar.app.google/qvQ1UGQjCd7Gjtvd9))
+Checkout my [LinkedIn](https://www.linkedin.com/in/kautilyach/)  
+[Book time on my calendar](https://calendar.app.google/qvQ1UGQjCd7Gjtvd9)
 
 I took a break from work to travel the world during 2026. 
 Previously, I worked at [Medra](https://medra.ai/), where I led the 
@@ -24,7 +24,7 @@ Robotics Software Engineer. At Nimble and ORCA, I worked on Motion Planning for
   <picture>
     <source type="image/webp" srcset="/assets/images/path_planning_01.600h.webp">
     <source type="image/jpeg" srcset="/assets/images/path_planning_01.600h.jpg">
-    <img src="/assets/images/path_planning_01.600h.png" alt="Path Planning is hard" class="center">
+    <img src="/assets/images/path_planning_01.600h.png" alt="Path Planning is hard" class="center" width="537" height="600" fetchpriority="high">
   </picture>
 <figcaption class="maincolumn-figure">Path Planning is hard. <br>credit: <a href="http://phdcomics.com/">Jorge Cham</a>
 </figcaption>

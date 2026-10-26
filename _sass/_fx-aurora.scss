@@ -18,6 +18,10 @@
     }
 }
 
+/* TODO: Lighthouse flags this as a non-composited animation (it animates
+   color and background-position). Investigate a compositor-only version
+   (filter/transform) that keeps the current look. */
+
 /* 01 Borealis — aurora gradient drifting through the letters.
    Plays once on page load, and loops for as long as the link is hovered or
    focused. At rest the text is the normal link colour and has no gradient at
