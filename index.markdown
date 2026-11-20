@@ -8,11 +8,6 @@ Hi!
 
 I am Chenna Kautilya. 
 
-<mark>I am actively looking for new opportunities in Physical AI/Robotics.</mark>
-
-Checkout my [LinkedIn](https://www.linkedin.com/in/kautilyach/)  
-[Book time on my calendar](https://calendar.app.google/qvQ1UGQjCd7Gjtvd9)
-
 I took a break from work to travel the world during 2026. 
 Previously, I worked at [Medra](https://medra.ai/), where I led the 
 development of a end user programmable lab automation system. Before that, 
